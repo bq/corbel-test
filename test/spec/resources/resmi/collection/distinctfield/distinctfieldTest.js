@@ -1,6 +1,6 @@
 describe('In RESOURCES module', function() {
 
-    describe.only('In RESMI module, while testing distinctfield in collection', function() {
+    describe('In RESMI module, while testing distinctfield in collection', function() {
         var corbelDriver;
         var COLLECTION = 'test:CorbelJSObjectistinct' + Date.now();
         var amount = 50;
