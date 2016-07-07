@@ -21,7 +21,7 @@ describe('In RESOURCES module', function() {
                     id: random + ':1',
                     field1: 'Test' + random,
                     notIndexedField: true,
-                    description: 'And this is the first resource',
+                    description: 'And this is the first resource' + random,
                     sortField: 'pêche',
                     random: random
                 };
@@ -41,7 +41,7 @@ describe('In RESOURCES module', function() {
                     field2: 'test' + random,
                     notIndexedField: 12345,
                     description: 'And this is the third resource',
-                    sortField: 'peach',
+                    sortField: 'peach '+random,
                     punctuationTest: punctText,
                     random: random
                 };
@@ -136,6 +136,32 @@ describe('In RESOURCES module', function() {
                         expect(result).to.have.deep.property('data.count', 3);
                     })
                     .should.notify(done);
+            });
+
+            it('returns elements that satisfy a simple search over certain field', function(done) {
+                var params = {
+                    search: {
+                        'text': random.toString(),
+                        'fields': ['description']
+                    }
+                };
+
+                corbelTest.common.utils.retry(function() {
+                    return corbelDriver.resources.collection(COLLECTION)
+                    .get(params)
+                    .then(function(response) {
+                        if (response.data.length !== 1) {
+                            return Promise.reject();
+                        } else {
+                            return response;
+                        }
+                    });
+                }, MAX_RETRY, RETRY_PERIOD)
+                .should.be.eventually.fulfilled
+                .then(function(response) {
+                    expect(response).to.have.deep.property('data.length', 1);
+                })
+                .should.notify(done);
             });
 
             it('successes returning elements satisfying the chain of search with two words, ' +

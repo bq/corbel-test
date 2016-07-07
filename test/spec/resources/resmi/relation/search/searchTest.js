@@ -22,7 +22,7 @@ describe('In RESOURCES module', function() {
                         .add(random + '1', {
                             field1: 'Test' + random,
                             notIndexedField: true,
-                            description: 'And this is the first resource'
+                            description: 'And this is the first resource' + random
                         })
                         .should.be.eventually.fulfilled;
                 })
@@ -114,6 +114,33 @@ describe('In RESOURCES module', function() {
                         expect(result.data).to.have.property('count').to.be.equal(3);
                     })
                     .should.be.eventually.fulfilled.notify(done);
+            });
+
+
+            it('returns elements that satisfy a simple search over certain field', function(done) {
+                var params = {
+                    search: {
+                        'text': random.toString(),
+                        'fields': ['description']
+                    }
+                };
+
+                corbelTest.common.utils.retry(function() {
+                    return corbelDriver.resources.relation(COLLECTION_A, random + '1', COLLECTION_B)
+                    .get(null, params)
+                    .then(function(response) {
+                        if (response.data.length !== 1) {
+                            return Promise.reject();
+                        } else {
+                            return response;
+                        }
+                    });
+                }, MAX_RETRY, RETRY_PERIOD)
+                .should.be.eventually.fulfilled
+                .then(function(response) {
+                    expect(response).to.have.deep.property('data.length', 1);
+                })
+                .should.notify(done);
             });
 
             it('returns elements paginated, respecting the elasticsearch order', function(done) {
