@@ -21,7 +21,7 @@ describe('In RESOURCES module', function() {
                     id: random + ':1',
                     field1: 'Test' + random,
                     notIndexedField: true,
-                    description: 'And this is the first resource' + random,
+                    description: 'And this is the first resource ' + random,
                     sortField: 'pêche',
                     random: random
                 };
@@ -262,7 +262,7 @@ describe('In RESOURCES module', function() {
                         .should.be.eventually.fulfilled
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.length', 3);
-                            expect(response).to.have.deep.property('data[0].sortField', 'peach');
+                            expect(response).to.have.deep.property('data[0].sortField', 'peach ' + random);
                             expect(response).to.have.deep.property('data[1].sortField', 'péché');
                             expect(response).to.have.deep.property('data[2].sortField', 'pêche');
                         })

@@ -88,7 +88,7 @@ describe('In RESOURCES module', function() {
                         expect(response).to.have.property('data').and.to.include({
                             'id': COLLECTION_B + '/' + random + '1',
                             field1: 'Test' + random,
-                            description: 'And this is the first resource'
+                            description: 'And this is the first resource' + random
                         });
                         expect(response.data).to.include({
                             'id': COLLECTION_B + '/' + random + '2',
