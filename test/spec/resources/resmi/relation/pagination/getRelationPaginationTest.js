@@ -2,16 +2,12 @@ describe('In RESOURCES module', function() {
 
     describe('In RESMI module, testing relation pagination', function() {
         var corbelDriver;
-        var RESOURCES_DEFAULT_PAGE_SIZE = 10;
-        var RESOURCES_DEFAULT_PAGE = 0;
-        var RESOURCES_MAX_PAGE_SIZE = 50;
-        var RESOURCES_MIN_PAGE_SIZE = 1;
         var TIMESTAMP = Date.now();
         var COLLECTION_A = 'test:CorbelJSPaginationRelationA' + TIMESTAMP;
         var COLLECTION_B = 'test:CorbelJSPaginationRelationB' + TIMESTAMP;
-        var amount = 52;
         var idResourceInA;
         var idsResourecesInB;
+        var amount = 100;
 
         before(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
@@ -49,7 +45,7 @@ describe('In RESOURCES module', function() {
             .get(null)
             .should.be.eventually.fulfilled
             .then(function(response){
-                expect(response).to.have.deep.property('data.length', RESOURCES_DEFAULT_PAGE_SIZE);
+                expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
             })
             .should.notify(done);
         });
@@ -65,7 +61,7 @@ describe('In RESOURCES module', function() {
             .get(null, params)
             .should.be.eventually.fulfilled
             .then(function(response){
-                expect(response).to.have.deep.property('data.length', RESOURCES_DEFAULT_PAGE_SIZE);
+                expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
             })
             .should.notify(done);
         });
@@ -81,12 +77,12 @@ describe('In RESOURCES module', function() {
             .get(null, params)
             .should.be.eventually.fulfilled
             .then(function(response){
-                expect(response).to.have.deep.property('data.length', 2);
+                expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
             })
             .should.notify(done);
         });
 
-        it('correct number of elements on a page different from default page size (50) are returned', function(done) {
+        it('correct number of elements on a page different from default page size (100) are returned', function(done) {
             var params = {
                 pagination: {
                     pageSize: 3
@@ -122,8 +118,8 @@ describe('In RESOURCES module', function() {
         it('0 elems are returned when getting a number of page that exceeds the limit of pagination', function(done) {
             var params = {
                 pagination: {
-                    // 52 elements / 2 elements per page = 26
-                    page: 26,
+                    // 100 elements / 2 elements per page = 50
+                    page: 51,
                     pageSize: 2
                 }
             };
@@ -140,7 +136,7 @@ describe('In RESOURCES module', function() {
         it('max number of elems are returned when using the maximum number of elems as pageSize', function(done) {
             var params = {
                 pagination: {
-                    pageSize: RESOURCES_MAX_PAGE_SIZE
+                    pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize
                 }
             };
 
@@ -148,7 +144,7 @@ describe('In RESOURCES module', function() {
             .get(null, params)
             .should.be.eventually.fulfilled
             .then(function(response){
-                expect(response).to.have.deep.property('data.length', RESOURCES_MAX_PAGE_SIZE);
+                expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.maxPageSize);
             })
             .should.notify(done);
         });
@@ -156,7 +152,7 @@ describe('In RESOURCES module', function() {
         it('min number of elems are returned when using the minimum number of elems as pageSize', function(done) {
             var params = {
                 pagination: {
-                    pageSize: RESOURCES_MIN_PAGE_SIZE
+                    pageSize: corbelTest.CONFIG.GLOBALS.minPageSize
                 }
             };
 
@@ -164,7 +160,7 @@ describe('In RESOURCES module', function() {
             .get(null, params)
             .should.be.eventually.fulfilled
             .then(function(response){
-                expect(response).to.have.deep.property('data.length', RESOURCES_MIN_PAGE_SIZE);
+                expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.minPageSize);
             })
             .should.notify(done);
         });
@@ -210,7 +206,7 @@ describe('In RESOURCES module', function() {
             .get(null, params)
             .should.be.eventually.fulfilled
             .then(function(response) {
-                expect(response.data.length).to.be.equal(1);
+                expect(response.data.length).to.be.equal(3);
                 response.data.forEach(function(relation) {
                     expect(relation.intField).to.be.above(700);
                 });
@@ -229,7 +225,7 @@ describe('In RESOURCES module', function() {
             .get(null, params)
             .should.be.eventually.fulfilled
             .then(function(response){
-                expect(response).to.have.deep.property('data.length', RESOURCES_DEFAULT_PAGE_SIZE);
+                expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
             })
             .should.notify(done);
         });

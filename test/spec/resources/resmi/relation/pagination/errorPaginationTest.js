@@ -2,9 +2,6 @@ describe('In RESOURCES module', function() {
 
     describe('In RESMI module, testing relation pagination', function() {
         var corbelDriver;
-        var RESOURCES_DEFAULT_PAGE_SIZE = 10;
-        var RESOURCES_MAX_PAGE_SIZE = 50;
-        var RESOURCES_MIN_PAGE_SIZE = 1;
 
         var COLLECTION_A = 'test:CorbelJSPaginationRelationA' + Date.now();
         var COLLECTION_B = 'test:CorbelJSPaginationRelationB' + Date.now();
@@ -18,7 +15,7 @@ describe('In RESOURCES module', function() {
         it('400 invalid page size is returned if pageSize is more than max number of page elems 50', function(done) {
             var params = {
                 pagination: {
-                    pageSize: RESOURCES_MAX_PAGE_SIZE + 1
+                    pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize + 1
                 }
             };
 
