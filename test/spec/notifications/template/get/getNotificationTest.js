@@ -47,11 +47,11 @@ describe('In NOTIFICATIONS module', function() {
             .should.notify(done);
         });
 
-        it('if page 1 with size 10 is requested, ten notification templates are received', function(done) {
+        it('if page 1 with default pageSize is requested, ten notification templates are received', function(done) {
             var params = {
                 pagination: {
                     page: 1,
-                    pageSize: 10
+                    pageSize: corbelTest.CONFIG.GLOBALS.defaultPageSize
                 }
             };
 
@@ -59,7 +59,7 @@ describe('In NOTIFICATIONS module', function() {
                 .get(params)
             .should.be.eventually.fulfilled
             .then(function(response){
-                expect(response).to.have.deep.property('data.length', 10);
+                expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
             })
             .should.notify(done);
         });

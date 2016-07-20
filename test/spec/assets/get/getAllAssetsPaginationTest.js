@@ -24,29 +24,29 @@ describe('In ASSETS module', function() {
                     }],
                     pagination: {
                         page: 0,
-                        pageSize: 1
+                        pageSize: corbelTest.CONFIG.GLOBALS.minPageSize
                     }
                 })
                 .should.be.eventually.fulfilled
                 .then(function(response) {
-                    expect(response).to.have.deep.property('data.length', 1);
+                    expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.minPageSize);
                 })
                 .should.notify(done);
             });
 
-            it('assets are correctly retrieved when pageSize is defined to 15 at page 1', function(done) {
+            it('assets are correctly retrieved when pageSize is defined to default at page 1', function(done) {
                 corbelDriver.assets.asset().getAll({
                     query: [{
                         'userId': 'fooid'
                     }],
                     pagination: {
                         page: 1,
-                        pageSize: 15
+                        pageSize: corbelTest.CONFIG.GLOBALS.defaultPageSize
                     }
                 })
                 .should.be.eventually.fulfilled
                 .then(function(response) {
-                    expect(response).to.have.deep.property('data.length', 15);
+                    expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
                 })
                 .should.notify(done);
             });
@@ -68,19 +68,19 @@ describe('In ASSETS module', function() {
                 .should.notify(done);
             });
 
-            it('assets are correctly retrieved when pageSize is defined to 50 at page 0', function(done) {
+            it('assets are correctly retrieved when pageSize is defined to maxPageSize at page 0', function(done) {
                 corbelDriver.assets.asset().getAll({
                     query: [{
                         'userId': 'fooid'
                     }],
                     pagination: {
                         page: 0,
-                        pageSize: 50
+                        pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize
                     }
                 })
                 .should.be.eventually.fulfilled
                 .then(function(response) {
-                    expect(response).to.have.deep.property('data.length', 50);
+                    expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.maxPageSize);
                 })
                 .should.notify(done);
             });
@@ -92,7 +92,7 @@ describe('In ASSETS module', function() {
                     }],
                     pagination: {
                         page: 4,
-                        pageSize: 50
+                        pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize
                     }
                 })
                 .should.be.eventually.fulfilled
@@ -109,7 +109,7 @@ describe('In ASSETS module', function() {
                     }],
                     pagination: {
                         page: 0,
-                        pageSize: 100
+                        pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize + 1
                     }
                 })
                 .should.be.eventually.rejected

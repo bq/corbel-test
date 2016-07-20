@@ -3,7 +3,7 @@ describe('In RESOURCES module', function() {
 
     describe('In RESMI module', function() {
         var COLLECTION = 'test:CorbelJSObjectPagination' + Date.now();
-        var amount = 52;
+        var amount = corbelTest.CONFIG.GLOBALS.maxPageSize;
 
         before(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
@@ -39,7 +39,7 @@ describe('In RESOURCES module', function() {
                 .get(params)
                 .should.be.eventually.fulfilled
                 .then(function(response){
-                  expect(response).to.have.deep.property('data.length', 2);
+                  expect(response).to.have.deep.property('data.length', 10);
                 })
                 .should.notify(done);
             });

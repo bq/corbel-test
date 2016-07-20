@@ -48,7 +48,7 @@
   },
    "GLOBALS": {
      "defaultPageSize": 10,
-     "maxPageSize": 50,
+     "maxPageSize": 100,
      "minPageSize": 1
    }
 }
