@@ -68,10 +68,18 @@ function getAuthorizationClientParamsToken() {
 }
 
 function getClientParamsCodeIAM(driver, iamUser, oauthClient) {
+    var iamUrl = driver.config.config.iamEndpoint;
+
+    if(driver.config.config.iamEndpoint) {
+        iamUrl = driver.config.config.iamEndpoint;
+    } else {
+        iamUrl = getURI(driver, 'iam');
+    }
+
     return {
         clientId: getOauthClientId(oauthClient),
         responseType: 'code',
-        redirectUri: getURI(driver, 'iam') +
+        redirectUri: iamUrl +
             'oauth/token?grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=' + getIamJWT(iamUser)
     };
 }
