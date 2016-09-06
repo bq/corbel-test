@@ -35,13 +35,13 @@ describe('In IAM module when requests an access token', function() {
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e.status).to.be.equal(401);
                 var error = e.data;
                 expect(error.error).to.be.equal('unauthorized');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
     });
 
     it(' with request_domain parameter successes and client domain is an allowed domain,' +
@@ -65,7 +65,7 @@ describe('In IAM module when requests an access token', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
         }
     );
 
@@ -88,12 +88,12 @@ describe('In IAM module when requests an access token', function() {
                 jwtAlgorithm
             )
         })
-        .should.be.eventually.rejected
+        .should.be.rejected
         .then(function(e) {
             expect(e).to.have.property('status', 401);
             expect(e).to.have.deep.property('data.error', 'invalid_time');
         })
-        .should.be.eventually.fulfilled.and.notify(done);
+        .should.be.fulfilled.and.notify(done);
     });
 
     describe('with not allowed request domain ', function() {
@@ -113,7 +113,7 @@ describe('In IAM module when requests an access token', function() {
                 .then(function(id) {
                     domainId = id;
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .should.notify(done);
         });
 
@@ -121,7 +121,7 @@ describe('In IAM module when requests an access token', function() {
             driverRootClient.domain(domainId).iam
                 .domain()
                 .remove()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .should.notify(done);
         });
 
@@ -144,13 +144,13 @@ describe('In IAM module when requests an access token', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e.status).to.be.equal(401);
                     var error = e.data;
                     expect(error.error).to.be.equal('unauthorized');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
         });
     });
 
@@ -179,14 +179,14 @@ describe('In IAM module when requests an access token', function() {
                     domainId = id;
                     return driverRootClient.domain(domainId).iam.client()
                         .create(client)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(id) {
                     clientId = id;
 
                     return driverRootClient.domain(domainId).iam.client(clientId)
                         .get()
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(response) {
                     clientSecret = response.data.key;
@@ -199,7 +199,7 @@ describe('In IAM module when requests an access token', function() {
             driverRootClient.domain(domainId).iam
                 .domain()
                 .remove()
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
 
         });
 
@@ -221,13 +221,13 @@ describe('In IAM module when requests an access token', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e.status).to.be.equal(401);
                     var error = e.data;
                     expect(error.error).to.be.equal('unauthorized');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
         });
 
         it('and claims scopes, it successes returning an access token', function(done) {
@@ -247,7 +247,7 @@ describe('In IAM module when requests an access token', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
         });
 
 
@@ -268,13 +268,13 @@ describe('In IAM module when requests an access token', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e.status).to.be.equal(401);
                     var error = e.data;
                     expect(error.error).to.be.equal('unauthorized');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
         });
 
         it('and the client is not authorized in the request_domain parameter' +
@@ -296,13 +296,13 @@ describe('In IAM module when requests an access token', function() {
                             jwtAlgorithm
                         )
                     })
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function(e) {
                         expect(e.status).to.be.equal(401);
                         var error = e.data;
                         expect(error.error).to.be.equal('unauthorized');
                     })
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .should.be.fulfilled.and.notify(done);
             });
     });
 });

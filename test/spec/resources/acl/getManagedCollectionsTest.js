@@ -25,7 +25,7 @@ describe('In RESOURCES module', function() {
                         groups: [],
                         defaultPermission: 'NONE'
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(id) {
                         managedCollectionId1 = id;
                         return corbelRootDriver.resources.collection(ACL_ADMIN_COLLECTION)
@@ -35,7 +35,7 @@ describe('In RESOURCES module', function() {
                                 groups: [],
                                 defaultPermission: 'NONE'
                             })
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(id) {
                         managedCollectionId2 = id;
@@ -46,16 +46,16 @@ describe('In RESOURCES module', function() {
             after(function(done) {
                 corbelRootDriver.resources.resource(ACL_ADMIN_COLLECTION, managedCollectionId1)
                     .delete()
-                    .should.be.eventually.fulfilled.then(function() {
+                    .should.be.fulfilled.then(function() {
                         return corbelRootDriver.resources.resource(ACL_ADMIN_COLLECTION, managedCollectionId2)
                             .delete()
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     }).should.notify(done);
             });
 
             it('admin can get all the collection managed of his domain', function(done) {
                 corbelRootDriver.resources.collection(ACL_ADMIN_COLLECTION).get()
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(containElement(response.data, COLLECTION_NAME_1)).to.be.equal(true);
                         expect(containElement(response.data, COLLECTION_NAME_2)).to.be.equal(true);

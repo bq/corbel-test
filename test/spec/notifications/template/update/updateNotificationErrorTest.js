@@ -13,7 +13,7 @@ describe('In NOTIFICATIONS module', function() {
 
             unauthorizedDriver.notifications.template('id')
                 .update({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -25,7 +25,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.template('non-existent')
                 .update({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -41,7 +41,7 @@ describe('In NOTIFICATIONS module', function() {
                 nameData = 'notificationName-' + Date.now();
 
                 corbelTest.common.notifications.createNotification(corbelDriver, nameData)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .should.notify(done);
             });
 
@@ -49,7 +49,7 @@ describe('In NOTIFICATIONS module', function() {
 
                 corbelDriver.notifications.template(nameData)
                     .delete()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .should.notify(done);
             });
 
@@ -57,7 +57,7 @@ describe('In NOTIFICATIONS module', function() {
 
                 corbelDriver.notifications.template(nameData)
                     .update('invalid')
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 422);
                     expect(e).to.have.deep.property('data.error', 'invalid_entity');

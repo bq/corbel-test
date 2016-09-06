@@ -11,7 +11,7 @@ describe('In IAM module', function() {
         beforeEach(function(done) {
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
             })
@@ -21,11 +21,11 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -40,11 +40,11 @@ describe('In IAM module', function() {
             .update({
                 'firstName': 'user Modified'
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(user) {
                 expect(user).to.have.deep.property('data.firstName', 'user Modified');
@@ -59,11 +59,11 @@ describe('In IAM module', function() {
             .update({
                 'username': newUserName
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(user) {
                 expect(user).to.have.deep.property('data.username', newUserName);
@@ -78,11 +78,11 @@ describe('In IAM module', function() {
             .update({
                 'email': newEmail
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(user) {
                 expect(user).to.have.deep.property('data.email', newEmail);
@@ -96,11 +96,11 @@ describe('In IAM module', function() {
             .update({
                 'scopes': ['iam:user:delete']
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.eventually.be.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(user) {
                 expect(user).to.have.deep.property('data.scopes.length', 1);
@@ -113,7 +113,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user(user.id)
             .update()
-            .should.eventually.be.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
     });
 });

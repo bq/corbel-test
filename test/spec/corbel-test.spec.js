@@ -36,7 +36,7 @@ describe('In corbel-test project', function() {
 
     it('can login as a random user', function(done) {
         corbelTest.common.clients.loginAsRandomUser(corbelDriver)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
     });
 
 });

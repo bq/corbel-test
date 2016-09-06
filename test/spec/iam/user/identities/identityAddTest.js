@@ -20,7 +20,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.users()
             .create(user)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 userId = id;
             })
@@ -29,11 +29,11 @@ describe('In IAM module', function() {
 
         afterEach(function(done) {
             corbelDriver.iam.user(userId).delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(){
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -49,11 +49,11 @@ describe('In IAM module', function() {
                     'oauthService': 'facebook',
                     'oauthId': random
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                     return corbelDriver.iam.user(userId)
                     .getIdentities()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data[0].oauthService',  'facebook');
@@ -66,11 +66,11 @@ describe('In IAM module', function() {
                     'oauthService': 'silkroad',
                     'oauthId': random
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                     return corbelDriver.iam.user(userId)
                     .getIdentities()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data[0].oauthService',  'silkroad');
@@ -83,11 +83,11 @@ describe('In IAM module', function() {
                     'oauthService': 'google',
                     'oauthId': random
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                     return corbelDriver.iam.user(userId)
                     .getIdentities()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data[0].oauthService',  'google');
@@ -100,18 +100,18 @@ describe('In IAM module', function() {
                     'oauthService': 'google',
                     'oauthId': random
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                     return corbelDriver.iam.user(userId).addIdentity({
                         'oauthService': 'facebook',
                         'oauthId': random
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.iam.user(userId)
                     .getIdentities()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length',  2);

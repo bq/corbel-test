@@ -61,18 +61,18 @@ describe('In IAM module, when a user which belongs to a group is created and log
 
         corbelRootDriver = corbelTest.drivers['ROOT_CLIENT'].clone();
         corbelRootDriver.iam.domain().create(domain)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 domain.id = id;
                 return corbelRootDriver.domain(domain.id).iam.client()
                     .create(client)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(id) {
                 client.id = id;
                 return corbelRootDriver.domain(domain.id).iam.client(client.id)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(response) {
                 client = response.data;
@@ -85,12 +85,12 @@ describe('In IAM module, when a user which belongs to a group is created and log
 
                 return corbelNewClientDriver.iam.token()
                     .create()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelNewClientDriver.iam.users()
                     .create(userData)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(id) {
                 userData.id = id;
@@ -102,26 +102,26 @@ describe('In IAM module, when a user which belongs to a group is created and log
 
         corbelRootDriver.resources.collection('test:Artist', resourceId)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelNewClientDriver.iam.user(userData.id)
                     .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelNewClientDriver.iam.group(group.id)
                     .delete()
-                    .should.eventually.be.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelRootDriver.domain(domain.id).iam.client(client.id)
                     .remove()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelRootDriver.domain(domain.id).iam.domain()
                     .remove()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .should.notify(done);
     });
@@ -150,12 +150,12 @@ describe('In IAM module, when a user which belongs to a group is created and log
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.accessToken');
                 return corbelNewClientDriver.resources.collection('music:Artist')
                     .get()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
@@ -168,35 +168,35 @@ describe('In IAM module, when a user which belongs to a group is created and log
 
                 return corbelNewClientDriver.iam.token()
                     .create()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelNewClientDriver.iam.group()
                     .create(group)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(id) {
                 group.id = id;
                 return corbelNewClientDriver.iam.user(userData.id)
                     .addGroups([group.id])
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelNewClientDriver.iam.user(userData.id)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(userWithGroups) {
                 expect(userWithGroups).to.have.deep.property('data.groups').and.to.contain(group.id);
                 return corbelRootDriver.domain(domain.id).iam.client()
                     .create(clientGroup)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(id) {
                 clientGroup.id = id;
                 return corbelRootDriver.domain(domain.id).iam.client(clientGroup.id)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(response) {
                 clientGroup = response.data;
@@ -209,18 +209,18 @@ describe('In IAM module, when a user which belongs to a group is created and log
 
                 return corbelGroupDriver.iam.token()
                     .create()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelGroupDriver.resources.collection('test:Artist')
                     .add(TEST_OBJECT)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(id) {
                 resourceId = id;
                 return corbelGroupDriver.resources.collection('test:Artist')
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response.data[0]).to.have.deep.property('id', resourceId);

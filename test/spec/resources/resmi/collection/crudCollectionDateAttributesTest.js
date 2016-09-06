@@ -19,33 +19,33 @@ describe('In RESOURCES module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelDriver.resources.collection(COLLECTION)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id){
                 resourceId = id; 
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         afterEach(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('successful creation with date attributes', function(done) {
             corbelDriver.resources.collection(COLLECTION)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 resourceId = id;
                 return corbelDriver.resources.resource(COLLECTION, resourceId)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data._createdAt');
                 expect(response).to.have.deep.property('data._updatedAt');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('successful update with date attributes', function(done) {
@@ -56,17 +56,17 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.resource(COLLECTION, resourceId)
             .update(testObject)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION, resourceId)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data._createdAt');
                 expect(response).to.have.deep.property('data._updatedAt');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         describe('when you create an object with PUT method ', function() {
@@ -85,18 +85,18 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.resource(COLLECTION, idRandom)
                 .update(TEST_OBJECT_CREATE_PUT)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION, idRandom)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response.data._updatedAt).to.be.equal(response.data._createdAt);
                     expect(response.data.test).to.be.equal('test');
                     expect(response.data.test2).to.be.equal('test2');
                 }).
-                should.be.eventually.fulfilled.and.notify(done);
+                should.be.fulfilled.and.notify(done);
             });
 
             it('if the resource is updated after its creation, _updatedAt is modified', function(done) {
@@ -107,11 +107,11 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.resource(COLLECTION, idRandom)
                 .update(TEST_OBJECT_CREATE_PUT)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION, idRandom)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response.data._updatedAt).to.be.equal(response.data._createdAt);
@@ -120,11 +120,11 @@ describe('In RESOURCES module', function() {
 
                     return corbelDriver.resources.resource(COLLECTION, idRandom)
                     .update(TEST_OBJECT_CREATE_UPDATE)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 }).then(function(response) {
                     return corbelDriver.resources.resource(COLLECTION, idRandom)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response.data._updatedAt).to.be.greaterThan(response.data._createdAt);
@@ -132,7 +132,7 @@ describe('In RESOURCES module', function() {
                     expect(response.data.test).to.be.equal(undefined);
                     expect(response.data.test2).to.be.equal('test2Updated');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
         });
     });

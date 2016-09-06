@@ -13,12 +13,12 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['ROOT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
                 return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.eventually.be.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -26,11 +26,11 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelRootDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -42,18 +42,18 @@ describe('In IAM module', function() {
         it('the logged user is disconnected using "me"', function(done) {
             corbelDriver.iam.user('me')
             .get()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', user.id);
 
                 return corbelDriver.iam.user('me')
                 .disconnect()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user('me')
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
@@ -65,18 +65,18 @@ describe('In IAM module', function() {
         it('the logged user is disconnected using disconnecMe', function(done) {
             corbelDriver.iam.user('me')
             .get()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', user.id);
 
                 return corbelDriver.iam.user()
                 .disconnectMe()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user('me')
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
@@ -88,18 +88,18 @@ describe('In IAM module', function() {
         it('an admin user can disconnect a logged user', function(done) {
             corbelDriver.iam.user('me')
             .get()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', user.id);
 
                 return corbelRootDriver.iam.user(user.id)
                 .disconnect()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user('me')
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);

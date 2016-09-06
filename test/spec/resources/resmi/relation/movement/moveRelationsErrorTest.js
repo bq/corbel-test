@@ -20,24 +20,24 @@ describe('In RESOURCES module', function() {
 
         beforeEach(function(done) {
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_A, 1)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id) {
                     idResourceInA = id[0];
                     return corbelTest.common.resources
                         .createRelationFromSingleObjetToMultipleObject(corbelDriver,
                             COLLECTION_A, idResourceInA, COLLECTION_B, idsResourecesInB)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .should.notify(done);
         });
 
         afterEach(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                         .delete()
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .should.notify(done);
         });
@@ -50,7 +50,7 @@ describe('In RESOURCES module', function() {
 
                     corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled
+                        .should.be.fulfilled
                         .then(function(response) {
                             expect(corbelTest.common.resources.checkSortingAsc(response.data, '_order'))
                                 .to.be.equal(true);
@@ -58,7 +58,7 @@ describe('In RESOURCES module', function() {
 
                             return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                                 .move(idResource)
-                                .should.be.eventually.rejected;
+                                .should.be.rejected;
                         })
                         .then(function(e) {
                             expect(e).to.have.property('status', 400);
@@ -73,7 +73,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                     .get(null, params)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(corbelTest.common.resources.checkSortingAsc(response.data, '_order'))
                             .to.be.equal(true);
@@ -81,7 +81,7 @@ describe('In RESOURCES module', function() {
 
                         return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                             .move(idResource, 0)
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 400);
@@ -96,7 +96,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                     .get(null, params)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(corbelTest.common.resources.checkSortingAsc(response.data, '_order'))
                             .to.be.equal(true);
@@ -104,7 +104,7 @@ describe('In RESOURCES module', function() {
 
                         return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                             .move(idResource, -1)
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 400);
@@ -118,7 +118,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                     .get(null, params)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(corbelTest.common.resources.checkSortingAsc(response.data, '_order'))
                             .to.be.equal(true);
@@ -126,7 +126,7 @@ describe('In RESOURCES module', function() {
 
                         return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                             .move(idResource, 'invalidPositionString')
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 400);

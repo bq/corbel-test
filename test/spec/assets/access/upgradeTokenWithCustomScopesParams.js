@@ -14,26 +14,26 @@ describe('In ASSETS module', function() {
                 clientCorbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
                 loginAsRandomUser(clientCorbelDriver)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         user = response.user;
                         var asset = getAsset(['custom:test;type=Custom;customId=2']);
                         asset.userId = user.id;
                         return adminCorbelDriver.assets.asset().create(asset)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function() {
                         var asset = getAsset(['custom:test;type=Custom;customId=3']);
                         asset.userId = user.id;
                         return adminCorbelDriver.assets.asset().create(asset)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .should.notify(done);
             });
 
             after(function(done) {
                 clientCorbelDriver.iam.user('me').delete()
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .should.be.fulfilled.and.notify(done);
             });
 
             it('token upgrade works correctly', function(done) {
@@ -41,11 +41,11 @@ describe('In ASSETS module', function() {
                 var session;
 
                 clientCorbelDriver.assets.asset().get()
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 2);
                         return clientCorbelDriver.iam.user().getMySession()
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(response) {
                         session = response.data;
@@ -53,11 +53,11 @@ describe('In ASSETS module', function() {
                         expect(response).to.have.deep.property('data.scopes')
                         .and.not.to.include.members(['custom:test']);
                         return clientCorbelDriver.assets.asset().access()
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(response) {
                         return clientCorbelDriver.iam.user().getMySession()
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.token', sessionToken);
@@ -66,7 +66,7 @@ describe('In ASSETS module', function() {
                         expect(response).to.have.deep.property('data.scopes')
                         .and.to.include.members(['custom:test']);
                     })
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .should.be.fulfilled.and.notify(done);
             });
         });
     });

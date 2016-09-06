@@ -6,7 +6,7 @@ describe('In RESOURCES module, In RESMI module,', function() {
     before(function(done) {
         var corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
         corbelTest.common.iam.createUsers(corbelDriver, amount)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(users) {
                 return users.map(function(user) {
                     var driver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
@@ -15,11 +15,11 @@ describe('In RESOURCES module, In RESMI module,', function() {
 
                     return corbelTest.common.clients
                         .loginUser(driver, user.username, user.password)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 });
             }).then(function(promises) {
                 return Promise.all(promises)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .should.notify(done);
     });
@@ -28,15 +28,15 @@ describe('In RESOURCES module, In RESMI module,', function() {
         var promises = drivers.map(function(driver) {
             return driver.resources.collection(COLLECTION_NAME_CRUD)
                 .add({})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id) {
                     expect(id).to.contain(driver.userId);
                 })
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
         });
 
         Promise.all(promises)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .and.notify(done);
     });
 

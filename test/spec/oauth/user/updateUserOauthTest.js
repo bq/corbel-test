@@ -17,7 +17,7 @@ describe('In OAUTH module', function () {
             oauthRootUserTest = oauthCommon.getOauthRootUserParams();
 
             oauthCommon.getToken(corbelDriver, oauthAdminUserTest.username, oauthAdminUserTest.password)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     adminAccessToken = response.data['access_token'];
                 })
@@ -40,11 +40,11 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams())
                 .create(userTest)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function () {
                     return oauthCommon
                         .getToken(corbelDriver, userTest.username, userTest.password)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     accessToken = response.data['access_token'];
@@ -56,7 +56,7 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .delete('me')
-                .should.be.eventually.fulfilled.should.notify(done);
+                .should.be.fulfilled.should.notify(done);
         });
 
         it('204 is returned when request update user email', function (done) {
@@ -64,12 +64,12 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .update('me', {'email': updatedEmail})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.email', updatedEmail.toLowerCase());
@@ -81,12 +81,12 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .update('me', {'password': 'passwordTestUpdate'})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.email', userTest.email.toLowerCase());
@@ -98,7 +98,7 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .update('me', {'role': 'ADMIN'})
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 403);
                 })
@@ -109,7 +109,7 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .get('me')
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), adminAccessToken)
@@ -117,14 +117,14 @@ describe('In OAUTH module', function () {
                             'email': 'createUserOauthTest' + timeStamp + '@funkifake.com'
                         });
                 })
-                .should.be.eventually.fulfilled.should.notify(done);
+                .should.be.fulfilled.should.notify(done);
         });
 
         it('204 is returned when request update other user email and role', function (done) {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .get('me')
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), adminAccessToken)
@@ -133,14 +133,14 @@ describe('In OAUTH module', function () {
                             'role': 'USER'
                         });
                 })
-                .should.be.eventually.fulfilled.should.notify(done);
+                .should.be.fulfilled.should.notify(done);
         });
 
         it('403 is returned when request to update user role to ROOT', function (done) {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .get('me')
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), adminAccessToken)
@@ -149,7 +149,7 @@ describe('In OAUTH module', function () {
                             'role': 'ROOT'
                         });
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 403);
                 })
@@ -164,12 +164,12 @@ describe('In OAUTH module', function () {
 
             corbelDriver.oauth.user(oauthCommon.getClientParams(), accessToken)
                 .update('me', {'properties': propertiesUpdate})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.properties.propertyKey1', 'propertyValueUpdate1');
@@ -186,11 +186,11 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .update('me', {'properties': propertiesUpdate})
-                .should.be.eventually.fulfilled.then(function () {
+                .should.be.fulfilled.then(function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.properties.propertyKey1', 'propertyValue1');
@@ -208,12 +208,12 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), accessToken)
                 .update('me', {'properties': propertiesUpdate})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     expect(response).to.not.have.deep.property('data.properties.propertyKey1');
@@ -227,21 +227,21 @@ describe('In OAUTH module', function () {
 
             oauthCommon
                 .getToken(corbelDriver, oauthRootUserTest.username, oauthRootUserTest.password)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     rootAccessToken = response.data['access_token'];
 
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), rootAccessToken)
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), adminAccessToken)
                         .update(response.data.id, {'email': 'createUserOauthTest' + timeStamp + '@funkifake.com'});
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 404);
                 })
@@ -253,7 +253,7 @@ describe('In OAUTH module', function () {
             return corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), 'BAD ACCESS TOKEN')
                 .update('me')
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 401);
                 })

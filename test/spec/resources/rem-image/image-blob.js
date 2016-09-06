@@ -47,7 +47,7 @@ describe('In RESOURCES module', function() {
                         dataType: 'image/png',
                     }
                 )
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -56,12 +56,12 @@ describe('In RESOURCES module', function() {
             corbelDriver.resources.resource(FOLDER_NAME, FILENAME).delete({
                 dataType: 'image/png'
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({
                     dataType: 'image/png'
                 })
-            .should.be.eventually.rejected;
+            .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -81,7 +81,7 @@ describe('In RESOURCES module', function() {
                 },
                 responseType: 'blob'
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(resource) {
                 return corbelTest.common.utils.retry(function() {
                     var reader = new FileReader();
@@ -104,9 +104,9 @@ describe('In RESOURCES module', function() {
                             removeDom();
                         };
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 }, 18, 5)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -123,7 +123,7 @@ describe('In RESOURCES module', function() {
                 },
                 responseType: 'blob'
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(resource) {
                 return corbelTest.common.utils.retry(function() {
                     var expectedWidth = ((ORIGINAL_IMAGE_WIDTH * operationHeight) / ORIGINAL_IMAGE_HEIGTH);
@@ -148,9 +148,9 @@ describe('In RESOURCES module', function() {
                             removeDom();
                         };
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 }, 18, 5)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -168,7 +168,7 @@ describe('In RESOURCES module', function() {
                 },
                 responseType: 'blob'
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(resource) {
                 return corbelTest.common.utils.retry(function() {
                     var reader = new FileReader();
@@ -190,9 +190,9 @@ describe('In RESOURCES module', function() {
                             removeDom();
                         };
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 }, 18, 5)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });

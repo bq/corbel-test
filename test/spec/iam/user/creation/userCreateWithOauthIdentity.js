@@ -36,7 +36,7 @@ describe('In IAM module', function() {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams())
                 .create(userOauth)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (id) {
                     oauthIdentifier = id;
                 })
@@ -46,23 +46,23 @@ describe('In IAM module', function() {
         afterEach(function(done){
             authorize
                 .signout()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                      return oauthCommon.getToken(corbelDriver, userOauth.username, userOauth.password)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     var accessToken = response.data['access_token'];
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
                         .delete('me')
-                        .should.be.eventually.be.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelIamDriver.iam
                         .user(userId)
                         .delete()
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .should.notify(done);
         });
@@ -73,7 +73,7 @@ describe('In IAM module', function() {
 
             corbelIamDriver.iam.users()
                 .create(userIam)       
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id) {
                     userId = id;
                     return corbelIamDriver.iam
@@ -86,13 +86,13 @@ describe('In IAM module', function() {
                 .then(function(){
                     return authorize
                         .login(userOauth.email, userOauth.password, setCookie, noRedirect)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.iam
                         .user()
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .should.notify(done);
         });
@@ -111,18 +111,18 @@ describe('In IAM module', function() {
                         'oauthId': oauthIdentifier
                     }
                 })       
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id) {
                     userId = id;
                     return authorize
                         .login(userOauth.email, userOauth.password, setCookie, noRedirect)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.iam
                         .user()
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .should.notify(done);
         });

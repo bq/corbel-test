@@ -75,7 +75,7 @@ describe('In RESOURCES module', function() {
                     promise = promise.then(function() {
                         return corbelDriver.resources.resource(COLLECTION, object.id)
                             .update(object)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     });
                 });
 
@@ -91,7 +91,7 @@ describe('In RESOURCES module', function() {
 
             afterEach(function(done) {
                 corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .should.be.fulfilled.and.notify(done);
             });
 
             it('returns elements that satisfy a simple search', function(done) {
@@ -110,7 +110,7 @@ describe('In RESOURCES module', function() {
                                 }
                             });
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         params.aggregation = {
                             '$count': '*'
@@ -130,7 +130,7 @@ describe('In RESOURCES module', function() {
 
                         return corbelDriver.resources.collection(COLLECTION)
                             .get(params)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(result) {
                         expect(result).to.have.deep.property('data.count', 3);
@@ -157,7 +157,7 @@ describe('In RESOURCES module', function() {
                         }
                     });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 1);
                 })
@@ -196,7 +196,7 @@ describe('In RESOURCES module', function() {
                                     }
                                 });
                         }, MAX_RETRY, RETRY_PERIOD)
-                        .should.be.eventually.fulfilled
+                        .should.be.fulfilled
                         .then(function() {
                             params.aggregation = {
                                 '$count': '*'
@@ -204,7 +204,7 @@ describe('In RESOURCES module', function() {
 
                             return corbelDriver.resources.collection(COLLECTION)
                                 .get(params)
-                                .should.be.eventually.fulfilled;
+                                .should.be.fulfilled;
                         })
                         .then(function(result) {
                             expect(result).to.have.deep.property('data.count', 4);
@@ -231,7 +231,7 @@ describe('In RESOURCES module', function() {
                                 }
                             });
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         var data = response.data;
                         data.forEach(function(entry) {
@@ -257,9 +257,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                             return corbelDriver.resources.collection(COLLECTION)
                                 .get(params)
-                                .should.be.eventually.fulfilled;
+                                .should.be.fulfilled;
                         }, MAX_RETRY, RETRY_PERIOD)
-                        .should.be.eventually.fulfilled
+                        .should.be.fulfilled
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.length', 3);
                             expect(response).to.have.deep.property('data[0].sortField', 'peach ' + random);
@@ -283,16 +283,16 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                             return corbelDriver.resources.collection(COLLECTION)
                                 .get(params)
-                                .should.be.eventually.fulfilled;
+                                .should.be.fulfilled;
                         }, MAX_RETRY, RETRY_PERIOD)
-                        .should.be.eventually.fulfilled
+                        .should.be.fulfilled
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.length', 2);
                             expect(response).to.have.deep.property('data[0].id', random + ':3');
                             params.pagination.page = 1;
                             return corbelDriver.resources.collection(COLLECTION)
                                 .get(params)
-                                .should.be.eventually.fulfilled;
+                                .should.be.fulfilled;
                         })
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.length', 1);
@@ -312,9 +312,9 @@ describe('In RESOURCES module', function() {
                 corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.collection(COLLECTION)
                             .get(params)
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(e) {
                         expect(e).to.have.property('status', 400);
                         expect(e).to.have.deep.property('data.error', 'bad_request');
@@ -330,7 +330,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get(params)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         var data = response.data;
 
@@ -358,7 +358,7 @@ describe('In RESOURCES module', function() {
                                 }
                             });
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         params.aggregation = {
                             '$count': '*'
@@ -377,7 +377,7 @@ describe('In RESOURCES module', function() {
 
                         return corbelDriver.resources.collection(COLLECTION)
                             .get(params)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(result) {
                         expect(result).to.have.deep.property('data.count', 3);

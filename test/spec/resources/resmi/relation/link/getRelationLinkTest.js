@@ -16,12 +16,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION_A)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 idResourceA = id;
                 return corbelDriver.resources.collection(COLLECTION_B)
                 .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(id) {
                 idResourceB = id;
@@ -32,11 +32,11 @@ describe('In RESOURCES module', function() {
         after(function(done) {
             corbelDriver.resources.resource(COLLECTION_A, idResourceA)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_B, idResourceB)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -45,11 +45,11 @@ describe('In RESOURCES module', function() {
         it('relation links are automatically set up when a relation is created', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, idResourceA, COLLECTION_B)
             .add(idResourceB)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA, COLLECTION_B)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 var relation = response.data[0];
@@ -62,7 +62,7 @@ describe('In RESOURCES module', function() {
 
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA, COLLECTION_B)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });

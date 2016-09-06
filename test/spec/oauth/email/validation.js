@@ -27,7 +27,7 @@ describe('In OAUTH module', function() {
 
             return corbelTest.common.mail
                 .mailInterface.getRandomMail()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     userEmailData = response;
                     oauthUserTest.email = userEmailData;
@@ -35,7 +35,7 @@ describe('In OAUTH module', function() {
                     return corbelDriver.oauth
                         .user(clientParams)
                         .create(oauthUserTest)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .should.notify(done);
         });
@@ -47,7 +47,7 @@ describe('In OAUTH module', function() {
                 var emailAddress = oauthUserTest.email;
 
                 popEmail(emailAddress)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(email) {
                         expect(email).to.have.property('subject', 'Validate your account email');
                         var code = getCodeFromMail(email);
@@ -55,12 +55,12 @@ describe('In OAUTH module', function() {
                         return corbelDriver.oauth
                             .user(clientParams, code)
                             .emailConfirmation('me')
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function() {
                         return oauthCommonUtils
                             .getToken(corbelDriver, username, password, true)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(response) {
                         expect(response.data['access_token']).to.match(oauthCommonUtils.getTokenValidation());
@@ -75,7 +75,7 @@ describe('In OAUTH module', function() {
                 var emailAddress = oauthUserTest.email;
 
                 popEmail(emailAddress)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(email) {
                         expect(email).to.have.property('subject', 'Validate your account email');
                         var code = getCodeFromMail(email);
@@ -83,11 +83,11 @@ describe('In OAUTH module', function() {
                         return corbelDriver.oauth
                             .user(clientParams, code)
                             .sendValidateEmail('me')
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function() {
                         return popEmail(emailAddress)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(email) {
                         expect(email).to.have.property('subject', 'Validate your account email');
@@ -96,12 +96,12 @@ describe('In OAUTH module', function() {
                         return corbelDriver.oauth
                             .user(clientParams, code)
                             .emailConfirmation('me')
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function() {
                         return oauthCommonUtils
                             .getToken(corbelDriver, username, password, true)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(response) {
                         expect(response.data['access_token']).to.match(oauthCommonUtils.getTokenValidation());

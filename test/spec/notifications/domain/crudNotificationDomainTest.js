@@ -36,11 +36,11 @@ describe('In NOTIFICATIONS module', function() {
 
         it('a notification domain can be created, updated and deleted', function(done) {
             testDriver.notifications.domain().create(notificationDomainData)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return testDriver.notifications.domain()
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.properties.prop1', 'propValue1');
@@ -48,12 +48,12 @@ describe('In NOTIFICATIONS module', function() {
 
                return testDriver.notifications.domain()
                     .update({properties: {prop1: 'propValue1Updated'}})
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return testDriver.notifications.domain()
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.properties.prop1', 'propValue1Updated');
@@ -61,13 +61,13 @@ describe('In NOTIFICATIONS module', function() {
 
                 return testDriver.notifications.domain()
                     .update({templates: {temp1: 'tempValue1Updated'}})
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
 
             })
             .then(function() {
                 return testDriver.notifications.domain()
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.properties.prop1', 'propValue1Updated');
@@ -75,12 +75,12 @@ describe('In NOTIFICATIONS module', function() {
 
                 return testDriver.notifications.domain()
                     .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return testDriver.notifications.domain()
                     .get()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);

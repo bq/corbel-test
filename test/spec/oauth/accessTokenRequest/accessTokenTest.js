@@ -21,12 +21,12 @@ describe('In OAUTH module', function () {
                 corbelDriver.oauth
                     .authorization(clientParamsCode)
                     .login(oauthUserTest.username, oauthUserTest.password, setCookie, noRedirect)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function (response) {
                         return corbelDriver.oauth
                             .token(oauthCommon.getClientParamsToken())
                             .get(response.data.query.code)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function (token) {
                         expect(token).to.have.deep.property('data.access_token').and.to

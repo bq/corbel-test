@@ -16,7 +16,7 @@ describe('In IAM module, testing username endpoint ', function() {
             'password': 'passRegisterUser',
             'oauthService': 'silkroad'
         }, corbelDriver)
-        .should.be.eventually.fulfilled
+        .should.be.fulfilled
         .then(function(data){
             userId = data.id;
         })
@@ -26,14 +26,14 @@ describe('In IAM module, testing username endpoint ', function() {
     after(function(done){
         corbelDriver.iam.user(userId)
         .delete()
-        .should.be.eventually.fulfilled.and.notify(done);
+        .should.be.fulfilled.and.notify(done);
     });
 
     describe('in getting users id by username', function() {
         it('should return users id if the username is in use', function(done) {
             corbelDriver.iam.username()
             .getUserId(username)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id',userId);
             })
@@ -43,7 +43,7 @@ describe('In IAM module, testing username endpoint ', function() {
         it('should respond with error 404 if the username is not in use', function(done) {
             corbelDriver.iam.username()
             .getUserId('test' + username)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
             })
@@ -55,7 +55,7 @@ describe('In IAM module, testing username endpoint ', function() {
         it('should return false if the username is in use', function(done) {
             corbelDriver.iam.username()
             .availability(username)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(availability) {
                 expect(availability).to.be.equals(false);
             })
@@ -65,7 +65,7 @@ describe('In IAM module, testing username endpoint ', function() {
         it('should return true if the username is not in use', function(done) {
             corbelDriver.iam.username()
             .availability('test' + username)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(availability) {
                 expect(availability).to.be.equals(true);
             })

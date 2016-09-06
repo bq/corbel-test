@@ -9,7 +9,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelTest.common.iam.createUsers(corbelDriver, 1);
             corbelTest.common.notifications.createMultipleNotifications(corbelDriver, 24)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdList) {
                 notificationList = createdList;
             })
@@ -18,13 +18,13 @@ describe('In NOTIFICATIONS module', function() {
 
         after(function(done) {
             corbelTest.common.notifications.deleteNotificationsList(corbelDriver, notificationList)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('if there are not params, default number of notification templates are received', function(done) {
             corbelDriver.notifications.template()
                 .get()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response){
                 expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
             })
@@ -40,7 +40,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.template()
                 .get(params)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response){
                 expect(response).to.have.deep.property('data.length', 5);
             })
@@ -57,7 +57,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.template()
                 .get(params)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response){
                 expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
             })
@@ -75,7 +75,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.template()
                 .get(params)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response){
                 expect(response).to.have.deep.property('data.length', 0);
             })

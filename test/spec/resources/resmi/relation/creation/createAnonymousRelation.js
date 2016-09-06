@@ -23,7 +23,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION_A)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 resourceIdA = id;
             })
@@ -33,23 +33,23 @@ describe('In RESOURCES module', function() {
         after(function(done) {
             corbelDriver.resources.resource(COLLECTION_A, resourceIdA)
             .delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         afterEach(function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
             .delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('an anonymous relation without extra data can be created', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
             .addAnonymous()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data[0].id', null);
@@ -60,11 +60,11 @@ describe('In RESOURCES module', function() {
         it('an anonymous relation with extra data can be created', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
             .addAnonymous(jsonRelationData)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data[0].stringField', 'testCreateRelation');
@@ -72,7 +72,7 @@ describe('In RESOURCES module', function() {
 
                 return corbelDriver.resources.collection(COLLECTION_A)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.not.have.deep.property('data.stringField');
@@ -83,11 +83,11 @@ describe('In RESOURCES module', function() {
         it('an anonymous relation with extra data can be created and more fields can be added', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
             .addAnonymous(jsonRelationData)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data[0].stringField', 'testCreateRelation');
@@ -95,12 +95,12 @@ describe('In RESOURCES module', function() {
 
                 return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
                 .addAnonymous(jsonRelationData2)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, RELATION_NAME)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data[0].stringField', 'testCreateRelation');

@@ -8,7 +8,7 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['ADMIN_USER'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUser) {
                 user = createdUser[0];
             })
@@ -18,7 +18,7 @@ describe('In IAM module', function() {
         after(function(done){
             corbelDriver.iam.user(user.id)
                 .delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         describe('when getting user id through email', function () {
@@ -26,7 +26,7 @@ describe('In IAM module', function() {
             it('user id is returned if the email is being used', function(done) {
                 corbelDriver.iam.email()
                     .getUserId(user.email)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.id',user.id);
                 })
@@ -36,7 +36,7 @@ describe('In IAM module', function() {
             it('an error [404] is returned if the email is not being used', function(done) {
                 corbelDriver.iam.email()
                     .getUserId(Date.now())
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
                     expect(e).to.have.deep.property('data.error', 'not_found');
@@ -50,7 +50,7 @@ describe('In IAM module', function() {
             it('false should be returned if the email is being used', function(done) {
                 corbelDriver.iam.email()
                     .availability(user.email)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(availability) {
                     expect(availability).to.be.equals(false);
                 })

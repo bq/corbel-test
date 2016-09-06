@@ -43,22 +43,22 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.resource(COLLECTION_A, idResource)
                 .update({})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver,
                     COLLECTION_A, idResource, COLLECTION_B, ids, dataArray)
-                    .should.be.eventually.fulfilled;       
+                    .should.be.fulfilled;       
                 })
                 .should.notify(done);
             });
 
             after(function(done) {
                 corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                     .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .should.notify(done);
             });
@@ -76,9 +76,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 3);
                         expect(response).to.have.deep.property('data[0].sortIntegerField', 6);
@@ -102,9 +102,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.count', 3);
                     })
@@ -127,9 +127,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response).to.have.deep.property('data[0].sortIntegerField').and.to.be.above(9);
@@ -153,9 +153,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 2);
 
@@ -182,9 +182,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response).to.have.deep.property('data[0].sortIntegerField').and.to.be.below(9);
@@ -208,9 +208,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 2);
 
@@ -237,9 +237,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response).to.have.deep.property('data[0].description', 'And this is the third resource');
@@ -263,9 +263,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 2);
 
@@ -297,9 +297,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 3);
                     })
@@ -322,9 +322,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response).to.have.deep.property('data[0].sortIntegerField', 9);
@@ -348,9 +348,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response).to.have.deep.property('data[0].sortIntegerField', 6);
@@ -374,7 +374,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                 .get(null, params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e.data).to.have.property('error', 'bad_request');

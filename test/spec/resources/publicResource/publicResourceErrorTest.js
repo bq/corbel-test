@@ -21,16 +21,16 @@ describe('In RESOURCES module, while using public resources', function() {
         var domain = corbelTest.common.iam.getDomain(undefined, undefined, undefined, scopes, publicScopes);
 
         return corbelRootDriver.iam.domain().create(domain)
-        .should.be.eventually.fulfilled
+        .should.be.fulfilled
         .then(function(id) {
             domainId = id;
             client.domain=domainId;
             return corbelRootDriver.domain(domainId).iam.client().create(client)
-            .should.be.eventually.fulfilled;
+            .should.be.fulfilled;
         })
         .then(function(clientId) {
             return corbelRootDriver.domain(domainId).iam.client(clientId).get()
-            .should.be.eventually.fulfilled;
+            .should.be.fulfilled;
         })
         .then(function(response) {
             var createdClient = response.data;
@@ -48,7 +48,7 @@ describe('In RESOURCES module, while using public resources', function() {
             };
 
             return corbelDriver.resources.collection(publicResourceTestCollection).add(resourceTest)
-            .should.be.eventually.fulfilled;
+            .should.be.fulfilled;
         });
     };
 
@@ -59,10 +59,10 @@ describe('In RESOURCES module, while using public resources', function() {
 
     after(function(done) {
         corbelDriver.resources.resource(publicResourceTestCollection, resourceId).delete()
-        .should.be.eventually.fulfilled
+        .should.be.fulfilled
         .then(function() {
             return corbelRootDriver.domain(domainId).iam.domain().remove()
-            .should.be.eventually.fulfilled;
+            .should.be.fulfilled;
         })
         .should.notify(done);
     });
@@ -72,7 +72,7 @@ describe('In RESOURCES module, while using public resources', function() {
         before(function(done) {
             scopes = ['silkroad-qa:resources'];
             createPublicResource(scopes, undefined)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 resourceId = id;
             })
@@ -89,7 +89,7 @@ describe('In RESOURCES module, while using public resources', function() {
                     'Accept': 'application/json'
                 }
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(response) {
                 expect(response).to.have.property('status', 401);
                 expect(response).to.have.deep.property('data.error', 'invalid_token');
@@ -122,9 +122,9 @@ describe('In RESOURCES module, while using public resources', function() {
             var scopes = ['silkroad-qa:resources', scopeId];
 
             corbelRootDriver.iam.scope().create(publicScope)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
-                return createPublicResource(scopes, publicScopes).should.be.eventually.fulfilled;
+                return createPublicResource(scopes, publicScopes).should.be.fulfilled;
             })
             .then(function(id) {
                 resourceId = id;
@@ -142,7 +142,7 @@ describe('In RESOURCES module, while using public resources', function() {
                     'Accept': 'application/json'
                 }
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(response) {
                 expect(response).to.have.property('status', 401);
                 expect(response).to.have.deep.property('data.error', 'invalid_token');

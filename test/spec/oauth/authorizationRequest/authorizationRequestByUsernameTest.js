@@ -20,7 +20,7 @@ describe('In OAUTH module', function () {
                 .authorization(oauthCommon.getClientParamsCodeIAM(
                     corbelDriver,corbelDriver.config.getConfig()))
                 .login(oauthUserTest.username, oauthUserTest.password, setCookie, noRedirect)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     expect(response).have.deep.property('data.accessToken');
                     expect(response.data.accessToken).to.match(oauthCommon.getTokenValidation());
@@ -35,14 +35,14 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .authorization(oauthCommon.getClientParamsAuthorizationToken())
                 .login(oauthUserTest.username, oauthUserTest.password, setCookie, noRedirect)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     expect(response).have.property('access_token');
                     expect(response['access_token']).to.match(oauthCommon.getTokenValidation());
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), response['access_token'])
                         .get('me')
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.email', oauthUserTest.username);
@@ -59,7 +59,7 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .authorization(clientParamas)
                 .login(oauthUserTest.username, oauthUserTest.password, setCookie, noRedirect)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.query.state', clientParamas.state);
                 })

@@ -13,12 +13,12 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['ROOT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
                 return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -26,11 +26,11 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelRootDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -42,7 +42,7 @@ describe('In IAM module', function() {
         it('fails with 404 not found when request retrieve a not existing device information', function(done) {
             corbelDriver.iam.user(user.id)
             .getDevice('notExistingId')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -53,7 +53,7 @@ describe('In IAM module', function() {
         it('fails with 404 using user(me) when request retrieve a not existing device information', function(done) {
             corbelDriver.iam.user('me')
             .getDevice('notExistingId')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -64,11 +64,11 @@ describe('In IAM module', function() {
         it('deleteMyDevice function can be used despite the device does not exist', function(done) {
             corbelDriver.iam.user()
             .deleteMyDevice('notExistingId')
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user()
                 .getMyDevices()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(devices) {
                 expect(devices).to.have.deep.property('data.length', 0);
@@ -79,11 +79,11 @@ describe('In IAM module', function() {
         it('deleteDevice function can be used despite the device does not exist', function(done) {
             corbelDriver.iam.user('me')
             .deleteDevice('notExistingId')
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user()
                 .getMyDevices()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(devices) {
                 expect(devices).to.have.deep.property('data.length', 0);

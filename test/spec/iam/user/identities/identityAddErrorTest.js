@@ -21,7 +21,7 @@ describe('In IAM module', function() {
             };
             corbelDriver.iam.users()
             .create(user)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 userId = id;
             })
@@ -30,11 +30,11 @@ describe('In IAM module', function() {
 
         afterEach(function(done) {
             corbelDriver.iam.user(userId).delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(){
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -49,7 +49,7 @@ describe('In IAM module', function() {
                     'oauthService': 'facebook',
                     'oauthId': random
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     var random2 = Date.now();
                     var addIdentityUser2 = {
@@ -65,7 +65,7 @@ describe('In IAM module', function() {
                         'scopes': addIdentityUser2.scopes
                     };
                     return corbelDriver.iam.users().create(user2)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(id) {
                     userId2 = id;
@@ -74,18 +74,18 @@ describe('In IAM module', function() {
                         'oauthId': random
                     };
                     return corbelDriver.iam.user(id).addIdentity(identity)
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 409);
                     expect(e).to.have.deep.property('data.error', 'identity_exists');
                     return corbelDriver.iam.user(userId2).delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.iam.user(userId2)
                     .get()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
@@ -100,13 +100,13 @@ describe('In IAM module', function() {
                     'oauthService': 'facebook',
                     'oauthId': random
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.iam.user(userId).addIdentity({
                         'oauthService': 'facebook',
                         'oauthId': Date.now()
                     })
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 409);
@@ -120,7 +120,7 @@ describe('In IAM module', function() {
                     'oauthService': 'facebook',
                     'oauthId': random
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
                     expect(e).to.have.deep.property('data.error', 'not_found');
@@ -133,7 +133,7 @@ describe('In IAM module', function() {
                     'oauthService': 'VK',
                     'oauthId': random
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_oauth_service');
@@ -147,7 +147,7 @@ describe('In IAM module', function() {
                     'oauthService': 'facebook',
                     'oauthId': random
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized_token');

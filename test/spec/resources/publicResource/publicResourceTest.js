@@ -40,11 +40,11 @@ describe('In RESOURCES module, while using public resources', function() {
 
         corbelRootDriver.iam.scope()
             .create(publicScope)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.domain()
                     .create(domain)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(id) {
                 domainId = id;
@@ -65,11 +65,11 @@ describe('In RESOURCES module, while using public resources', function() {
 
             corbelRootDriver.domain(domainId).iam.client()
                 .create(client)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(clientId) {
                     return corbelRootDriver.domain(domainId).iam.client(clientId)
                         .get()
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(response) {
                     var createdClient = response.data;
@@ -89,7 +89,7 @@ describe('In RESOURCES module, while using public resources', function() {
 
                     return corbelDriver.resources.collection(publicResourceTestCollection)
                         .add(resourceTest)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(id) {
                     resourceId = id;
@@ -100,7 +100,7 @@ describe('In RESOURCES module, while using public resources', function() {
         afterEach(function(done) {
             corbelDriver.resources.resource(publicResourceTestCollection, resourceId)
                 .delete()
-                .should.be.eventually.fulfilled.and.should.notify(done);
+                .should.be.fulfilled.and.should.notify(done);
         });
 
         it('that can be consulted without token', function(done) {
@@ -113,9 +113,9 @@ describe('In RESOURCES module, while using public resources', function() {
                                 'Accept': 'application/json'
                             }
                         })
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.id', resourceId);
                 })
@@ -136,9 +136,9 @@ describe('In RESOURCES module, while using public resources', function() {
                             }
 
                         })
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbel.request.send({
                             url: currentResourcesEndpoint + domainId + '/resource/' +
@@ -149,7 +149,7 @@ describe('In RESOURCES module, while using public resources', function() {
                             }
 
                         })
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.id', resourceId);
@@ -168,7 +168,7 @@ describe('In RESOURCES module, while using public resources', function() {
                                 'Accept': 'application/json'
                             }
                         })
-                        .should.be.eventually.fulfilled
+                        .should.be.fulfilled
                         .then(function() {
                             return corbel.request.send({
                                     url: currentResourcesEndpoint + domainId + '/resource/' +
@@ -179,10 +179,10 @@ describe('In RESOURCES module, while using public resources', function() {
                                     }
 
                                 })
-                                .should.be.eventually.rejected;
+                                .should.be.rejected;
                         });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
                     expect(e).to.have.deep.property('data.error', 'not_found');
@@ -203,7 +203,7 @@ describe('In RESOURCES module, while using public resources', function() {
                         'Accept': 'application/json'
                     }
                 })
-                .should.be.eventually.fulfilled.and.should.notify(done);
+                .should.be.fulfilled.and.should.notify(done);
         });
 
         it('that can be added without token', function(done) {
@@ -219,7 +219,7 @@ describe('In RESOURCES module, while using public resources', function() {
                                 testField: 'testContent'
                             }
                         })
-                        .should.be.eventually.fulfilled
+                        .should.be.fulfilled
                         .then(function(response) {
                             var locationSplitBar = response.headers.location.split('/');
                             resourceId = locationSplitBar[locationSplitBar.length - 1];
@@ -231,10 +231,10 @@ describe('In RESOURCES module, while using public resources', function() {
                                         'Accept': 'application/json'
                                     }
                                 })
-                                .should.be.eventually.fulfilled;
+                                .should.be.fulfilled;
                         });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.id', resourceId);
                     expect(response).to.have.deep.property('data.testField', 'testContent');

@@ -13,12 +13,12 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
                 return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -26,11 +26,11 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelRootDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -43,13 +43,13 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user('me')
             .signOut()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(){
                 return corbelDriver.iam.user()
                 .updateMe({
                     'firstName': 'user Modified Me'
                 })
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
@@ -62,13 +62,13 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user('me')
             .signOut()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(){
                 return corbelDriver.iam.user('me')
                 .update({
                     'firstName': 'user Modified Me'
                 })
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);

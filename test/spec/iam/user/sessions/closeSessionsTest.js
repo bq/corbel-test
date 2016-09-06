@@ -6,7 +6,7 @@ describe('In IAM module', function() {
     afterEach(function(done) {
         corbelDriver.iam.user()
         .deleteMe()
-        .should.be.eventually.fulfilled
+        .should.be.fulfilled
         .should.notify(done);
     });
 
@@ -16,12 +16,12 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
                 return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.eventually.be.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -32,11 +32,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user('me')
             .closeSessions()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user('me')
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(e) {
                 var tokenPostCloseSessions = corbelDriver.config.config.iamToken.accessToken;
@@ -51,11 +51,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
             .closeSessionsMe()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user('me')
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(e) {
                 var tokenPostCloseSessions = corbelDriver.config.config.iamToken.accessToken;
@@ -71,29 +71,29 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['ADMIN_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
                 return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.eventually.be.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
 
         it('can delete logged user sessions', function(done) {
             corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-            .should.eventually.be.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 var tokenPreCloseSessions = corbelDriver.config.config.iamToken.accessToken;
 
                 return corbelDriver.iam.user(user.id)
                 .closeSessions()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.iam.user('me')
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(e) {
                     var tokenPostCloseSessions = corbelDriver.config.config.iamToken.accessToken;

@@ -16,7 +16,7 @@ describe('In IAM module', function() {
                 'email': 'userTest' + random + domainEmail,
                 'username':'userTest' + random + domainEmail
             })
-            .should.eventually.be.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 userId = id;
             })
@@ -26,11 +26,11 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelDriver.iam.user(userId)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -43,11 +43,11 @@ describe('In IAM module', function() {
             
             corbelDriver.iam.user(userId)
             .addGroups(['groupTest1'])
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').to.contain('groupTest1');
@@ -59,11 +59,11 @@ describe('In IAM module', function() {
             
             corbelDriver.iam.user(userId)
             .addGroups(['groupTest1', 'groupTest2'])
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').to.contain('groupTest1');
@@ -76,16 +76,16 @@ describe('In IAM module', function() {
             
             corbelDriver.iam.user(userId)
             .addGroups(['groupTest1'])
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .addGroups(['groupTest2'])
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').to.contain('groupTest1');
@@ -97,23 +97,23 @@ describe('In IAM module', function() {
         it('a group is deleted for a user', function(done) {
             corbelDriver.iam.user(userId)
             .addGroups(['groupTest1'])
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').to.contain('groupTest1');
 
                 return corbelDriver.iam.user(userId)
                 .deleteGroup(['groupTest1'])
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').not.to.contain('groupTest1');
@@ -124,11 +124,11 @@ describe('In IAM module', function() {
         it('two groups are deleted for a user in different times', function(done) {
             corbelDriver.iam.user(userId)
             .addGroups(['groupTest1', 'groupTest2'])
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').to.contain('groupTest1');
@@ -136,12 +136,12 @@ describe('In IAM module', function() {
 
                 return corbelDriver.iam.user(userId)
                 .deleteGroup(['groupTest1'])
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').not.to.contain('groupTest1');
@@ -149,12 +149,12 @@ describe('In IAM module', function() {
 
                 return corbelDriver.iam.user(userId)
                 .deleteGroup(['groupTest2'])
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.eventually.be.fulfilled;    
+                .should.be.fulfilled;    
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.groups').not.to.contain('groupTest1');

@@ -51,22 +51,22 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.resource(COLLECTION_A, idResource)
                 .update({})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver,
                     COLLECTION_A, idResource, COLLECTION_B, ids, dataArray)
-                    .should.be.eventually.fulfilled;       
+                    .should.be.fulfilled;       
                 })
                 .should.notify(done);
             });
 
             after(function(done) {
                 corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                     .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .should.notify(done);
             });
@@ -80,13 +80,13 @@ describe('In RESOURCES module', function() {
                 setTimeout(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                     .get(null, params)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         cleanUpResponseData(response.data);
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response.data).to.include(object1);
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function() {
                         params = {
                             search: 'fineGrainField:año sol',
@@ -94,13 +94,13 @@ describe('In RESOURCES module', function() {
                         };
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B).get(null, params);
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         cleanUpResponseData(response.data);
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response.data).to.include(object2);
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function() {
                         params = {
                             search: 'fineGrainField:la templa',
@@ -108,7 +108,7 @@ describe('In RESOURCES module', function() {
                         };
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B).get(null, params);
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         cleanUpResponseData(response.data);
                         expect(response).to.have.deep.property('data.length', 1);
@@ -128,9 +128,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         cleanUpResponseData(response.data);
                         expect(response).to.have.deep.property('data.length', 1);
@@ -150,9 +150,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         cleanUpResponseData(response.data);
                         expect(response).to.have.deep.property('data.length', 0);
@@ -171,9 +171,9 @@ describe('In RESOURCES module', function() {
                     corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         cleanUpResponseData(response.data);
                         expect(response).to.have.deep.property('data.length', 2);

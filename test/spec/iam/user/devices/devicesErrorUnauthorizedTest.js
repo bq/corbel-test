@@ -34,13 +34,13 @@ describe('In IAM module', function() {
                 'username': user.username + random + emailDomain,
                 'password': user.password
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 userId = id;
 
                 return corbelTest.common.clients.loginUser
                 (corbelDriver, user.username + random + emailDomain, user.password)
-                .should.eventually.be.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -48,11 +48,11 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelRootDriver.iam.user(userId)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.user(userId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -64,7 +64,7 @@ describe('In IAM module', function() {
         it('fails with 401 when request register user devices', function(done) {
             corbelDriver.iam.user(userId)
             .registerDevice(deviceId, device)
-            .should.eventually.be.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -75,7 +75,7 @@ describe('In IAM module', function() {
         it('fails with 401 when request retrieve user devices with access token not admin', function(done) {
             corbelDriver.iam.user(userId)
             .getDevices()
-            .should.eventually.be.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -86,7 +86,7 @@ describe('In IAM module', function() {
         it('fails with 401 when request retrieve a specific user decive with not admin access token', function(done) {
             corbelDriver.iam.user(userId)
             .getDevice('randomDeviceId')
-            .should.eventually.be.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

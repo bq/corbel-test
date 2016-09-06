@@ -9,7 +9,7 @@ describe('In WEBFS module', function() {
         corbelDriver.webfs.webfs('index.html').get({
                 Accept: 'text/html'
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('headers.content-type').and.to.contain('text/html');
             })
@@ -24,19 +24,19 @@ describe('In WEBFS module', function() {
                         'basic_auth.password': corbelDriver.config.get('password')
                     }
                 },
-                true).should.be.eventually.fulfilled
+                true).should.be.fulfilled
             .then(function() {
                 return corbel.request.send({
                         url: corbelDriver.config.getCurrentEndpoint('webfs') + 'silkroad-qa/path/index.html',
                         withCredentials: true
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             }).should.notify(done);
     });
 
     it('an error 404 is returned if the resorce does not exist in webfs', function(done) {
         corbelDriver.webfs.webfs('non existent').get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');

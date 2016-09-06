@@ -27,11 +27,11 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(expireAtCollection)
                 .add(testObject)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.resources.collection(expireAtCollection)
                         .get(params)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 0);

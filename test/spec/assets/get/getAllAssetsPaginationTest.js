@@ -10,7 +10,7 @@ describe('In ASSETS module', function() {
 
             it('assets are correctly retrieved with no params defined', function(done) {
                 corbelDriver.assets.asset().getAll()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length').not.equal(0);
                 })
@@ -27,7 +27,7 @@ describe('In ASSETS module', function() {
                         pageSize: corbelTest.CONFIG.GLOBALS.minPageSize
                     }
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.minPageSize);
                 })
@@ -44,7 +44,7 @@ describe('In ASSETS module', function() {
                         pageSize: corbelTest.CONFIG.GLOBALS.defaultPageSize
                     }
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
                 })
@@ -61,7 +61,7 @@ describe('In ASSETS module', function() {
                         pageSize: 6
                     }
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 6);
                 })
@@ -78,7 +78,7 @@ describe('In ASSETS module', function() {
                         pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize
                     }
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.maxPageSize);
                 })
@@ -95,7 +95,7 @@ describe('In ASSETS module', function() {
                         pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize
                     }
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 0);
                 })
@@ -112,7 +112,7 @@ describe('In ASSETS module', function() {
                         pageSize: corbelTest.CONFIG.GLOBALS.maxPageSize + 1
                     }
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.deep.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_page_size');

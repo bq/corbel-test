@@ -12,30 +12,30 @@ describe('In RESOURCES module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_A, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 idResourceInA = id[0];
 
                 return corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_B, amount)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(ids) {
                 idsResourecesInB = ids;
 
                 return corbelTest.common.resources.createRelationFromSingleObjetToMultipleObject
                 (corbelDriver, COLLECTION_A, idResourceInA, COLLECTION_B, idsResourecesInB)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
 
         afterEach(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });

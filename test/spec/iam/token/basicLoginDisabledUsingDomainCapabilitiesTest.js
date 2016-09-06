@@ -26,17 +26,17 @@ describe('In IAM module, with a domain, basic authentication capability can be c
         corbelDriverRoot = corbelTest.drivers['ROOT_CLIENT'].clone();
 
         corbelDriverRoot.iam.domain().create(domain)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 domain.id = id;
                 return corbelDriverRoot.domain(domain.id).iam.client()
                     .create(client)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             }).then(function(id) {
                 client.id = id;
                 return corbelDriverRoot.domain(domain.id).iam.client(client.id)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             }).then(function(response) {
                 client = response.data;
                 client.clientSecret = client.key;
@@ -48,12 +48,12 @@ describe('In IAM module, with a domain, basic authentication capability can be c
 
                 return corbelDefaultDriver.iam.token()
                     .create()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDefaultDriver.iam.users()
                     .create(userData)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(id) {
                 userData.id = id;
@@ -64,16 +64,16 @@ describe('In IAM module, with a domain, basic authentication capability can be c
     after(function(done) {
         corbelDefaultDriver.iam.user(userData.id)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriverRoot.domain(domain.id).iam.client(client.id)
                     .remove()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriverRoot.domain(domain.id).iam.domain()
                     .remove()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .should.notify(done);
     });
@@ -83,11 +83,11 @@ describe('In IAM module, with a domain, basic authentication capability can be c
             .update({
                 capabilities: {}
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelTest.common.clients
                     .loginUser(corbelDefaultDriver, userData.username, userData.password)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .should.notify(done);
     });
@@ -99,11 +99,11 @@ describe('In IAM module, with a domain, basic authentication capability can be c
                     basic: true
                 }
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelTest.common.clients
                     .loginUser(corbelDefaultDriver, userData.username, userData.password)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .should.notify(done);
     });
@@ -115,11 +115,11 @@ describe('In IAM module, with a domain, basic authentication capability can be c
                     basic: false
                 }
             })
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelTest.common.clients
                     .loginUser(corbelDefaultDriver, userData.username, userData.password)
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);

@@ -25,27 +25,27 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION_A)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 resourceIdA = id;
 
                 return corbelDriver.resources.collection(COLLECTION_B)
                 .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(id) {
                 resourceIdB1 = id;
 
                 return corbelDriver.resources.collection(COLLECTION_B)
                 .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(id) {
                 resourceIdB2 = id;
 
                 return corbelDriver.resources.collection(COLLECTION_B)
                 .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(id) {
                 resourceIdB3 = id;
@@ -56,21 +56,21 @@ describe('In RESOURCES module', function() {
         after(function(done) {
             corbelDriver.resources.collection(COLLECTION_A, resourceIdA)
             .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.collection(COLLECTION_B, resourceIdB1)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.resources.collection(COLLECTION_B, resourceIdB2)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.resources.collection(COLLECTION_B, resourceIdB3)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -78,7 +78,7 @@ describe('In RESOURCES module', function() {
         afterEach(function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
             .delete()
-            .should.eventually.be.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         describe('when relating certain resources from a collection to a resource from another collection', function() {
@@ -88,30 +88,30 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                 .add(resourceIdB1)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB1)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     idRelationArray.push(response.data.id);
 
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .add(resourceIdB2)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB2)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     idRelationArray.push(response.data.id);
 
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', 2);
@@ -128,11 +128,11 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                 .add(resourceIdB1, EXTRA_DATA)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB1)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     idRelationArray.push(response.data.id);
@@ -142,12 +142,12 @@ describe('In RESOURCES module', function() {
 
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .add(resourceIdB2)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB2)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     idRelationArray.push(response.data.id);
@@ -157,7 +157,7 @@ describe('In RESOURCES module', function() {
 
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', 2);
@@ -169,7 +169,7 @@ describe('In RESOURCES module', function() {
                 .then(function(){
                     return corbelDriver.resources.collection(COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', 3);
@@ -187,21 +187,21 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                 .add(resourceIdB1)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB1)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .add(resourceIdB1, EXTRA_DATA)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', 1);
@@ -211,7 +211,7 @@ describe('In RESOURCES module', function() {
 
                     return corbelDriver.resources.collection(COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     response.data.forEach(function(element) {
@@ -225,11 +225,11 @@ describe('In RESOURCES module', function() {
             it('a relation with extra fields can be created and updated with other extra data', function(done) {
                 corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                 .add(resourceIdB1, EXTRA_DATA)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB1)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data.myextrafield', 'test');
@@ -240,12 +240,12 @@ describe('In RESOURCES module', function() {
                         myextrafield : 'updatedField',
                         thirdField : 'third'
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB1)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.deep.property('data.myextrafield', 'updatedField');
@@ -256,12 +256,12 @@ describe('In RESOURCES module', function() {
                     .add(resourceIdB1, {
                         myextrafield : null
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get(resourceIdB1)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).not.to.have.deep.property('data.myextrafield');
@@ -280,7 +280,7 @@ describe('In RESOURCES module', function() {
             it('a relation with no extra fields can be created', function(done) {
                 corbelDriver.resources.collection(COLLECTION_B)
                 .get()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     allResourcesFromCollectionB = response.data;
 
@@ -290,12 +290,12 @@ describe('In RESOURCES module', function() {
                     });
 
                     return Promise.all(promises)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.property('data');
@@ -307,7 +307,7 @@ describe('In RESOURCES module', function() {
             it('a relation with extra fields can be created & collection resources are not changed', function(done) {
                 corbelDriver.resources.collection(COLLECTION_B)
                 .get()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     allResourcesFromCollectionB = response.data;
 
@@ -317,12 +317,12 @@ describe('In RESOURCES module', function() {
                     });
 
                     return Promise.all(promises)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(){
                     return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     expect(response).to.have.property('data');
@@ -335,7 +335,7 @@ describe('In RESOURCES module', function() {
 
                     return corbelDriver.resources.collection(COLLECTION_B)
                     .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response){
                     response.data.forEach(function(element) {

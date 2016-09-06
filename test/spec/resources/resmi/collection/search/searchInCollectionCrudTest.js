@@ -18,7 +18,7 @@ describe('In RESOURCES module', function() {
                 .add({
                     field1: 'Test' + random
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id) {
                     createdResourceId = id;
                     var params = {
@@ -36,7 +36,7 @@ describe('In RESOURCES module', function() {
                             }
                         });
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.eventually.be.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response.data[0]).to.have.property('field1').to.be.equal('Test' + random);
@@ -46,7 +46,7 @@ describe('In RESOURCES module', function() {
                     .update({
                         field1: 'OtherTest' + random,
                     })
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function() {
                     var params = {
@@ -64,7 +64,7 @@ describe('In RESOURCES module', function() {
                                 }
                             });
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.eventually.be.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response.data[0]).to.have.property('field1').to.be.equal('OtherTest' + random);
@@ -72,7 +72,7 @@ describe('In RESOURCES module', function() {
 
                     return corbelDriver.resources.resource(COLLECTION, createdResourceId)
                     .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function() {
                     var params = {
@@ -90,7 +90,7 @@ describe('In RESOURCES module', function() {
                             }
                         });
                     }, MAX_RETRY, RETRY_PERIOD)
-                    .should.eventually.be.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(0);

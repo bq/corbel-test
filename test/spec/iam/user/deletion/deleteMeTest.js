@@ -13,13 +13,13 @@ describe('In IAM module', function() {
         beforeEach(function(done) {
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
                 return corbelTest.common.clients.loginUser
                     (corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -28,11 +28,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
             .deleteMe()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e){
                 expect(e).to.have.property('status', 404);

@@ -14,30 +14,30 @@ describe('In RESOURCES module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_A, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 idResourceInA = id[0];
 
                 return corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_B, amount)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(ids) {
                 idsResourcesInB = ids;
 
                 return corbelTest.common.resources.createRelationFromSingleObjetToMultipleObject
                 (corbelDriver, COLLECTION_A, idResourceInA, COLLECTION_B, idsResourcesInB)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
 
         after(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -150,7 +150,7 @@ describe('In RESOURCES module', function() {
 
                 corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver, COLLECTION_A, idResourceInA,
                     COLLECTION_B, idsResourcesInB, dataArray)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     return corbelTest.common.resources.getRelation(corbelDriver, COLLECTION_A,
                     idResourceInA, COLLECTION_B, params);
@@ -187,7 +187,7 @@ describe('In RESOURCES module', function() {
 
                 corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver, COLLECTION_A, idResourceInA,
                     COLLECTION_B, idsResourcesInB, dataArray)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     return corbelTest.common.resources.getRelation(corbelDriver, COLLECTION_A,
                     idResourceInA, COLLECTION_B, params);
@@ -307,7 +307,7 @@ describe('In RESOURCES module', function() {
 
                 corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver, COLLECTION_A, idResourceInA,
                     COLLECTION_B, idsResourcesInB, dataArray)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     return corbelTest.common.resources.getRelation(corbelDriver, COLLECTION_A,
                     idResourceInA, COLLECTION_B, params);
@@ -343,7 +343,7 @@ describe('In RESOURCES module', function() {
 
                 corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver, COLLECTION_A, idResourceInA,
                     COLLECTION_B, idsResourcesInB, dataArray)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response){
                     return corbelTest.common.resources.getRelation(corbelDriver, COLLECTION_A,
                     idResourceInA, COLLECTION_B, params);

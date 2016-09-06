@@ -18,14 +18,14 @@ describe('In EVCI module', function() {
 
         corbelDriver.evci.event(eventType)
             .publish(event)
-        .should.be.eventually.fulfilled
+        .should.be.fulfilled
         .then(function() {
             return corbelTest.common.utils.retry(function() {
                 return corbelDriver.resources.resource(eventType, event.id)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             }, MAX_RETRY, RETRY_PERIOD)
-            .should.be.eventually.fulfilled;
+            .should.be.fulfilled;
         })
         .then(function(response) {
             expect(response).to.have.deep.property('data.id', event.id);

@@ -21,7 +21,7 @@ describe('In OAUTH module', function () {
 
             oauthCommon
                 .lowLevelGetAuthorizationRequest(corbelDriver, clientParams)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 401);
                     expect(response).to.have.deep.property('data.error', 'unauthorized');
@@ -37,7 +37,7 @@ describe('In OAUTH module', function () {
 
             oauthCommon
                 .lowLevelGetAuthorizationRequest(corbelDriver, clientParams)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 400);
                     expect(response).to.have.deep.property('data.error', 'missing_parameter');
@@ -54,7 +54,7 @@ describe('In OAUTH module', function () {
 
             oauthCommon
                 .lowLevelGetAuthorizationRequest(corbelDriver, clientParams)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 400);
                     expect(response).to.have.deep.property('data.error', 'invalid_response_type');
@@ -70,7 +70,7 @@ describe('In OAUTH module', function () {
 
             oauthCommon
                 .lowLevelGetAuthorizationRequest(corbelDriver, clientParams)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 400);
                     expect(response).to.have.deep.property('data.error', 'missing_parameter');
@@ -86,7 +86,7 @@ describe('In OAUTH module', function () {
             };
 
             oauthCommon.lowLevelGetAuthorizationRequest(corbelDriver, clientParams)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 401);
                     expect(response).to.have.deep.property('data.error', 'unauthorized');
@@ -102,7 +102,7 @@ describe('In OAUTH module', function () {
 
             oauthCommon
                 .lowLevelGetAuthorizationRequest(corbelDriver, clientParams)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 400);
                     expect(response).to.have.deep.property('data.error', 'missing_parameter');

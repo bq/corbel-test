@@ -30,12 +30,12 @@ describe('In RESOURCES module', function() {
                                 lang: language,
                                 value: dictionary[language][key]
                             })
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                         };
                     });
                 });
                 Promise.resolve(promise)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('that can be retrive like a collection with accept language header', function(done) {
@@ -63,7 +63,7 @@ describe('In RESOURCES module', function() {
 
                         return corbelDriver.resources.collection(I18N_COLLECTION)
                         .get(params)
-                        .should.be.eventually.fulfilled
+                        .should.be.fulfilled
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.length', 
                                     Object.keys(dictionary[selectedLanguage]).length);
@@ -74,7 +74,7 @@ describe('In RESOURCES module', function() {
                     };
                 });
                 Promise.resolve(promise)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('that can be retrive a key:value like a resource with accept language header', function(done) {
@@ -90,7 +90,7 @@ describe('In RESOURCES module', function() {
 
                             return corbelDriver.resources.resource(I18N_COLLECTION, key)
                             .get(params)
-                            .should.be.eventually.fulfilled
+                            .should.be.fulfilled
                             .then(function(response) {
                                 expect(response).to.have.deep.property('data.value', dictionary[language][key]);
                                 expect(response).to.have.deep.property('data.lang', language);
@@ -99,18 +99,18 @@ describe('In RESOURCES module', function() {
 
                                 return corbelDriver.resources.resource(I18N_COLLECTION, key)
                                 .delete(params)
-                                .should.be.eventually.fulfilled;
+                                .should.be.fulfilled;
                             })
                             .then(function() {
                                 return corbelDriver.resources.resource(I18N_COLLECTION, key)
                                 .get(params)
-                                .should.be.eventually.rejected;
+                                .should.be.rejected;
                             });
                         };
                     });
                 });
                 Promise.resolve(promise)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
         });
     });

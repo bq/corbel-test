@@ -15,11 +15,11 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(users) {
                     user = users[0];
                     return loginUser(corbelDriver, user.username, user.password)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function() {
                     var deviceId= Date.now();
@@ -31,12 +31,12 @@ describe('In IAM module', function() {
                     };
                     return corbelDriver.iam.user()
                         .registerMyDevice(deviceId, device)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(deviceIdResponse) {
                     deviceId = deviceIdResponse;
                     return loginUser(corbelDriver, user.username, user.password, deviceId)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .should.notify(done);
         });
@@ -44,7 +44,7 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelDriver.iam.user('me')
                 .delete()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .and.notify(done);
         });
 
@@ -54,12 +54,12 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
                 .deleteMyDevice(deviceId)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return retry(function() {
                         return corbelDriver.iam.user()
                             .get()
-                            .should.be.eventually.fulfilled
+                            .should.be.fulfilled
                             .then(function() {
                                 var tokenInfo = getTokenInfo(corbelDriver);
                                 expect(tokenInfo).to.not.have.deep.property('info.deviceId');

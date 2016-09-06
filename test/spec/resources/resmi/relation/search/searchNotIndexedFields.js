@@ -34,22 +34,22 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.resource(COLLECTION_A, idResource)
                 .update({})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver,
                     COLLECTION_A, idResource, COLLECTION_B, ids, dataArray)
-                    .should.be.eventually.fulfilled;       
+                    .should.be.fulfilled;       
                 })
                 .should.notify(done);
             });
 
             after(function(done) {
                 corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                     .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .should.notify(done);
             });
@@ -62,7 +62,7 @@ describe('In RESOURCES module', function() {
                 corbelTest.common.utils.retry(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                     .get(null, params)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 0);
                     });
@@ -78,7 +78,7 @@ describe('In RESOURCES module', function() {
                 corbelTest.common.utils.retry(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                     .get(null, params)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 1);
                         expect(response).to.have.deep.property('data[0].indexedInteger', object1.indexedInteger);

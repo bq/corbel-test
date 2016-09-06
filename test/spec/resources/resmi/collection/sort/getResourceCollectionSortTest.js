@@ -11,12 +11,12 @@ describe('In RESOURCES module', function() {
 
         beforeEach(function(done) {
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         afterEach(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         describe('when get collection with sort asc order', function() {
@@ -30,13 +30,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'intField'))
                         .to.be.equal(true);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('in a string field', function(done) {
@@ -48,13 +48,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'stringField'))
                         .to.be.equal(true);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('in a _updatedAt field', function(done) {
@@ -66,13 +66,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, '_updatedAt'))
                         .to.be.equal(true);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('in a numeric field and aplying query parameters', function(done) {
@@ -89,7 +89,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'stringField'))
                         .to.be.equal(true);
@@ -97,7 +97,7 @@ describe('In RESOURCES module', function() {
                         expect(resource.intField).to.be.above(700);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
         });
 
@@ -112,13 +112,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'intField'))
                         .to.be.equal(true);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('in a string field', function(done) {
@@ -130,13 +130,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'stringField'))
                         .to.be.equal(true);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('in a _updatedAt field', function(done) {
@@ -148,13 +148,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, '_updatedAt'))
                         .to.be.equal(true);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('in a numeric field and aplying query parameters', function(done) {
@@ -171,7 +171,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'stringField'))
                         .to.be.equal(true);
@@ -179,7 +179,7 @@ describe('In RESOURCES module', function() {
                         expect(resource.intField).to.be.above(700);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
         });
     });

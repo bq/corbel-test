@@ -8,7 +8,7 @@ describe('In RESOURCES module', function() {
         beforeEach(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount).
-            should.eventually.be.fulfilled.notify(done);
+            should.be.fulfilled.notify(done);
         });
 
         it('if we use delete collection without query all elements are deleted', function(done) {
@@ -22,7 +22,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(params)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 response.data.forEach(function(element) {
                     expect(element.stringSortCut).to.be.equal('Test Short Cut');
@@ -30,17 +30,17 @@ describe('In RESOURCES module', function() {
 
                 return corbelDriver.resources.collection(COLLECTION)
                 .delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response.data.length).to.be.equal(0);
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('if we use delete collection with query params' +
@@ -63,7 +63,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(paramsToDelete)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response) {
                 response.data.forEach(function(element) {
                     expect(element.intField).to.be.above(500);
@@ -71,19 +71,19 @@ describe('In RESOURCES module', function() {
 
                 return corbelDriver.resources.collection(COLLECTION)
                 .delete(paramsToDelete)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.resources.collection(COLLECTION)
                 .get(paramsToDelete)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response.data.length).to.be.equal(0);
 
                 return corbelDriver.resources.collection(COLLECTION)
                 .get(paramsToCheck)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response.data.length).to.be.equal(5);
@@ -91,7 +91,7 @@ describe('In RESOURCES module', function() {
                     expect(element.intField).to.be.below(600);
                 });
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
     });
 });

@@ -40,12 +40,12 @@ describe('In ENGINE silkroad modules ', function() {
                 var etag;
                 var url = getVersionEndpoint(corbelTest.getCurrentEndpoint(endpointEntry.name));
                 callUrl(url).
-                should.be.eventually.fulfilled.
+                should.be.fulfilled.
                 then(function(response) {
                     expect(response.headers).to.have.property('etag');
                     etag = response.headers.etag;
                     return callUrl(url, etag).
-                    should.be.eventually.fulfilled;
+                    should.be.fulfilled;
                 }).
                 then(function(response) {
                     expect(response.statusCode).to.be.equals(304);
@@ -66,7 +66,7 @@ describe('In ENGINE silkroad modules ', function() {
             before(function(done) {
                 corbelDriver = corbelTest.getCustomDriver(prodCredentials);
                 corbelDriver.domain('silkroad-qa-prod').resources.resource(COLLECTION_NAME, resourceId).get().
-                should.be.eventually.fulfilled.and.notify(done);
+                should.be.fulfilled.and.notify(done);
             });
 
             it('(resmi) with resource', function(done) {
@@ -74,12 +74,12 @@ describe('In ENGINE silkroad modules ', function() {
                 var url = corbelTest.getCurrentEndpoint('resources') +
                 'silkroad-qa-prod/resource/' + COLLECTION_NAME + '/' + resourceId;
                 callUrl(url, null, 'application/json', corbelDriver.config.config.iamToken.accessToken).
-                should.be.eventually.fulfilled.
+                should.be.fulfilled.
                 then(function(response) {
                     expect(response.headers).to.have.property('etag');
                     etag = response.headers.etag;
                     return callUrl(url, etag, 'application/json', corbelDriver.config.config.iamToken.accessToken).
-                    should.be.eventually.fulfilled;
+                    should.be.fulfilled;
                 }).
                 then(function(response) {
                     expect(response.statusCode).to.be.equals(304);
@@ -92,12 +92,12 @@ describe('In ENGINE silkroad modules ', function() {
                 var etag;
                 var url = corbelTest.getCurrentEndpoint('resources') + 'silkroad-qa-prod/resource/' + COLLECTION_NAME;
                 callUrl(url, null, 'application/json', corbelDriver.config.config.iamToken.accessToken).
-                should.be.eventually.fulfilled.
+                should.be.fulfilled.
                 then(function(response) {
                     expect(response.headers).to.have.property('etag');
                     etag = response.headers.etag;
                     return callUrl(url, etag, 'application/json', corbelDriver.config.config.iamToken.accessToken).
-                    should.be.eventually.fulfilled;
+                    should.be.fulfilled;
                 }).
                 then(function(response) {
                     expect(response.statusCode).to.be.equals(304);
@@ -111,12 +111,12 @@ describe('In ENGINE silkroad modules ', function() {
                 var url = corbelTest.getCurrentEndpoint('resources') +
                     'silkroad-qa-prod/resource/' + COLLECTION_NAME + '/' + resourceId;
                 callUrl(url, null, 'text/plain', corbelDriver.config.config.iamToken.accessToken).
-                should.be.eventually.fulfilled.
+                should.be.fulfilled.
                 then(function(response) {
                     expect(response.headers).to.have.property('etag');
                     etag = response.headers.etag;
                     return callUrl(url, etag, 'text/plain', corbelDriver.config.config.iamToken.accessToken).
-                    should.be.eventually.fulfilled;
+                    should.be.fulfilled;
                 }).
                 then(function(response) {
                     expect(response.statusCode).to.be.equals(304);
@@ -131,7 +131,7 @@ describe('In ENGINE silkroad modules ', function() {
                 var url = corbelTest.getCurrentEndpoint('resources') +
                     'silkroad-qa-prod/resource/' + COLLECTION_NAME + '/' + resourceId;
                 callUrl(url, null, 'text/plain', corbelDriver.config.config.iamToken.accessToken).
-                should.be.eventually.fulfilled.
+                should.be.fulfilled.
                 then(function(response) {
                     expect(response.headers).to.have.property('etag');
                     etag = response.headers.etag;
@@ -144,7 +144,7 @@ describe('In ENGINE silkroad modules ', function() {
                         );
                     }
                     return Promise.all(promises).
-                    should.be.eventually.fulfilled;
+                    should.be.fulfilled;
                 }).
                 then(function(response) {
                     expect(response).to.be.an('array').to.have.length(200);

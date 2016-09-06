@@ -15,18 +15,18 @@ describe('In RESOURCES module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelDriver.resources.collection(COLLECTION)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 resourceId = id;
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         afterEach(function(done) {
             TEST_OBJECT.test = valueFirst;
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('when does conditional update, if the condition is not satisfied' +
@@ -42,7 +42,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.resource(COLLECTION, resourceId)
             .update(TEST_OBJECT, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 412);
                 expect(e.data).to.have.property('error', 'precondition_failed');
@@ -65,13 +65,13 @@ describe('In RESOURCES module', function() {
 
                 return corbelDriver.resources.resource(COLLECTION, resourceId)
                 .update(TEST_OBJECT,params)
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 412);
                 expect(e.data).to.have.property('error', 'precondition_failed');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('when does conditional update, the condition must be satisfied to update', function(done) {
@@ -86,11 +86,11 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.resource(COLLECTION, resourceId)
             .update(TEST_OBJECT, params)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION, resourceId)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(resultObject) {
                 expect(resultObject.data.test).to.be.equal(valueSecond);
@@ -115,17 +115,17 @@ describe('In RESOURCES module', function() {
 
                 return corbelDriver.resources.resource(COLLECTION, resourceId)
                 .update(TEST_OBJECT, params)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION, resourceId)
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(resultObject) {
                 expect(resultObject.data.test).to.be.equal(valueThird);
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('when does conditional update and object id do not exists,' +
@@ -144,20 +144,20 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.resource(COLLECTION, resourceId)
             .update(TEST_OBJECT, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 412);
                 expect(e.data).to.have.property('error', 'precondition_failed');
 
                 return corbelDriver.resources.resource(COLLECTION, resourceId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e.data).to.have.property('error', 'not_found');
             }).
-            should.be.eventually.fulfilled.and.notify(done);
+            should.be.fulfilled.and.notify(done);
         });
     });
 });

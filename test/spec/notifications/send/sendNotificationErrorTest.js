@@ -18,7 +18,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.notification()
                 .send(notificationData)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -37,7 +37,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.notification()
                 .send(notificationData)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -49,7 +49,7 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.notification()
                 .send({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');

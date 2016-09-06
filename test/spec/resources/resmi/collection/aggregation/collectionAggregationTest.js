@@ -9,12 +9,12 @@ describe('In RESOURCES module', function() {
         before(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         after(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         describe('when performing a GET operation over the collection', function(){
@@ -28,7 +28,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.count', amount);
                 })
@@ -45,7 +45,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 2);
                     response.data.map(function(resource){
@@ -66,7 +66,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 1);
                     response.data.map(function(resource){
@@ -92,7 +92,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.property('data').and.to.be.an('array');
                     response.data.map(function(resource){
@@ -116,7 +116,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 5);
                     response.data.map(function(resource){
@@ -137,7 +137,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.min', 100);
                 })
@@ -153,7 +153,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.max', amount * 100);
                 })
@@ -169,7 +169,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.max', null);
                 })
@@ -185,7 +185,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.min', null);
                 })
@@ -201,7 +201,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.sum', null);
                 })
@@ -217,7 +217,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.average', null);
                 })
@@ -238,7 +238,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.max', 1000);
                 })
@@ -259,7 +259,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.min', 1000);
                 })
@@ -280,7 +280,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.count', 1);
                 })
@@ -296,7 +296,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.sum').to.be.closeTo(sum, 0.000000000001);
                 })
@@ -312,7 +312,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.sum', null);
                 })
@@ -328,7 +328,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.average').to.be.closeTo(sum / amount, 0.000000000001);
                 })
@@ -344,7 +344,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.average', null);
                 })
@@ -357,7 +357,7 @@ describe('In RESOURCES module', function() {
                 };
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                 })
@@ -373,7 +373,7 @@ describe('In RESOURCES module', function() {
                 };
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                 })
@@ -397,7 +397,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.count', 1);
                 })

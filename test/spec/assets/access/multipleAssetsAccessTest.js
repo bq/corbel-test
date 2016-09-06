@@ -12,7 +12,7 @@ describe('In ASSETS module', function() {
           corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
           loginAsRandomUser(corbelDriver)
-              .should.be.eventually.fulfilled
+              .should.be.fulfilled
               .then(function(response) {
                   user = response.user;
               })
@@ -22,14 +22,14 @@ describe('In ASSETS module', function() {
         afterEach(function(done){
             var promises = createdAssetsIds.map(function(assetId) {
                  return adminCorbelDriver.assets.asset(assetId).delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             });
 
             Promise.all(promises)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user('me').delete()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -37,11 +37,11 @@ describe('In ASSETS module', function() {
         [30, 50, 60, 200].forEach(function(amount){
             it('token gets upgraded when '+amount+' assets are assigned to an user', function(done) {
                 corbelTest.common.assets.createMultipleAssets(adminCorbelDriver, amount, user.id)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     createdAssetsIds = response;
                     return corbelDriver.assets.asset().access()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .should.notify(done);
             });

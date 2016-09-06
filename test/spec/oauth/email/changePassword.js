@@ -20,7 +20,7 @@ describe('In OAUTH module', function() {
 
             return corbelTest.common.mail
                 .mailInterface.getRandomMail()
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     userEmail = response;
                     oauthUserTest.email = response;
@@ -28,11 +28,11 @@ describe('In OAUTH module', function() {
                     return corbelDriver.oauth
                         .user(clientParams)
                         .create(oauthUserTest)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function() {
                     return popEmail(userEmail)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(mail) {
                    expect(mail).to.have.property('subject', 'Validate your account email');
@@ -46,7 +46,7 @@ describe('In OAUTH module', function() {
 
             oauthCommonUtils
                 .getToken(corbelDriver, username, password)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     var token = response.data['access_token'];
                     expect(token).to.match(oauthCommonUtils.getTokenValidation());
@@ -56,11 +56,11 @@ describe('In OAUTH module', function() {
                         .update('me', {
                             password: password + password
                         })
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function() {
                     return popEmail(userEmail)
-                        .should.be.eventually.fulfilled;
+                        .should.be.fulfilled;
                 })
                 .then(function(mail) {
                    expect(mail).to.have.property('subject', 'New password');

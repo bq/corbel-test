@@ -21,7 +21,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
             .get(null, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_page_size');
@@ -38,7 +38,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
             .get(null, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_page_size');
@@ -55,7 +55,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
             .get(null, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'bad_request');
@@ -72,7 +72,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
             .get(null, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_page');
@@ -89,7 +89,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
             .get(null, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'bad_request');
@@ -112,7 +112,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
             .get(null, params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_query');

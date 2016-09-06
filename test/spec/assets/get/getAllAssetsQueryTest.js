@@ -16,7 +16,7 @@ describe('In ASSETS module', function() {
                         }
                     }]
                 })
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(response) {
                     var everyScopesAreExpected = response.data.every(function(object) {
                         return object.scopes.some(function(scope) {

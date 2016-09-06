@@ -13,7 +13,7 @@ describe('In IAM module', function() {
                 var domain = corbelTest.common.iam.getDomain(timeStamp, desc, count);
                 var promise = CorbelDriver.iam.domain()
                 .create(domain)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
                 promises.push(promise);
             }
             return Promise.all(promises);
@@ -28,12 +28,12 @@ describe('In IAM module', function() {
             };
             CorbelDriver.iam.domain()
             .create(expectedDomain)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 expect(id).to.be.equals(corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id);
                 return CorbelDriver.domain(id).iam.domain()
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(domain) {
                 expectedDomain.id = corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id;
@@ -43,7 +43,7 @@ describe('In IAM module', function() {
                     expect(expectedDomain.scopes).to.contain(scope); 
                 });
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('a domain is updated', function(done) {
@@ -56,7 +56,7 @@ describe('In IAM module', function() {
             var newDescription = 'salerjiioejjsadroaeho';
             CorbelDriver.iam.domain()
             .create(expectedDomain)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 var newDomain = {
                     description: newDescription
@@ -64,18 +64,18 @@ describe('In IAM module', function() {
                 expectedDomain.id = corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id;
                 return CorbelDriver.domain(id).iam.domain()
                 .update(newDomain)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return CorbelDriver.domain(expectedDomain.id).iam.domain()
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(domain) {
                 expect(domain).to.have.deep.property('data.id', expectedDomain.id);
                 expect(domain).to.have.deep.property('data.description', newDescription);
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('a domain is removed', function (done) {
@@ -88,12 +88,12 @@ describe('In IAM module', function() {
 
             CorbelDriver.iam.domain()
             .create(expectedDomain)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(id) {
                 expect(id).to.be.equals(corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id);
                 return CorbelDriver.domain(id).iam.domain()
                 .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(domain) {
                 expectedDomain.id = corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id;
@@ -106,18 +106,18 @@ describe('In IAM module', function() {
             .then(function(){
               return CorbelDriver.domain(expectedDomain.id).iam.domain()
               .remove()
-              .should.be.eventually.fulfilled;
+              .should.be.fulfilled;
             })
             .then(function() {
                 return CorbelDriver.domain(expectedDomain.id).iam.domain()
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('all domains are gotten', function(done) {
@@ -126,7 +126,7 @@ describe('In IAM module', function() {
             var createdDomainIds;
 
             createDomains(5, timeStamp, domainDescription)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(obtainedCreatedDomainIds) {
                 createdDomainIds = obtainedCreatedDomainIds;
 
@@ -140,7 +140,7 @@ describe('In IAM module', function() {
 
                 return CorbelDriver.iam.domain()
                 .getAll(params)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(domains) {
                 domains.data.forEach(function(domain) {
@@ -148,7 +148,7 @@ describe('In IAM module', function() {
                     expect(createdDomainIds).to.contain(domain.id);
                 });
             }).
-            should.be.eventually.fulfilled.and.notify(done);
+            should.be.fulfilled.and.notify(done);
         });
     });
 });

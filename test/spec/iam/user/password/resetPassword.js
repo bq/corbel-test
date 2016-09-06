@@ -15,7 +15,7 @@ describe('In IAM module', function() {
             corbelRootDriver = corbelTest.drivers['ADMIN_USER'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(userData) {
                 user = userData[0];
             })
@@ -25,13 +25,13 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelRootDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('the request can be done with a non existent email', function(done) {
             corbelDriver.iam.users()
             .sendResetPasswordEmail('nonExistent@nothing.net')
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('when resetPassword is used, a token that allows update the user is received [mail]', function(done) {
@@ -42,7 +42,7 @@ describe('In IAM module', function() {
             var userId;
 
             corbelTest.common.mail.mailInterface.getRandomMail()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response){
                 user.email = response;
                 emailAddress = response;
@@ -58,16 +58,16 @@ describe('In IAM module', function() {
 
                 return corbelRootDriver.iam.user(user.id)
                 .update({email: user.email})
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(){
                 return corbelDriver.iam.users()
                 .sendResetPasswordEmail(user.email)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return popEmail(emailAddress)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(mail) {
                 expect(mail).to.have.property('body')
@@ -88,7 +88,7 @@ describe('In IAM module', function() {
                 .update({
                     password: user.password + user.password
                 })
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
@@ -105,12 +105,12 @@ describe('In IAM module', function() {
                 .update({
                     password: user.password + user.password
                 })
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelTest.common.clients
                     .loginUser(corbelDriver, user.username, user.password)
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
@@ -118,7 +118,7 @@ describe('In IAM module', function() {
 
                 return corbelTest.common.clients
                     .loginUser(corbelDriver, user.username, user.password + user.password)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -129,23 +129,23 @@ describe('In IAM module', function() {
             var corbelResetDriver;
 
             corbelTest.common.mail.mailInterface.getRandomMail()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(response){
                 user.email = response;
                 emailAddress = response;
 
                 return corbelRootDriver.iam.user(user.id)
                 .update({email: user.email})
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(){
                 return corbelDriver.iam.users()
                 .sendResetPasswordEmail(user.email)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return popEmail(emailAddress)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(mail) {
                 expect(mail).to.have.property('body')
@@ -163,14 +163,14 @@ describe('In IAM module', function() {
                 .update({
                     password: user.password + user.password
                 })
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelResetDriver.iam.user('me')
                 .update({
                     password: user.password
                 })
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
@@ -178,7 +178,7 @@ describe('In IAM module', function() {
 
                 return corbelTest.common.clients
                     .loginUser(corbelDriver, user.username, user.password + user.password)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });

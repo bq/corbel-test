@@ -33,11 +33,11 @@ describe('In RESOURCES module', function() {
 
                 corbelTest.common.resources.setManagedCollection(
                         corbelRootDriver, DOMAIN, COLLECTION_NAME)
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(id) {
                         aclConfigurationId = id;
                         return corbelTest.common.iam.createUsers(corbelAdminDriver, 1)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(createdUser) {
                         adminUser = createdUser[0];
@@ -46,7 +46,7 @@ describe('In RESOURCES module', function() {
                         return corbelTest.common.iam.createUsers(corbelDriver, 1, {
                                 'groups': [groupId]
                             })
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(createdUser) {
                         user = createdUser[0];
@@ -54,16 +54,16 @@ describe('In RESOURCES module', function() {
 
                         return corbelTest.common.clients
                             .loginUser(corbelAdminDriver, adminUser.username, adminUser.password)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function() {
                         return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function() {
                         return corbelAdminDriver.resources.collection(COLLECTION_NAME)
                             .add(TEST_OBJECT)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function(id) {
                         resourceId = id;
@@ -75,17 +75,17 @@ describe('In RESOURCES module', function() {
             afterEach(function(done) {
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .delete()
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function(id) {
                         return corbelTest.common.resources.unsetManagedCollection(
                                 corbelRootDriver, DOMAIN, COLLECTION_NAME, aclConfigurationId)
-                            .should.be.eventually.fulfilled;
+                            .should.be.fulfilled;
                     })
                     .then(function() {
                         var promises = usersId.map(function(userId) {
                             return corbelRootDriver.iam.user(userId)
                                 .delete()
-                                .should.be.eventually.fulfilled;
+                                .should.be.fulfilled;
                         });
 
                         return Promise.all(promises);
@@ -106,12 +106,12 @@ describe('In RESOURCES module', function() {
                     .update(ACL, {
                         dataType: 'application/corbel.acl+json'
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function() {
 
                         return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                             .delete()
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
@@ -133,11 +133,11 @@ describe('In RESOURCES module', function() {
                     .update(ACL, {
                         dataType: 'application/corbel.acl+json'
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function() {
                         return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                             .delete()
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
@@ -159,11 +159,11 @@ describe('In RESOURCES module', function() {
                     .update(ACL, {
                         dataType: 'application/corbel.acl+json'
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function() {
                         return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                             .delete()
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
@@ -185,11 +185,11 @@ describe('In RESOURCES module', function() {
                     .update(ACL, {
                         dataType: 'application/corbel.acl+json'
                     })
-                    .should.be.eventually.fulfilled
+                    .should.be.fulfilled
                     .then(function() {
                         return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                             .delete()
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);

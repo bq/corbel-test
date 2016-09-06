@@ -19,7 +19,7 @@ describe('In SCHEDULER module', function() {
         };
 
         corbelUnauthorizedDriver.scheduler.task().create(task)
-        .should.be.eventually.rejected
+        .should.be.rejected
         .then(function(e){
             expect(e).to.have.property('status', 401);
             expect(e).to.have.deep.property('data.error', 'invalid_token');
@@ -40,7 +40,7 @@ describe('In SCHEDULER module', function() {
         };
 
         corbelUnauthorizedDriver.scheduler.task().create(task)
-        .should.be.eventually.rejected
+        .should.be.rejected
         .then(function(e){
             expect(e).to.have.property('status', 401);
             expect(e).to.have.deep.property('data.error', 'invalid_token');
@@ -61,16 +61,16 @@ describe('In SCHEDULER module', function() {
                 'moment':'00:01'
             };
             corbelDriver.scheduler.task().create(task)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         after(function(done) {
 
             corbelDriver.scheduler.task(taskId).delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.scheduler.task(taskId).get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -81,7 +81,7 @@ describe('In SCHEDULER module', function() {
 
         it('an error [404] is returned when trying to retrieve a nonexistent task', function(done) {
             corbelDriver.scheduler.task('nonExistent:id').get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -91,7 +91,7 @@ describe('In SCHEDULER module', function() {
 
         it('an error [401] is returned when trying to retrieve a task without propper permissions', function(done) {
             corbelUnauthorizedDriver.scheduler.task(taskId).get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'invalid_token');
@@ -106,7 +106,7 @@ describe('In SCHEDULER module', function() {
             };
 
             corbelDriver.scheduler.task('nonExistent:id').update(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e).to.have.deep.property('data.error', 'bad_request');
@@ -121,7 +121,7 @@ describe('In SCHEDULER module', function() {
             };
 
             corbelUnauthorizedDriver.scheduler.task(taskId).update(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'invalid_token');
@@ -132,13 +132,13 @@ describe('In SCHEDULER module', function() {
         it('a DELETE request over a non-existent task can be performed although it has no effect', function(done) {
 
             corbelDriver.scheduler.task('nonExistent:id').delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.be.fulfilled.and.notify(done);
         });
 
         it('an error [401] is returned when trying to delete a task without propper permissions', function(done) {
             
             corbelUnauthorizedDriver.scheduler.task(taskId).delete()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'invalid_token');

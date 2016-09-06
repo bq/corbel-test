@@ -48,7 +48,7 @@ describe('In NOTIFICATIONS module', function() {
 
 
                 return corbelTest.common.mail.mailInterface.getRandomMail()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
             })
             .then(function(response){
                 emailRecipient = response;
@@ -65,18 +65,18 @@ describe('In NOTIFICATIONS module', function() {
 
         it('it works correctly [mail]', function(done) {
             testDriver.notifications.domain().create(notificationDomainData)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return testDriver.notifications.template()
                 .create(notificationTemplateData)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 var corbelDriver = corbelTest.drivers['DEFAULT_USER'].clone();
 
                 return testDriver.notifications.notification()
                 .send(notificationData)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelTest.common.utils.retry(function() {
@@ -89,11 +89,11 @@ describe('In NOTIFICATIONS module', function() {
                                 }
                             });
                     }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 return corbelTest.common.mail.mailInterface.getMail(emailRecipient, response[0].id)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(mail) {
                 expect(mail).to.have.property('subject', 'title-' + domainIdCreated);

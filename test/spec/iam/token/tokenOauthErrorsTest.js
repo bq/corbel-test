@@ -34,13 +34,13 @@ describe('In IAM module, When try to get token with', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     var error = response.data;
                     expect(response).to.have.property('status', 401);
                     expect(error).to.have.property('error', 'unauthorized');
                 })
-                .should.be.eventually.fulfilled.notify(done);
+                .should.be.fulfilled.notify(done);
         });
 
         it('bad code in ' + socialOauth, function(done) {
@@ -65,13 +65,13 @@ describe('In IAM module, When try to get token with', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     var error = response.data;
                     expect(response).to.have.property('status', 401);
                     expect(error).to.have.property('error', 'unauthorized');
                 })
-                .should.be.eventually.fulfilled.notify(done);
+                .should.be.fulfilled.notify(done);
         });
 
         it('missing oauth params in ' + socialOauth, function(done) {
@@ -94,13 +94,13 @@ describe('In IAM module, When try to get token with', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     var error = response.data;
                     expect(response).to.have.property('status', 400);
                     expect(error).to.have.property('error', 'missing_oauth_params');
                 })
-                .should.be.eventually.fulfilled.notify(done);
+                .should.be.fulfilled.notify(done);
         });
     });
 });

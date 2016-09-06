@@ -10,13 +10,13 @@ describe('In IAM module', function() {
             corbelDefaultDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
                 return corbelTest.common.clients.loginUser
                     (corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .should.notify(done);
         });
@@ -25,11 +25,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
             .deleteMe()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e){
                 expect(e).to.have.property('status', 401);
@@ -42,7 +42,7 @@ describe('In IAM module', function() {
 
             corbelDefaultDriver.iam.user()
             .deleteMe()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e){
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -50,12 +50,12 @@ describe('In IAM module', function() {
             .then(function(){
                 return corbelDriver.iam.user()
                 .deleteMe()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e){
                 expect(e).to.have.property('status', 401);

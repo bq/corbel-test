@@ -17,18 +17,18 @@ describe('In NOTIFICATIONS module', function() {
         afterEach(function(done) {
             corbelDriver.notifications.template(nameData)
                 .delete()
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .should.notify(done);
         });
 
         it('a notification template can be created and the id is received', function(done) {
             corbelDriver.notifications.template()
                 .create(notificationData)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
                 return corbelDriver.notifications.template(nameData)
                     .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 expect(response).to.have.property('data').and.to.contain(notificationData);
@@ -41,12 +41,12 @@ describe('In NOTIFICATIONS module', function() {
 
             corbelDriver.notifications.template()
                 .create(notificationData)
-            .should.be.eventually.fulfilled
+            .should.be.fulfilled
             .then(function() {
 
                 return corbelDriver.notifications.template(nameData)
                     .get()
-                .should.be.eventually.fulfilled;
+                .should.be.fulfilled;
             })
             .then(function(response) {
                 delete notificationData.title;

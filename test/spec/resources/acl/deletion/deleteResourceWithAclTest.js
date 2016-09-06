@@ -19,7 +19,7 @@ describe('In RESOURCES module', function() {
                 
                 corbelTest.common.resources.setManagedCollection(
                     corbelRootDriver, DOMAIN, COLLECTION_NAME)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id){
                     aclConfigurationId = id;
                 }).should.notify(done);
@@ -35,13 +35,13 @@ describe('In RESOURCES module', function() {
                 };
 
                 corbelTest.common.iam.createUsers(corbelDriver, 1)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(createdUser) {
                     user = createdUser[0];
                     usersId.push(user.id);
 
                     return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .should.notify(done);
             });
@@ -50,7 +50,7 @@ describe('In RESOURCES module', function() {
                 var promises = usersId.map(function(userId){
                     return corbelRootDriver.iam.user(userId)
                         .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 });
 
                 Promise.all(promises)
@@ -61,32 +61,32 @@ describe('In RESOURCES module', function() {
 
                 corbelTest.common.resources.unsetManagedCollection(
                     corbelRootDriver, DOMAIN, COLLECTION_NAME, aclConfigurationId)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.be.fulfilled.and.notify(done);
             });
 
             it('a resource with ACL can be deleted as ADMIN', function(done) {
 
                 corbelDriver.resources.collection(COLLECTION_NAME)
                     .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id) {
                     resourceId = id;
 
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .get()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data._acl.user:' + user.id + '.permission','ADMIN');
 
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .get()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
@@ -100,26 +100,26 @@ describe('In RESOURCES module', function() {
                 var corbelAdminDriver = corbelTest.drivers['DEFAULT_USER'].clone();
 
                 corbelTest.common.iam.createUsers(corbelAdminDriver, 1)
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(createdUser) {
                     adminUser = createdUser[0];
                     usersId.push(adminUser.id);
 
                     return corbelTest.common.clients.loginUser
                         (corbelAdminDriver, adminUser.username, adminUser.password)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function() {
                     return corbelAdminDriver.resources.collection(COLLECTION_NAME)
                         .add(TEST_OBJECT)
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(id) {
                     resourceId = id;
 
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .delete()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
@@ -137,17 +137,17 @@ describe('In RESOURCES module', function() {
 
                     return corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .update(ACL, {dataType: 'application/corbel.acl+json'})
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 }).
                 then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .delete()
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .get()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
@@ -162,25 +162,25 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION_NAME)
                     .add(FILE_CONTENT, {dataType: 'application/xml'})
-                .should.be.eventually.fulfilled
+                .should.be.fulfilled
                 .then(function(id) {
                     resourceId = id;
 
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .get({dataType: 'application/xml'})
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function(response) {
                     expect(response).to.have.property('data', FILE_CONTENT);
 
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .delete({dataType: 'application/xml'})
-                    .should.be.eventually.fulfilled;
+                    .should.be.fulfilled;
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                         .get({dataType: 'application/xml'})
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
