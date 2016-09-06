@@ -13,7 +13,7 @@ describe('In NOTIFICATIONS module', function() {
 
             unauthorizedDriver.notifications.domain()
                 .update({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -40,7 +40,7 @@ describe('In NOTIFICATIONS module', function() {
                 });
 
                 return testDriver.notifications.domain()
-                .update({}).should.be.eventually.rejected;
+                .update({}).should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -53,7 +53,7 @@ describe('In NOTIFICATIONS module', function() {
         it('an error [422] is returned if the data is not a json', function(done) {
             corbelDriver.notifications.domain()
                 .update('invalid')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');

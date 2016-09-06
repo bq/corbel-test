@@ -8,13 +8,13 @@ describe('In RESOURCES module', function() {
         before(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
 
         });
 
         after(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
         });
 
 
@@ -26,7 +26,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 2);
                     response.data.forEach(function(element) {
@@ -43,7 +42,6 @@ describe('In RESOURCES module', function() {
             var posiblesValues = [0, 1, 2, 3];
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 4);
                     response.data.forEach(function(element) {
@@ -70,7 +68,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 3);
                     response.data.forEach(function(element) {

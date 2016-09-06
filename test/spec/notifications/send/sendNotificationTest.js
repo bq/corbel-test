@@ -62,7 +62,6 @@ describe('In NOTIFICATIONS module', function() {
         function sendNotifications(notifications) {
             var promises = notifications.map(function(notification, index) {
                 return corbelTest.common.mail.mailInterface.getRandomMail()
-                    .should.be.eventually.fulfilled
                     .then(function(email) {
                         var notificationData = {
                             notificationId: notification.id,
@@ -71,8 +70,7 @@ describe('In NOTIFICATIONS module', function() {
                         };
                         notification.email = email;
                         return corbelDriver.notifications.notification()
-                            .send(notificationData)
-                            .should.be.eventually.fulfilled;
+                            .send(notificationData);
                     });
             });
 
@@ -82,14 +80,12 @@ describe('In NOTIFICATIONS module', function() {
         before(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_USER'].clone();
             sendNotifications(notifications)
-                .should.be.eventually.fulfilled
                 .should.notify(done);
         });
 
         notifications.forEach(function(notification) {
             it(notification.test, function(done) {
                 popEmail(notification.email)
-                    .should.be.eventually.fulfilled
                     .then(notification.expect)
                     .should.notify(done);
             });

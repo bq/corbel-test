@@ -19,22 +19,19 @@ describe('In IAM module', function() {
         });
 
         corbelTest.common.iam.createUsers(corbelAdminDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(user) {
                 userData = user[0];
             })
-            .should.be.eventually.fulfilled
             .should.notify(done);
     });
 
     after(function(done) {
         corbelAdminDriver.iam.user(userData.id)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelAdminDriver.iam.user(userData.id)
                     .get()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
             })
             .then(function(response) {
                 expect(response).to.have.property('status', 404);
@@ -69,7 +66,6 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.accessToken');
                     expect(response.data.accessToken).to.match(tokenValidation);
@@ -91,7 +87,6 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.accessToken');
                     expect(response.data.accessToken).to.match(tokenValidation);
@@ -112,7 +107,6 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.accessToken');
                     expect(response.data.accessToken).to.match(tokenValidation);
@@ -134,7 +128,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     expect(response).to.have.property('status', 401);
                     expect(response).to.have.deep.property('data.error', 'unauthorized');
@@ -154,7 +148,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     expect(response).to.have.property('status', 401);
                     expect(response).to.have.deep.property('data.error', 'unauthorized');
@@ -174,7 +168,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     expect(response).to.have.property('status', 401);
                     expect(response).to.have.deep.property('data.error', 'unauthorized');
@@ -195,7 +189,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     expect(response).to.have.property('status', 401);
                     expect(response).to.have.deep.property('data.error', 'unauthorized');

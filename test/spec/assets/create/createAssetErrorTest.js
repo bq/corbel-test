@@ -10,7 +10,7 @@ describe('In ASSETS module', function() {
 
             it('asset is not created due to authorization reasons', function(done) {
                 corbelDriver.assets.asset().create(getBaseAsset())
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
                         expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -29,7 +29,7 @@ describe('In ASSETS module', function() {
                 var asset = getBaseAsset();
                 delete asset.scopes;
                 corbelDriver.assets.asset().create(asset)
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function(e) {
                         expect(e).to.have.property('status', 400);
                         expect(e).to.have.deep.property('data.error', 'not_existent_scope');
@@ -41,7 +41,7 @@ describe('In ASSETS module', function() {
                 var asset = getBaseAsset();
                 asset.scopes = ['assets = asset'];
                 corbelDriver.assets.asset().create(asset)
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function(e) {
                         expect(e).to.have.property('status', 400);
                         expect(e).to.have.deep.property('data.error', 'not_existent_scope');
@@ -51,7 +51,7 @@ describe('In ASSETS module', function() {
 
             it('asset is not created since it has not been defined', function(done) {
                 corbelDriver.assets.asset().create()
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function(e) {
                         expect(e).to.have.property('status', 422);
                         expect(e).to.have.deep.property('data.error', 'invalid_entity');

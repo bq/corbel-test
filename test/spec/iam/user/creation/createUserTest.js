@@ -32,11 +32,10 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelDriver.iam.user(userId)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -47,8 +46,7 @@ describe('In IAM module', function() {
 
         var createUser = function(user){
             return corbelDriver.iam.users()
-            .create(user)
-            .should.eventually.be.fulfilled;
+            .create(user);
         };
 
         it('basic user is created', function(done) {
@@ -70,8 +68,7 @@ describe('In IAM module', function() {
                 expect(userId).not.to.be.equal(undefined);
 
                 return corbelDriver.iam.user(userId)
-                    .get()
-                .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.username', user.username);
@@ -88,8 +85,7 @@ describe('In IAM module', function() {
                 expect(userId).not.to.be.equal(undefined);
 
                 return corbelDriver.iam.user(userId)
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(response) {
                 expect(response.data.scopes).to.eql(domainDefaultScopes);
@@ -113,8 +109,7 @@ describe('In IAM module', function() {
                 expect(userId).not.to.be.equal(undefined);
 
                 return corbelDriver.iam.user(userId)
-                .registerDevice(deviceId, device)
-                .should.eventually.be.fulfilled;
+                .registerDevice(deviceId, device);
             })
             .then(function(id) {
                 expect(deviceId).to.be.equal(id);
@@ -138,27 +133,24 @@ describe('In IAM module', function() {
                 expect(userId).not.to.be.equal(undefined);
 
                 return corbelDriver.iam.user(userId)
-                .registerDevice(deviceId, device)
-                .should.eventually.be.fulfilled;
+                .registerDevice(deviceId, device);
             })
             .then(function(id) {
                 expect(deviceId).to.be.equal(id);
 
                 return corbelDriver.iam.user(userId)
-                .getDevice(deviceId)
-                .should.eventually.be.fulfilled;
+                .getDevice(deviceId);
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', deviceId);
 
                 return corbelDriver.iam.user(userId)
-                .deleteDevice(deviceId)
-                .should.eventually.be.fulfilled;
+                .deleteDevice(deviceId);
             })
             .then(function(id) {
                 return corbelDriver.iam.user(userId)
                 .getDevice(deviceId)
-                .should.eventually.be.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);

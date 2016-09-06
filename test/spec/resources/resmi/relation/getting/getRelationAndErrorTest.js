@@ -28,32 +28,27 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION_A)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 resourceIdA = id;
 
                 return corbelDriver.resources.collection(COLLECTION_B)
-                .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .add(TEST_OBJECT);
             })
             .then(function(id) {
                 resourceIdB1 = id;
 
                 return corbelDriver.resources.collection(COLLECTION_B)
-                .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .add(TEST_OBJECT);
             })
             .then(function(id) {
                 resourceIdB2 = id;
 
                 return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
-                .add(resourceIdB1, jsonRelationData)
-                .should.be.eventually.fulfilled;
+                .add(resourceIdB1, jsonRelationData);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
-                .add(resourceIdB2, jsonRelationData)
-                .should.be.eventually.fulfilled;
+                .add(resourceIdB2, jsonRelationData);
             })
             .should.notify(done);
         });
@@ -61,21 +56,17 @@ describe('In RESOURCES module', function() {
         after(function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_A, resourceIdA)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_B, resourceIdB1)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_B, resourceIdB2)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .should.notify(done);
         });
@@ -83,7 +74,6 @@ describe('In RESOURCES module', function() {
         it('all elements of a relation are returned', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
             .get(null)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 2);
                 expect(response).to.have.deep.property('data[0].stringField', jsonRelationData.stringField);
@@ -95,7 +85,6 @@ describe('In RESOURCES module', function() {
         it('an specific element of the relation is returned', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
             .get(resourceIdB1)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.stringField', jsonRelationData.stringField);
             })
@@ -105,7 +94,6 @@ describe('In RESOURCES module', function() {
         it('relations where destination id is resourceIdB1 are returned', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, '_', COLLECTION_B)
             .get(resourceIdB1)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data._src_id', resourceIdA);
                 expect(response).to.have.deep.property('data.stringField', jsonRelationData.stringField);
@@ -116,7 +104,6 @@ describe('In RESOURCES module', function() {
         it('if the relation does not exist, when getting all elements, an empty list is returned', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, 'notExistingId', COLLECTION_B)
             .get(null)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 0);
             })
@@ -126,7 +113,7 @@ describe('In RESOURCES module', function() {
         it('if the relation does not exist, 404 is returned trying to get an element', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, 'notExistingId', COLLECTION_B)
             .get(resourceIdB1)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(response) {
                 expect(response).to.have.property('status', 404);
                 expect(response).to.have.deep.property('data.error', 'not_found');
@@ -137,7 +124,7 @@ describe('In RESOURCES module', function() {
         it('when trying to get a non existing resource from an existing relation, 404 is returned', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA, COLLECTION_B)
             .get('notExistingId')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -148,7 +135,7 @@ describe('In RESOURCES module', function() {
         it('when trying to get a non existing resource from a non existing relation, 404 is returned', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, 'notExistingId', COLLECTION_B)
             .get('notExistingId')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');

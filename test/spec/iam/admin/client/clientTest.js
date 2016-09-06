@@ -16,8 +16,7 @@ describe('In IAM module', function() {
                 var currentClient = corbelTest.common.iam.getClient(timeStamp, count);
 
                 var promise = CorbelDriver.domain(domain).iam.client()
-                .create(currentClient)
-                .should.be.eventually.fulfilled;
+                .create(currentClient);
 
                 promises.push(promise);
             }
@@ -28,17 +27,16 @@ describe('In IAM module', function() {
         before(function(done) {
             CorbelDriver.iam.domain()
             .create(corbelTest.common.iam.getDomain())
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 domainId = id;
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         after(function(done) {
             CorbelDriver.domain(domainId).iam.domain()
             .remove()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('a client is created', function(done) {
@@ -51,12 +49,10 @@ describe('In IAM module', function() {
 
             CorbelDriver.domain(domainId).iam.client()
             .create(client)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 clientId = id;
                 return CorbelDriver.domain(domainId).iam.client(id)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', clientId);
@@ -68,8 +64,7 @@ describe('In IAM module', function() {
                     expect(client.scopes).to.contain(scope);
                 });
                 return CorbelDriver.domain(domainId).iam.client(clientId)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             }).
             should.notify(done);
         });
@@ -83,12 +78,10 @@ describe('In IAM module', function() {
 
             CorbelDriver.domain(domainId).iam.client()
             .create(client1)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 clientId1 = id;
                 return CorbelDriver.domain(domainId).iam.client(id)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(client) {
                 expect(client).to.have.deep.property('data.id', clientId1);
@@ -101,14 +94,12 @@ describe('In IAM module', function() {
                 });
                 clientKey1 = client.key;
                 return CorbelDriver.domain(domainId).iam.client()
-                .create(client2)
-                .should.be.eventually.fulfilled;
+                .create(client2);
             })
             .then(function(id) {
                 clientId2 = id;
                 return CorbelDriver.domain(domainId).iam.client(id)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(client) {
                 expect(client).to.have.deep.property('data.id', clientId2);
@@ -121,13 +112,11 @@ describe('In IAM module', function() {
                 });
                 expect(client.data.key).to.be.not.equals(clientKey1);
                 return CorbelDriver.domain(domainId).iam.client(clientId1)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
             .then(function() {
                 return CorbelDriver.domain(domainId).iam.client(clientId2)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
             .should.notify(done);
         });
@@ -143,7 +132,6 @@ describe('In IAM module', function() {
 
             CorbelDriver.domain(domainId).iam.client()
             .create(client)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 var newClient = {
                     id: id,
@@ -152,21 +140,18 @@ describe('In IAM module', function() {
                 };
                 clientId = id;
                 return CorbelDriver.domain(domainId).iam.client(newClient.id)
-                .update(newClient)
-                .should.be.eventually.fulfilled;
+                .update(newClient);
             })
             .then(function() {
                 return CorbelDriver.domain(domainId).iam.client(clientId)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', clientId);
                 expect(response).to.have.deep.property('data.domain', domainId);
                 expect(response).to.have.deep.property('data.name', newName);
                 return CorbelDriver.domain(domainId).iam.client(clientId)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
             .should.notify(done);
         });
@@ -185,11 +170,10 @@ describe('In IAM module', function() {
             };
             CorbelDriver.domain(domainId).iam.client(updatedClient.id)
             .update(updatedClient)
-            .should.be.eventually.fulfilled
             .then(function() {
                 return CorbelDriver.domain(domainId).iam.client(updatedClient.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -207,23 +191,21 @@ describe('In IAM module', function() {
             var clientId;
             CorbelDriver.domain(domainId).iam.client()
             .create(client)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 clientId = id;
                 return CorbelDriver.domain(domainId).iam.client(id)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
             .then(function() {
                 return CorbelDriver.domain(domainId).iam.client(clientId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('when requests to get all clients, successes', function(done) {
@@ -232,17 +214,14 @@ describe('In IAM module', function() {
             var createdClientIds = [];
             CorbelDriver.iam.domain()
             .create(corbelTest.common.iam.getDomain(timeStamp))
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 domainId = id;
-                return createClients(5, domainId, timeStamp)
-                .should.be.eventually.fulfilled;
+                return createClients(5, domainId, timeStamp);
             })
             .then(function(obtainedCreatedClientIds) {
                 createdClientIds = obtainedCreatedClientIds;
                 return CorbelDriver.domain(domainId).iam.client()
-                .getAll()
-                .should.be.eventually.fulfilled;
+                .getAll();
             })
             .then(function(clients) {
                 var removeClientPromises = [];
@@ -254,15 +233,13 @@ describe('In IAM module', function() {
                         .remove()
                     );
                 });
-                return Promise.all(removeClientPromises)
-                .should.be.eventually.fulfilled;
+                return Promise.all(removeClientPromises);
             })
             .then(function() {
                 return CorbelDriver.domain(domainId).iam.domain()
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
     });
 });

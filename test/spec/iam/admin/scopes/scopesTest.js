@@ -17,13 +17,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.scope()
             .create(scope)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 expect(id).to.be.equals(scope.id);
 
                 return corbelDriver.iam.scope(scope.id)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', scope.id);
@@ -32,8 +30,7 @@ describe('In IAM module', function() {
                 expect(response).to.have.deep.property('data.parameters.a', scope.parameters.a);
 
                 return corbelDriver.iam.scope(scope.id)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
             .should.notify(done);
         });
@@ -43,16 +40,14 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.scope()
             .create(scope)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 return corbelDriver.iam.scope(scope.id)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
             .then(function() {
                 return corbelDriver.iam.scope(scope.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);

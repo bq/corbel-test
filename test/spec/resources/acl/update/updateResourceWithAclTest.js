@@ -28,31 +28,26 @@ describe('In RESOURCES module', function() {
                 
                 corbelTest.common.resources.setManagedCollection(
                     corbelRootDriver, DOMAIN, COLLECTION_NAME)
-                .should.be.eventually.fulfilled
                 .then(function(id){
                     aclConfigurationId = id;
-                    return corbelTest.common.iam.createUsers(corbelAdminDriver, 1)
-                    .should.be.eventually.fulfilled;
+                    return corbelTest.common.iam.createUsers(corbelAdminDriver, 1);
                 })
                 .then(function(createdUser) {
                     adminUser = createdUser[0];
                     usersId.push(adminUser.id);
 
-                    return corbelTest.common.iam.createUsers(corbelDriver, 1, {'groups': [groupId]})
-                    .should.be.eventually.fulfilled;
+                    return corbelTest.common.iam.createUsers(corbelDriver, 1, {'groups': [groupId]});
                 })
                 .then(function(createdUser){
                     user = createdUser[0];
                     usersId.push(user.id);
 
                     return corbelTest.common.clients.loginUser
-                        (corbelAdminDriver, adminUser.username, adminUser.password)
-                    .should.be.eventually.fulfilled;
+                        (corbelAdminDriver, adminUser.username, adminUser.password);
                 })
                 .then(function(){
                     return corbelTest.common.clients.loginUser
-                        (corbelDriver, user.username, user.password)
-                    .should.be.eventually.fulfilled;
+                        (corbelDriver, user.username, user.password);
                 })
                 .should.notify(done);
             });
@@ -70,7 +65,6 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.collection(COLLECTION_NAME)
                     .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled
                 .then(function(id) {
                     resourceId = id;
                 })
@@ -81,19 +75,17 @@ describe('In RESOURCES module', function() {
                 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .delete()
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             after(function(done) {
 
                 corbelTest.common.resources.unsetManagedCollection(
                     corbelRootDriver, DOMAIN, COLLECTION_NAME, aclConfigurationId)
-                .should.be.eventually.fulfilled
                 .then(function(){
                     var promises = usersId.map(function(userId){
                         return corbelRootDriver.iam.user(userId)
-                            .delete()
-                        .should.be.eventually.fulfilled;
+                            .delete();
                     });
 
                     return Promise.all(promises);
@@ -107,11 +99,9 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, newResourceId)
                     .update(TEST_OBJECT)
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelAdminDriver.resources.resource(COLLECTION_NAME, newResourceId)
-                        .get()
-                    .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data._acl.user:' + adminUser.id + '.permission','ADMIN');
@@ -119,8 +109,7 @@ describe('In RESOURCES module', function() {
                     expect(response).to.have.deep.property('data.test2', 'test2' + random);
 
                     return corbelAdminDriver.resources.resource(COLLECTION_NAME, newResourceId)
-                        .delete()
-                    .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
             });
@@ -137,16 +126,13 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .update(ACL, {dataType: 'application/corbel.acl+json'})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .update(TEST_OBJECT_UPDATE)
-                    .should.be.eventually.fulfilled;
+                        .update(TEST_OBJECT_UPDATE);
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .get()
-                    .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.test', 'testUpdate' + random);
@@ -166,16 +152,13 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .update(ACL, {dataType: 'application/corbel.acl+json'})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .update(TEST_OBJECT_UPDATE)
-                    .should.be.eventually.fulfilled;
+                        .update(TEST_OBJECT_UPDATE);
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .get()
-                    .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.test', 'testUpdate' + random);
@@ -195,16 +178,13 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .update(ACL, {dataType: 'application/corbel.acl+json'})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .update(TEST_OBJECT_UPDATE)
-                    .should.be.eventually.fulfilled;
+                        .update(TEST_OBJECT_UPDATE);
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .get()
-                    .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.test', 'testUpdate' + random);
@@ -224,16 +204,13 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .update(ACL, {dataType: 'application/corbel.acl+json'})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .update(TEST_OBJECT_UPDATE)
-                    .should.be.eventually.fulfilled;
+                        .update(TEST_OBJECT_UPDATE);
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .get()
-                    .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.test', 'testUpdate' + random);
@@ -253,16 +230,13 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .update(ACL, {dataType: 'application/corbel.acl+json'})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .update(TEST_OBJECT_UPDATE)
-                    .should.be.eventually.fulfilled;
+                        .update(TEST_OBJECT_UPDATE);
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .get()
-                    .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.test', 'testUpdate' + random);
@@ -282,16 +256,13 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .update(ACL, {dataType: 'application/corbel.acl+json'})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .update(TEST_OBJECT_UPDATE)
-                    .should.be.eventually.fulfilled;
+                        .update(TEST_OBJECT_UPDATE);
                 })
                 .then(function() {
                     return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
-                        .get()
-                    .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.test', 'testUpdate' + random);
@@ -308,32 +279,27 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.collection(COLLECTION_NAME)
                     .add(FILE_CONTENT, dataType)
-                .should.be.eventually.fulfilled
                 .then(function(id) {
                     newResourceId = id;
 
                     return corbelAdminDriver.resources.resource(COLLECTION_NAME, newResourceId)
-                        .get(dataType)
-                    .should.be.eventually.fulfilled;
+                        .get(dataType);
                 })
                 .then(function(response) {
                     expect(response).to.have.property('data', FILE_CONTENT);
 
                     return corbelAdminDriver.resources.resource(COLLECTION_NAME, newResourceId)
-                        .update(FILE_CONTENT_UPDATE, dataType)
-                    .should.be.eventually.fulfilled;
+                        .update(FILE_CONTENT_UPDATE, dataType);
                 })
                 .then(function() {
                     return corbelAdminDriver.resources.resource(COLLECTION_NAME, newResourceId)
-                        .get(dataType)
-                    .should.be.eventually.fulfilled;
+                        .get(dataType);
                 })
                 .then(function(response) {
                     expect(response).to.have.property('data', FILE_CONTENT_UPDATE);
 
                     return corbelAdminDriver.resources.resource(COLLECTION_NAME, newResourceId)
-                        .delete(dataType)
-                    .should.be.eventually.fulfilled;
+                        .delete(dataType);
                 })
                 .should.notify(done);
             });

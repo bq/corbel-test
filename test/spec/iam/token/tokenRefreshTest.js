@@ -32,12 +32,10 @@ describe('In IAM module, token refresh, using correct claims', function() {
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 var token = response.data;
                 return corbelDriver.iam.token()
-                    .refresh(token.refreshToken, 'iam:user:create')
-                    .should.be.eventually.fulfilled;
+                    .refresh(token.refreshToken, 'iam:user:create');
             })
             .then(function(token) {
                 expect(token).to.have.deep.property('data.refreshToken').to.match(tokenValidation);
@@ -57,11 +55,10 @@ describe('In IAM module, token refresh, using correct claims', function() {
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.iam.token()
                     .refresh('bad_refresh_token', 'iam:user:create')
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 401);

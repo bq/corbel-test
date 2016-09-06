@@ -31,7 +31,7 @@ describe('In IAM module', function() {
                 withCredentials: true
             };
             corbel.request.send(args)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized');
@@ -51,7 +51,7 @@ describe('In IAM module', function() {
                 withCredentials: true
             };
             corbel.request.send(args)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_grant');
@@ -82,7 +82,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'no_such_principal');
@@ -112,7 +112,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'no_such_principal');
@@ -143,7 +143,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized');
@@ -172,7 +172,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized');
@@ -203,7 +203,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'invalid_time');
@@ -233,7 +233,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'invalid_time');
@@ -263,7 +263,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized');
@@ -293,7 +293,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized');
@@ -320,7 +320,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized');
@@ -355,7 +355,7 @@ describe('In IAM module', function() {
             };
 
             corbel.request.send(args)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_grant');
@@ -385,7 +385,7 @@ describe('In IAM module', function() {
             };
 
             corbel.request.send(args)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_grant');
@@ -420,7 +420,7 @@ describe('In IAM module', function() {
             };
 
             corbel.request.send(args)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_grant');
@@ -453,7 +453,7 @@ describe('In IAM module', function() {
                 withCredentials: true
             };
             corbel.request.send(args)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_grant');
@@ -483,7 +483,7 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized');
@@ -513,7 +513,7 @@ describe('In IAM module', function() {
                 }
             };
             return corbel.request.send(args)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'missing_oauth_params');

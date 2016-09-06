@@ -10,20 +10,16 @@ describe('In IAM module', function() {
         beforeEach(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-                .should.be.eventually.fulfilled
                 .then(function(createdUsers) {
                     user = createdUsers[0];
-                    return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                        .should.be.eventually.fulfilled;
+                    return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password);
                 })
                 .then(function() {
-                    return corbelTest.common.iam.createDevices(corbelDriver, TOTAL_DEVICE_AMOUNT)
-                        .should.be.eventually.fulfilled;
+                    return corbelTest.common.iam.createDevices(corbelDriver, TOTAL_DEVICE_AMOUNT);
                 })
                 .then(function() {
                     return corbelDriver.iam.user()
-                        .getMyDevices()
-                        .should.be.eventually.fulfilled;
+                        .getMyDevices();
                 })
                 .then(function(devices) {
                     expect(devices).to.have.deep.property('data.length', TOTAL_DEVICE_AMOUNT);
@@ -35,8 +31,7 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelDriver.iam.user()
                 .deleteMe()
-                .should.be.eventually.fulfilled
-                .and.should.notify(done);
+                .should.be.notify(done);
         });
 
         it('can get a page ordered', function(done) {
@@ -52,7 +47,6 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
                 .getMyDevices(params)
-                .should.be.eventually.fulfilled
                 .then(function(devices) {
                     expect(devices).to.have.deep.property('data.length', 3);
                     devices.data.reduce(function(deviceA, deviceB) {
@@ -74,7 +68,6 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
                 .getMyDevices(params)
-                .should.be.eventually.fulfilled
                 .then(function(devices) {
                     expect(devices).to.have.deep.property('data.length', 0);
                 })
