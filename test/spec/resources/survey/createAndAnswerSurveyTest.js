@@ -45,13 +45,11 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection('bquiz:Question')
                 .add(TEST_QUESTION1)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 questionTemplateId1 = id;
 
                 return corbelDriver.resources.collection('bquiz:Question')
-                    .add(TEST_QUESTION2)
-                .should.be.eventually.fulfilled;
+                    .add(TEST_QUESTION2);
             })
             .then(function(id) {
                 questionTemplateId2 = id;
@@ -88,24 +86,22 @@ describe('In RESOURCES module', function() {
         afterEach(function(done) {
             corbelDriver.resources.resource('bquiz:Answer', answerId)
                 .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource('bquiz:Answer', answerId)
                     .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
 
                 return corbelDriver.resources.resource('bquiz:Contact', email)
-                    .delete()
-                .should.be.eventually.fulfilled;
+                    .delete();
             })
             .then(function(){
                 return corbelDriver.resources.resource('bquiz:Contact', email)
                     .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -118,14 +114,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection('bquiz:Survey')
                 .add(TEST_SURVEY)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 surveyId = id;
                 testAnswerSurvey.surveyId = id;
 
                 return corbelDriver.resources.resource('bquiz:Survey', surveyId)
-                    .get()
-                .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(survey) {
                 expect(survey).to.have.deep.property('data.questions[0].description', 'This is the test question');
@@ -144,15 +138,13 @@ describe('In RESOURCES module', function() {
                 expect(survey).to.have.deep.property('data.domain', 'silkroad-qa');
 
                 return corbelDriver.resources.collection('bquiz:Answer')
-                    .add(testAnswerSurvey)
-                .should.be.eventually.fulfilled;
+                    .add(testAnswerSurvey);
             })
             .then(function(id) {
                 answerId = id;
 
                 return corbelDriver.resources.resource('bquiz:Answer', answerId)
-                    .get()
-                .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(answer) {
                 expect(answer).to.have.deep.property('data.questions[0].id', questionId1);
@@ -178,14 +170,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection('bquiz:Survey')
                 .add(TEST_SURVEY)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 surveyId = id;
                 testAnswerSurvey.surveyId = id;
 
                 return corbelDriver.resources.resource('bquiz:Survey', surveyId)
-                    .get()
-                .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(survey) {
                 questionId1 = survey.data.questions[0].id;
@@ -195,15 +185,14 @@ describe('In RESOURCES module', function() {
                 testAnswerSurvey.questions[1].id = questionId2;
 
                 return corbelDriver.resources.collection('bquiz:Answer')
-                    .add(testAnswerSurvey)
-                .should.be.eventually.fulfilled;
+                    .add(testAnswerSurvey);
             })
             .then(function(id) {
                 answerId = id;
 
                 return corbelDriver.resources.resource('bquiz:Survey', surveyId)
                     .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);

@@ -29,7 +29,6 @@ describe('In IAM module', function() {
             var promises = scopes.map(function(scope) {
                 return corbelRootDriver.iam.scope()
                     .create(scope)
-                    .should.be.eventually.fulfilled
                     .then(function(id) {
                         expect(id).to.be.equal(scope.id);
                     });
@@ -42,8 +41,7 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             var promises = scopes.map(function(scope) {
                 return corbelRootDriver.iam.scope(scope.id)
-                    .remove()
-                    .should.be.eventually.fulfilled;
+                    .remove();
             });
 
             Promise.all(promises)
@@ -56,13 +54,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group)
-                .should.be.eventually.fulfilled
                 .then(function(createdId) {
                     id = createdId;
 
                     return corbelDriver.iam.group(id)
-                        .get()
-                        .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(obtainedGroup) {
                     expect(obtainedGroup).to.have.deep.property('data.id');
@@ -74,8 +70,7 @@ describe('In IAM module', function() {
                     });
 
                     return corbelDriver.iam.group(id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });
@@ -87,13 +82,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group)
-                .should.be.eventually.fulfilled
                 .then(function(createdId) {
                     id = createdId;
 
                     return corbelDriver.iam.group(id)
-                        .get()
-                        .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(obtainedGroup) {
                     expect(obtainedGroup).to.have.deep.property('data.id');
@@ -101,8 +94,7 @@ describe('In IAM module', function() {
                     expect(obtainedGroup).to.have.deep.property('data.scopes.length', 0);
 
                     return corbelDriver.iam.group(id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });
@@ -114,13 +106,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group)
-                .should.be.eventually.fulfilled
                 .then(function(createdId) {
                     id = createdId;
 
                     return corbelDriver.iam.group(id)
-                        .get()
-                        .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(obtainedGroup) {
                     expect(obtainedGroup).to.have.deep.property('data.id');
@@ -128,8 +118,7 @@ describe('In IAM module', function() {
                     expect(obtainedGroup).to.not.have.deep.property('data.scopes');
 
                     return corbelDriver.iam.group(id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });
@@ -140,18 +129,16 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group)
-                .should.be.eventually.fulfilled
                 .then(function(createdId) {
                     id = createdId;
 
                     return corbelDriver.iam.group(id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .then(function() {
                     return corbelDriver.iam.group(id)
                         .get()
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
@@ -166,23 +153,19 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group)
-                .should.be.eventually.fulfilled
                 .then(function(obtainedId) {
                     id = obtainedId;
 
                     return corbelDriver.iam.group(id)
-                        .addScopes([scope3.id])
-                        .should.be.eventually.fulfilled;
+                        .addScopes([scope3.id]);
                 })
                 .then(function() {
                     return corbelDriver.iam.group(id)
-                        .removeScope(scope1.id)
-                        .should.be.eventually.fulfilled;
+                        .removeScope(scope1.id);
                 })
                 .then(function() {
                     return corbelDriver.iam.group(id)
-                        .get()
-                        .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(obtainedGroup) {
                     expect(obtainedGroup).to.have.deep.property('data.scopes');
@@ -191,8 +174,7 @@ describe('In IAM module', function() {
                     expect(obtainedGroup.data.scopes).to.contain(scope3.id);
 
                     return corbelDriver.iam.group(id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });
@@ -204,13 +186,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group)
-                .should.be.eventually.fulfilled
                 .then(function(obtainedId) {
                     id = obtainedId;
 
                     return corbelRootDriver.iam.scope(scope1.id)
-                        .remove()
-                        .should.be.eventually.fulfilled;
+                        .remove();
                 })
                 .then(function() {
                     var MAX_RETRY = 30;
@@ -218,19 +198,16 @@ describe('In IAM module', function() {
                     return corbelTest.common.utils.retry(function() {
                             return corbelDriver.iam.group(id)
                                 .get()
-                                .should.be.eventually.fulfilled
                                 .then(function(obtainedGroup) {
                                     expect(obtainedGroup).to.have.deep.property('data.scopes');
                                     expect(obtainedGroup).to.have.deep.property('data.scopes.length', 1);
                                     expect(obtainedGroup.data.scopes).to.contain(scope2.id);
                                 });
-                        }, MAX_RETRY, RETRY_PERIOD)
-                        .should.be.eventually.fulfilled;
+                        }, MAX_RETRY, RETRY_PERIOD);
                 })
                 .then(function(obtainedGroup) {
                     return corbelDriver.iam.group(id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });
@@ -244,13 +221,11 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group1)
-                .should.be.eventually.fulfilled
                 .then(function(id) {
                     group1id = id;
 
                     return corbelDriver.iam.group()
-                        .create(group2)
-                        .should.be.eventually.fulfilled;
+                        .create(group2);
                 })
                 .then(function(id) {
                     group2id = id;
@@ -262,21 +237,18 @@ describe('In IAM module', function() {
                                     'name': group1.name
                                 }
                             }]
-                        })
-                        .should.be.eventually.fulfilled;
+                        });
                 })
                 .then(function(obtainedGroups) {
                     expect(obtainedGroups).to.have.deep.property('data.length', 1);
                     expect(obtainedGroups).to.have.deep.property('data[0].id', group1id);
 
                     return corbelDriver.iam.group(group1id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .then(function() {
                     return corbelDriver.iam.group(group2id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });
@@ -290,32 +262,27 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.group()
                 .create(group1)
-                .should.be.eventually.fulfilled
                 .then(function(id) {
                     group1id = id;
 
                     return corbelDriver.iam.group()
-                        .create(group2)
-                        .should.be.eventually.fulfilled;
+                        .create(group2);
                 })
                 .then(function(id) {
                     group2id = id;
 
                     return corbelDriver.iam.group()
-                        .getAll()
-                        .should.be.eventually.fulfilled;
+                        .getAll();
                 })
                 .then(function(obtainedGroups) {
                     expect(obtainedGroups.data.length).to.be.above(1);
 
                     return corbelDriver.iam.group(group1id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .then(function() {
                     return corbelDriver.iam.group(group2id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });

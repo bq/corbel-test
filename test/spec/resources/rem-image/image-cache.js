@@ -44,8 +44,7 @@ describe('In RESOURCES module', function() {
                                     'image:operations': IMAGE_OPS
                             },
                         }
-                    )
-                    .should.be.eventually.fulfilled;
+                    );
                 })
                 .then(function () {
                     return corbelDriver.resources.resource(CACHE_FOLDER, cacheResourceName ).get(
@@ -54,8 +53,7 @@ describe('In RESOURCES module', function() {
                             responseType: 'blob',
                         }
                     );
-                })
-                .should.be.eventually.fulfilled;
+                });
             });
 
             if (window.chrome) {
@@ -68,14 +66,13 @@ describe('In RESOURCES module', function() {
                             customQueryParams: customQueryParamsResourceObj
                         }
                     ).
-                    should.be.eventually.fulfilled.
                     then(function() {
                         return corbelDriver.resources.resource(CACHE_FOLDER, cacheResourceName ).get(
                             {
                                 dataType:'image/png'
                             }
                         ).
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     }).
                     then(function(e) {
                         expect(e).to.have.property('status', 404);
@@ -86,14 +83,13 @@ describe('In RESOURCES module', function() {
 
                 it('cache image is removed after deleting the original', function(done) {
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).delete({ dataType: 'image/png' }).
-	                should.be.eventually.fulfilled.
-                    then(function() {
+	                then(function() {
                         return corbelDriver.resources.resource(CACHE_FOLDER, cacheResourceName ).get(
                             {
                                 dataType:'image/png'
                             }
                         ).
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     }).
                     then(function(e) {
                         expect(e).to.have.property('status', 404);

@@ -21,20 +21,17 @@ describe('In RESOURCES module', function() {
         beforeEach(function(done) {
             corbelDriver.resources.collection(COLLECTION_A)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 idResourceA1 = id;
 
                 return corbelDriver.resources.collection(COLLECTION_A)
-                .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .add(TEST_OBJECT);
             })
             .then(function(id) {
                 idResourceA2 = id;
 
                 return corbelDriver.resources.collection(COLLECTION_B)
-                .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .add(TEST_OBJECT);
             })
             .then(function(id) {
                 idResourceB = id;
@@ -45,16 +42,13 @@ describe('In RESOURCES module', function() {
         afterEach(function(done) {
             corbelDriver.resources.resource(COLLECTION_A, idResourceA1)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_A, idResourceA2)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_B, idResourceB)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .should.notify(done);
         });
@@ -62,23 +56,19 @@ describe('In RESOURCES module', function() {
         it('a registry in a relation is deleted', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
             .add(idResourceB)
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .delete(idResourceB)
-                .should.be.eventually.fulfilled;
+                .delete(idResourceB);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 0);
 
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .delete(idResourceB).
-                should.be.eventually.fulfilled;
+                .delete(idResourceB);
             })
             .should.notify(done);
         });
@@ -92,23 +82,19 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
             .add(idResourceB)
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .delete(idResourceB, params)
-                .should.be.eventually.fulfilled;
+                .delete(idResourceB, params);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 0);
 
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .delete(idResourceB).
-                should.be.eventually.fulfilled;
+                .delete(idResourceB);
             })
             .should.notify(done);
         });
@@ -118,37 +104,31 @@ describe('In RESOURCES module', function() {
             var idsResourecesInB;
 
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_B, amount)
-            .should.be.eventually.fulfilled
             .then(function(ids) {
                 idsResourecesInB = ids;
 
                 return corbelTest.common.resources.createRelationFromSingleObjetToMultipleObject
-                    (corbelDriver, COLLECTION_A, idResourceA1, COLLECTION_B, idsResourecesInB)
-                .should.be.eventually.fulfilled;
+                    (corbelDriver, COLLECTION_A, idResourceA1, COLLECTION_B, idsResourecesInB);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', amount);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 0);
 
-                return corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled;
+                return corbelTest.common.resources.cleanResourcesQuery(corbelDriver);
             })
             .should.notify(done);
         });
@@ -158,18 +138,15 @@ describe('In RESOURCES module', function() {
             var idsResourecesInB;
 
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_B, amount)
-                .should.be.eventually.fulfilled
                 .then(function(ids) {
                     idsResourecesInB = ids;
 
                     return corbelTest.common.resources.createRelationFromSingleObjetToMultipleObject
-                            (corbelDriver, COLLECTION_A, idResourceA1, COLLECTION_B, idsResourecesInB)
-                        .should.be.eventually.fulfilled;
+                            (corbelDriver, COLLECTION_A, idResourceA1, COLLECTION_B, idsResourecesInB);
                 })
                 .then(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                        .get()
-                        .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', amount);
@@ -183,19 +160,16 @@ describe('In RESOURCES module', function() {
                         }]
                     };
                     return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                        .delete(undefined, params)
-                        .should.be.eventually.fulfilled;
+                        .delete(undefined, params);
                 })
                 .then(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                        .get()
-                        .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 1);
                     expect(response).to.have.deep.property('data[0].intCount', 300);
-                    return corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                        .should.be.eventually.fulfilled;
+                    return corbelTest.common.resources.cleanResourcesQuery(corbelDriver);
                 })
                 .should.notify(done);
         });
@@ -210,61 +184,51 @@ describe('In RESOURCES module', function() {
             };
 
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_B, amount)
-            .should.be.eventually.fulfilled
             .then(function(ids) {
                 idsResourecesInB = ids;
 
                 return corbelTest.common.resources.createRelationFromSingleObjetToMultipleObject
-                    (corbelDriver, COLLECTION_A, idResourceA1, COLLECTION_B, idsResourecesInB)
-                .should.be.eventually.fulfilled;
+                    (corbelDriver, COLLECTION_A, idResourceA1, COLLECTION_B, idsResourecesInB);
             })
             .then(function() {
                 return corbelTest.common.resources.createRelationFromSingleObjetToMultipleObject
-                    (corbelDriver, COLLECTION_A, idResourceA2, COLLECTION_B, idsResourecesInB)
-                .should.be.eventually.fulfilled;
+                    (corbelDriver, COLLECTION_A, idResourceA2, COLLECTION_B, idsResourecesInB);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .get(null, params)
-                .should.be.eventually.fulfilled;
+                .get(null, params);
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.count', amount);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA2, COLLECTION_B)
-                .get(null, params)
-                .should.be.eventually.fulfilled;
+                .get(null, params);
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.count', amount);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, corbel.Resources.ALL, COLLECTION_B)
-                .delete(idsResourecesInB[0])
-                .should.be.eventually.fulfilled;
+                .delete(idsResourecesInB[0]);
             })
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
-                .get(null)
-                .should.be.eventually.fulfilled;
+                .get(null);
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', amount - 1);
 
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceA2, COLLECTION_B)
-                .get(null)
-                .should.be.eventually.fulfilled;
+                .get(null);
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', amount - 1);
 
-                return corbelTest.common.resources.deleteCreatedRelationObjects(corbelDriver)
-                .should.be.eventually.fulfilled;
+                return corbelTest.common.resources.deleteCreatedRelationObjects(corbelDriver);
             })
             .then(function() {
-                return corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled;
+                return corbelTest.common.resources.cleanResourcesQuery(corbelDriver);
             })
             .should.notify(done);
         });
@@ -273,7 +237,7 @@ describe('In RESOURCES module', function() {
                 ' fail with NOT ALLOWED METHOD (405)', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, corbel.Resources.ALL, COLLECTION_B)
             .delete()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 405);
             })
@@ -283,13 +247,13 @@ describe('In RESOURCES module', function() {
         it('a delete relation request with invalid id is processed successfully', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, idResourceA1, COLLECTION_B)
             .delete('failId')
-            .should.be.eventually.fulfilled.notify(done);
+            .should.notify(done);
         });
 
         it('a delete relation request with invalid relation is processed successfully', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, idResourceA1, 'test:CorbelJSObjectFail')
             .delete(idResourceB)
-            .should.be.eventually.fulfilled.notify(done);
+            .should.notify(done);
         });
     });
 });

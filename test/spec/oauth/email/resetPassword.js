@@ -26,7 +26,6 @@ describe('In OAUTH module', function() {
             corbelDriver.oauth
                 .user(clientParams)
                 .sendResetPasswordEmail(email)
-                .should.be.eventually.fulfilled
                 .should.notify(done);
         });
 
@@ -43,18 +42,15 @@ describe('In OAUTH module', function() {
 
                 corbelTest.common.mail
                     .mailInterface.getRandomMail()
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         oauthUserTest.email = response;
 
                         return corbelDriver.oauth
                             .user(clientParams)
-                            .create(oauthUserTest)
-                            .should.be.eventually.fulfilled;
+                            .create(oauthUserTest);
                     })
                     .then(function() {
-                        return popEmail(oauthUserTest.email)
-                            .should.be.eventually.fulfilled;
+                        return popEmail(oauthUserTest.email);
                     })
                     .then(function(mail) {
                        expect(mail).to.have.property('subject', 'Validate your account email');
@@ -62,12 +58,10 @@ describe('In OAUTH module', function() {
                     .then(function() {
                         return corbelDriver.oauth
                             .user(clientParams)
-                            .sendResetPasswordEmail(oauthUserTest.email)
-                            .should.be.eventually.fulfilled;
+                            .sendResetPasswordEmail(oauthUserTest.email);
                     })
                     .then(function() {
-                        return popEmail(oauthUserTest.email)
-                            .should.be.eventually.fulfilled;
+                        return popEmail(oauthUserTest.email);
                     })
                     .then(function(email) {
                         expect(email).to.have.property('subject', 'Reset your account password');
@@ -77,8 +71,7 @@ describe('In OAUTH module', function() {
                             .user(oauthCommonUtils.getClientParams(), oneTimeToken)
                             .update('me', {
                                 password: oauthUserTest.password + oauthUserTest.password
-                            })
-                            .should.be.eventually.fulfilled;
+                            });
                     })
                     .then(function() {
                         return corbelDriver.oauth
@@ -87,13 +80,12 @@ describe('In OAUTH module', function() {
                                 password: oauthUserTest.password + oauthUserTest.password +
                                     oauthUserTest.password
                             })
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                     })
                     .then(function() {
                         return oauthCommonUtils
                             .getToken(corbelDriver, oauthUserTest.username, oauthUserTest.password +
-                                oauthUserTest.password)
-                            .should.be.eventually.fulfilled;
+                                oauthUserTest.password);
                     })
                     .should.notify(done);
             });

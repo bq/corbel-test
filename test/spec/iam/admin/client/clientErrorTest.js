@@ -17,40 +17,34 @@ describe('In IAM module', function() {
             timeStamp = Date.now();
             return corbelRootDriver.iam.scope()
             .create(corbelTest.common.iam.getScope('TestScope1_' + timeStamp))
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 scope1 = id;
                 return corbelRootDriver.iam.scope()
-                .create(corbelTest.common.iam.getScope('TestScope2_' + timeStamp))
-                .should.be.eventually.fulfilled;
+                .create(corbelTest.common.iam.getScope('TestScope2_' + timeStamp));
             })
             .then(function(id) {
                 scope2 = id; 
                 return corbelRootDriver.iam.domain()
-                .create(corbelTest.common.iam.getDomain())
-                .should.be.eventually.fulfilled;
+                .create(corbelTest.common.iam.getDomain());
             })
             .then(function(id) {
                 domainId = id;
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         after(function(done) {
             return corbelRootDriver.domain(domainId).iam.domain()
             .remove()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.scope(scope1)
-                .remove(scope1)
-                .should.be.eventually.fulfilled;
+                .remove(scope1);
             })
             .then(function() {
                 return corbelRootDriver.iam.scope(scope2)
-                .remove(scope2)
-                .should.be.eventually.fulfilled;
+                .remove(scope2);
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('an error 409 is returned when try to create an existing client', function(done) {
@@ -63,21 +57,19 @@ describe('In IAM module', function() {
 
             corbelRootDriver.domain(domainId).iam.client()
             .create(client)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 clientId = id;
                 return corbelRootDriver.domain(domainId).iam.client()
                 .create(client)
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 409);
                 expect(e).to.have.deep.property('data.error', 'conflict');
                 return corbelRootDriver.domain(domainId).iam.client(clientId)
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('an error 403 is returned when try to create a client with more scopes than his domain', function(done) {
@@ -86,7 +78,7 @@ describe('In IAM module', function() {
                 name: 'TestClient_' + timeStamp,
                 scopes: [scope1, scope2]
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 403);
                 expect(e).to.have.deep.property('data.error', 'scopes_not_allowed');
@@ -98,7 +90,7 @@ describe('In IAM module', function() {
             var id = Date.now();
             corbelDefaultDriver.domain(domainId).iam.client()
             .create({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -110,7 +102,7 @@ describe('In IAM module', function() {
             var id = Date.now();
             corbelRootDriver.domain(domainId).iam.client()
             .create({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -122,7 +114,7 @@ describe('In IAM module', function() {
             var id = Date.now();
             corbelRootDriver.domain(domainId).iam.client(id)
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -134,7 +126,7 @@ describe('In IAM module', function() {
             var id = Date.now();
             corbelDefaultDriver.domain(domainId).iam.client(null)
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -146,7 +138,7 @@ describe('In IAM module', function() {
             var id = Date.now();
             corbelDefaultDriver.domain(domainId).iam.client(id)
             .update({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -158,7 +150,7 @@ describe('In IAM module', function() {
             var id = Date.now();
             corbelDefaultDriver.domain(domainId).iam.client(id)
             .remove()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

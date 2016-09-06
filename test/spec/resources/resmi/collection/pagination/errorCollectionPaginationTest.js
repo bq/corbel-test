@@ -18,12 +18,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_page_size');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('when get collection with page size less than minimum number of elements for page' +
@@ -36,12 +36,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_page_size');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('when get collection with string page value, it fails returning BAD REQUEST (400)', function(done) {
@@ -53,12 +53,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'bad_request');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('when get collection with string size value, it fails returning BAD REQUEST (400)', function(done) {
@@ -70,12 +70,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'bad_request');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('when get collection with invalid page value,' +
@@ -88,12 +88,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_page');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('when get collection with invalid query and' +
@@ -113,12 +113,12 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
             .get(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'invalid_query');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
     });
 });

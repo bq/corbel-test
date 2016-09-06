@@ -11,7 +11,7 @@ describe('In NOTIFICATIONS module', function() {
 
             unauthorizedDriver.notifications.domain()
                 .delete()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

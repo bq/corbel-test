@@ -8,12 +8,10 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
-                return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.eventually.be.fulfilled;
+                return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password);
             })
             .should.notify(done);
         });
@@ -21,7 +19,6 @@ describe('In IAM module', function() {
         after(function(done) {
             corbelDriver.iam.user()
             .deleteMe()
-            .should.be.eventually.fulfilled
             .should.notify(done);
         });
 
@@ -36,7 +33,6 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
             .getMySession()
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.userId', user.id);
                 expect(response).to.have.deep.property('data.token', sessionToken);

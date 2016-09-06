@@ -15,7 +15,6 @@ describe('In RESOURCES module', function() {
 
         before(function(done) {
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION_A, 1)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 idResourceInA = id[0];
 
@@ -27,17 +26,16 @@ describe('In RESOURCES module', function() {
                 return corbelTest.common.resources.createRelationFromSingleObjetToMultipleObject
                     (corbelDriver, COLLECTION_A, idResourceInA, COLLECTION_B, idsResourecesInB);
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         after(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                     .delete();
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         describe('when getting a relation with sort asc order ', function() {
@@ -50,7 +48,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .get(null ,params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'intField'))
                         .to.be.equal(true);
@@ -67,7 +64,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .get(null, params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'stringField'))
@@ -90,7 +86,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .get(null, params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'stringField'))
                         .to.be.equal(true);
@@ -112,7 +107,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .get(null,params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'intField'))
                         .to.be.equal(true);
@@ -129,7 +123,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .get(null, params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data).have.length(amount);
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'stringField'))
@@ -152,7 +145,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .get(null, params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'stringField'))
                         .to.be.equal(true);
@@ -175,7 +167,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.relation(COLLECTION_A, idResourceInA, COLLECTION_B)
                 .get(null, params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e.data).to.have.property('error', 'invalid_sort');

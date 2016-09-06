@@ -16,7 +16,6 @@ describe('In IAM module', function() {
                 'email': 'userTest' + random + domainEmail,
                 'username':'userTest' + random + domainEmail
             })
-            .should.eventually.be.fulfilled
             .then(function(id) {
                 userId = id;
             })
@@ -26,11 +25,10 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelDriver.iam.user(userId)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(userId)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -43,7 +41,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user('unexistent')
             .addGroups(['groupTest1'])
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -55,7 +53,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user(userId)
             .addGroups('malformed')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -68,7 +66,7 @@ describe('In IAM module', function() {
 
             corbelUnauthorizedDriver.iam.user(userId)
             .addGroups(['groupTest1'])
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -80,7 +78,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user('unexistent')
             .deleteGroup(['groupTest1'])
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -93,7 +91,7 @@ describe('In IAM module', function() {
 
             corbelUnauthorizedDriver.iam.user(userId)
             .deleteGroup(['groupTest1'])
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

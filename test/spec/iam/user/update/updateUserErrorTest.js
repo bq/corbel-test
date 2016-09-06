@@ -12,7 +12,6 @@ describe('In IAM module', function() {
 
         beforeEach(function(done) {
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
             })
@@ -22,11 +21,10 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -41,22 +39,20 @@ describe('In IAM module', function() {
             random = Date.now();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 secondUser = createdUsers[0];
 
                 return corbelDriver.iam.user(user.id)
                 .update({
                     'username': newUserName
-                })
-                .should.be.eventually.fulfilled;
+                });
             })
             .then(function() {
                 return corbelDriver.iam.user(secondUser.id)
                 .update({
                     'username': newUserName
                 })
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 409);
@@ -64,8 +60,7 @@ describe('In IAM module', function() {
             })
             .then(function() {
                 return corbelDriver.iam.user(secondUser.id)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .should.notify(done);
         });
@@ -76,22 +71,20 @@ describe('In IAM module', function() {
             random = Date.now();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 secondUser = createdUsers[0];
 
                 return corbelDriver.iam.user(user.id)
                 .update({
                     'email': newEmail
-                })
-                .should.be.eventually.fulfilled;
+                });
             })
             .then(function() {
                 return corbelDriver.iam.user(secondUser.id)
                 .update({
                     'email': newEmail
                 })
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 409);
@@ -99,8 +92,7 @@ describe('In IAM module', function() {
             })
             .then(function() {
                 return corbelDriver.iam.user(secondUser.id)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .should.notify(done);
         });
@@ -110,7 +102,7 @@ describe('In IAM module', function() {
             .update({
                 'email': 'incorrect'
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -123,7 +115,7 @@ describe('In IAM module', function() {
             .update({
                 'scopes': ['incorrect:scope']
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 403);
                 expect(e).to.have.deep.property('data.error', 'scopes_not_allowed');
@@ -137,7 +129,7 @@ describe('In IAM module', function() {
             .update({
                 'firstName': 'user Modified'
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');

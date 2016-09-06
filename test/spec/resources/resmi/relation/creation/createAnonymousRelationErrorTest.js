@@ -23,7 +23,6 @@ describe('In RESOURCES module ', function() {
 
             corbelDriver.resources.collection(COLLECTION_A)
             .add(TEST_OBJECT)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 resourceIdA = id;
             })
@@ -33,13 +32,13 @@ describe('In RESOURCES module ', function() {
         after(function(done) {
             corbelDriver.resources.resource(COLLECTION_A, resourceIdA)
             .delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('400 is returned creating an anonymous relation with non-existent resource id & data', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, 'notExistingId', RELATION_NAME)
             .addAnonymous(jsonRelationData)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'bad_request');
@@ -50,7 +49,7 @@ describe('In RESOURCES module ', function() {
         it('400 is returned creating an anonymous relation with non-existent resource id & no data', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, 'notExistingId', RELATION_NAME)
             .addAnonymous()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'bad_request');
@@ -61,7 +60,7 @@ describe('In RESOURCES module ', function() {
         it('400 is returned creating an anonymous relation with non-existent collection', function(done) {
             corbelDriver.resources.relation('test:non-existent', resourceIdA , RELATION_NAME)
             .addAnonymous()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e.data).to.have.property('error', 'bad_request');
@@ -72,7 +71,7 @@ describe('In RESOURCES module ', function() {
         it('422 is returned creating an anonymous relation with malformed relation data', function(done) {
             corbelDriver.resources.relation(COLLECTION_A, resourceIdA , RELATION_NAME)
             .addAnonymous('MALFORMED')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e.data).to.have.property('error', 'invalid_entity');

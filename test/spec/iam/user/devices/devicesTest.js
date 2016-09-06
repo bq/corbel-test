@@ -22,12 +22,10 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['ROOT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
-                return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled;
+                return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password);
             })
             .should.notify(done);
         });
@@ -35,11 +33,10 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelRootDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -53,11 +50,9 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user(user.id)
             .registerDevice(deviceId, device)
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
-                .getDevices()
-                .should.be.eventually.fulfilled;
+                .getDevices();
             })
             .then(function(responseDevice) {
                 retriveDevice = responseDevice.data[0];
@@ -67,25 +62,21 @@ describe('In IAM module', function() {
                 device.name = 'My black device';
 
                 return corbelDriver.iam.user(user.id)
-                .registerDevice(deviceId, device)
-                .should.be.eventually.fulfilled;
+                .registerDevice(deviceId, device);
             })
             .then(function() {
                 retriveDevice.name = device.name;
 
                 return corbelDriver.iam.user(user.id)
-                .getDevice(deviceId)
-                .should.be.eventually.fulfilled;
+                .getDevice(deviceId);
             })
             .then(function(responseDevice) {
                 return corbelDriver.iam.user(user.id)
-                .deleteDevice(deviceId)
-                .should.be.eventually.fulfilled;
+                .deleteDevice(deviceId);
             })
             .then(function() {
                 return corbelDriver.iam.user(user.id)
-                .getDevices()
-                .should.be.eventually.fulfilled;
+                .getDevices();
             })
             .then(function(devices) {
                 expect(devices).to.have.deep.property('data.length', 0);
@@ -98,18 +89,15 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user()
             .getMyDevices()
-            .should.be.eventually.fulfilled
             .then(function(devices) {
                 expect(devices).to.have.deep.property('data.length', 0);
 
                 return corbelDriver.iam.user()
-                .registerMyDevice(deviceId, device)
-                .should.be.eventually.fulfilled;
+                .registerMyDevice(deviceId, device);
             })
             .then(function(deviceId) {
                 return corbelDriver.iam.user()
-                .getMyDevice(deviceId)
-                .should.be.eventually.fulfilled;
+                .getMyDevice(deviceId);
             })
             .then(function(responseDevice) {
                 retriveDevice = responseDevice.data;
@@ -120,29 +108,25 @@ describe('In IAM module', function() {
                 device.name = 'My black device';
 
                 return corbelDriver.iam.user()
-                .registerMyDevice(deviceId, device)
-                .should.be.eventually.fulfilled;
+                .registerMyDevice(deviceId, device);
             })
             .then(function(deviceId) {
                 expect(deviceId).to.be.equals(retriveDevice.id);
                 retriveDevice.name = device.name;
 
                 return corbelDriver.iam.user()
-                .getMyDevices()
-                .should.be.eventually.fulfilled;
+                .getMyDevices();
             })
             .then(function(responseDevices) {
                 var retriveDevice = responseDevices.data[0];
                     corbelTest.common.utils.expectFieldsToBeEquals(deviceFields, retriveDevice, device);
 
                     return corbelDriver.iam.user()
-                        .deleteMyDevice(retriveDevice.id)
-                        .should.be.eventually.fulfilled;
+                        .deleteMyDevice(retriveDevice.id);
             })
             .then(function() {
                 return corbelDriver.iam.user()
-                .getMyDevices()
-                .should.be.eventually.fulfilled;
+                .getMyDevices();
             })
             .then(function(devices) {
                 expect(devices).to.have.deep.property('data.length', 0);
@@ -155,18 +139,15 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user('me')
             .getDevices()
-            .should.be.eventually.fulfilled
             .then(function(devices) {
                 expect(devices).to.have.deep.property('data.length', 0);
 
                 return corbelDriver.iam.user('me')
-                .registerDevice(deviceId, device)
-                .should.be.eventually.fulfilled;
+                .registerDevice(deviceId, device);
             })
             .then(function() {
                 return corbelDriver.iam.user('me')
-                .getDevice(deviceId)
-                .should.be.eventually.fulfilled;
+                .getDevice(deviceId);
             })
             .then(function(responseDevice) {
                 retriveDevice = responseDevice.data;
@@ -177,28 +158,24 @@ describe('In IAM module', function() {
                 device.name = 'My black device';
 
                 return corbelDriver.iam.user('me')
-                .registerDevice(deviceId, device)
-                .should.be.eventually.fulfilled;
+                .registerDevice(deviceId, device);
             })
             .then(function() {
                 retriveDevice.name = device.name;
 
                 return corbelDriver.iam.user('me')
-                .getDevices()
-                .should.be.eventually.fulfilled;
+                .getDevices();
             })
             .then(function(responseDevices) {
                 retriveDevice = responseDevices.data[0];
                     corbelTest.common.utils.expectFieldsToBeEquals(deviceFields, retriveDevice, device);
 
                     return corbelDriver.iam.user('me')
-                        .deleteDevice(retriveDevice.id)
-                        .should.be.eventually.fulfilled;
+                        .deleteDevice(retriveDevice.id);
             })
             .then(function() {
                 return corbelDriver.iam.user('me')
-                .getDevices()
-                .should.be.eventually.fulfilled;
+                .getDevices();
             })
             .then(function(devices) {
                 expect(devices).to.have.deep.property('data.length', 0);

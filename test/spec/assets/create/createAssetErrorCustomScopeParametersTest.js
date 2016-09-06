@@ -9,7 +9,7 @@ describe('In ASSETS module', function() {
 
         it('asset is not created when incomplete scope data is defined', function(done) {
             clientCorbelDriver.assets.asset().create(getAsset(['custom:test']))
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'bad_formed_scope');
@@ -19,7 +19,7 @@ describe('In ASSETS module', function() {
 
         it('asset is not created when wrong user scope data is defined', function(done) {
             clientCorbelDriver.assets.asset().create(getAsset(['custom:test;type=15;customId=1']))
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'bad_formed_scope');
@@ -29,7 +29,7 @@ describe('In ASSETS module', function() {
 
         it('asset is not created when custom scope data is correct but the user one', function(done) {
             clientCorbelDriver.assets.asset().create(getAsset(['custom:test;errorId;type=Custom;customId=1']))
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'bad_formed_scope');

@@ -52,25 +52,20 @@ describe('In IAM module', function() {
 
                 corbelRootDriver.iam.scope()
                     .create(compositeScope)
-                    .should.be.eventually.fulfilled
                     .then(function() {
                         return corbelRootDriver.iam.scope()
-                            .create(testScope)
-                            .should.be.eventually.fulfilled;
+                            .create(testScope);
                     }).then(function() {
                         return corbelRootDriver.iam.domain()
-                            .create(domain)
-                            .should.be.eventually.fulfilled;
+                            .create(domain);
                     }).then(function(id) {
                         domain.id = id;
                         return corbelRootDriver.domain(domain.id).iam.client()
-                            .create(client)
-                            .should.be.eventually.fulfilled;
+                            .create(client);
                     }).then(function(id) {
                         client.id = id;
                         return corbelRootDriver.domain(domain.id).iam.client(client.id)
-                            .get()
-                            .should.be.eventually.fulfilled;
+                            .get();
                     }).then(function(response) {
                         client = response.data;
                         corbelDefaultDriver = corbelTest.getCustomDriver({
@@ -81,64 +76,53 @@ describe('In IAM module', function() {
                         return corbelDefaultDriver.iam.token().create();
                     }).then(function(response) {
                         return corbelDefaultDriver.iam.users()
-                            .create(userData)
-                            .should.be.eventually.fulfilled;
+                            .create(userData);
                     }).then(function(id) {
                         userData.id = id;
                         return corbelTest.common.clients
-                            .loginUser(corbelDefaultDriver, userData.username, userData.password)
-                            .should.be.eventually.fulfilled;
+                            .loginUser(corbelDefaultDriver, userData.username, userData.password);
                     }).then(function() {
                         return corbelDefaultDriver.iam.user(userData.id)
                             .get()
-                            .should.eventually.be.rejected;
+                            .should.be.rejected;
                     }).then(function() {
                         compositeScope.scopes = [testScope.id];
                         return corbelRootDriver.iam.scope()
-                            .create(compositeScope)
-                            .should.be.eventually.fulfilled;
+                            .create(compositeScope);
                     }).then(function() {
                         return corbelDefaultDriver.iam.user('me')
-                            .disconnect()
-                            .should.be.eventually.fulfilled;
+                            .disconnect();
                     }).then(function() {
                         var MAX_RETRY = 30;
                         var RETRY_PERIOD = 1;
                         return corbelTest.common.utils.retry(function() {
                                 return corbelTest.common.clients
                                     .loginUser(corbelDefaultDriver, userData.username, userData.password)
-                                    .should.be.eventually.fulfilled
                                     .then(function() {
                                         return corbelDefaultDriver.iam.user(userData.id)
-                                            .get()
-                                            .should.be.eventually.fulfilled;
+                                            .get();
                                     });
-                            }, MAX_RETRY, RETRY_PERIOD)
-                            .should.be.eventually.fulfilled;
+                            }, MAX_RETRY, RETRY_PERIOD);
                     })
                     .then(function() {
                         testScope.audience = 'badAudience';
                         return corbelRootDriver.iam.scope()
-                            .create(testScope)
-                            .should.be.eventually.fulfilled;
+                            .create(testScope);
                     }).then(function() {
                         return corbelDefaultDriver.iam.user('me')
-                            .disconnect()
-                            .should.be.eventually.fulfilled;
+                            .disconnect();
                     }).then(function() {
                         var MAX_RETRY = 10;
                         var RETRY_PERIOD = 1;
                         return corbelTest.common.utils.retry(function() {
                                 return corbelTest.common.clients
                                     .loginUser(corbelDefaultDriver, userData.username, userData.password)
-                                    .should.be.eventually.fulfilled
                                     .then(function() {
                                         return corbelDefaultDriver.iam.user(userData.id)
                                             .get()
-                                            .should.eventually.be.rejected;
+                                            .should.be.rejected;
                                     });
-                            }, MAX_RETRY, RETRY_PERIOD)
-                            .should.be.eventually.fulfilled;
+                            }, MAX_RETRY, RETRY_PERIOD);
                     })
                     .should.notify(done);
             });
