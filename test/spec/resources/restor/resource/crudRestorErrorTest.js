@@ -11,7 +11,7 @@ describe('In RESOURCES module', function() {
 
         it('an error [404] is returned when you add a file using POST instead of PUT', function(done) {
             corbelDriver.resources.collection(FOLDER_NAME).add(FILENAME, {dataType:'application/octet-stream'})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -21,7 +21,7 @@ describe('In RESOURCES module', function() {
 
         it('an error [404] is returned when you try to retrieve a RESTOR file which does not exist', function(done) {
             corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'application/octet-stream'})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');

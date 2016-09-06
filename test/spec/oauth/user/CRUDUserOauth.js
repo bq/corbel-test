@@ -28,12 +28,10 @@ describe('In OAUTH module', function () {
 
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams()).create(userTest)
-                .should.be.eventually.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .authorization(oauthCommon.getClientParamsCode())
-                        .login(username, password)
-                        .should.be.eventually.fulfilled;
+                        .login(username, password);
                 })
                 .then(function (response) {
                     expect(response.data.query.code).to.be.match(oauthCommon.getTokenValidation());
@@ -41,8 +39,7 @@ describe('In OAUTH module', function () {
 
                     return corbelDriver.oauth
                         .token(oauthCommon.getClientParamsToken())
-                        .get(code)
-                        .should.be.eventually.fulfilled;
+                        .get(code);
                 })
                 .then(function (response) {
                     expect(response.data['access_token']).to.be.match(oauthCommon.getTokenValidation());
@@ -50,8 +47,7 @@ describe('In OAUTH module', function () {
 
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
-                        .get('me')
-                        .should.be.eventually.fulfilled;
+                        .get('me');
                 })
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.username', username.toLowerCase());
@@ -65,20 +61,17 @@ describe('In OAUTH module', function () {
                         .user(oauthCommon.getClientParams(), accessToken)
                         .update('me', updateUserData);
                 })
-                .should.be.eventually.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .authorization(oauthCommon.getClientParamsCode())
-                        .login(updateUsername, updatePassword)
-                        .should.be.eventually.fulfilled;
+                        .login(updateUsername, updatePassword);
                 })
                 .then(function (response) {
                     code = response.data.query.code;
                     expect(code).to.be.match(oauthCommon.getTokenValidation());
                     return corbelDriver.oauth
                         .token(oauthCommon.getClientParamsToken())
-                        .get(code)
-                        .should.be.eventually.fulfilled;
+                        .get(code);
                 })
                 .then(function (response) {
                     accessToken = response.data['access_token'];
@@ -86,8 +79,7 @@ describe('In OAUTH module', function () {
 
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
-                        .get('me')
-                        .should.be.eventually.fulfilled;
+                        .get('me');
                 })
                 .then(function (response) {
                     expect(response).to.have.deep.property('data.username', updateUsername.toLowerCase());
@@ -95,14 +87,13 @@ describe('In OAUTH module', function () {
 
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), accessToken)
-                        .delete('me')
-                        .should.be.eventually.fulfilled;
+                        .delete('me');
                 })
                 .then(function () {
                     return corbelDriver.oauth
                         .authorization(oauthCommon.getClientParamsCode())
                         .login(updateUsername, updatePassword)
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .should.notify(done);
         });

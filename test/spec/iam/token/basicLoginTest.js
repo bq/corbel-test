@@ -8,7 +8,6 @@ describe('In IAM module', function() {
 
         corbelAdminDriver = corbelTest.drivers['ADMIN_CLIENT'].clone();
         corbelTest.common.iam.createUsers(corbelAdminDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(user) {
                 userData = user[0];
             })
@@ -19,11 +18,10 @@ describe('In IAM module', function() {
         corbelAdminDriver = corbelTest.drivers['ADMIN_CLIENT'].clone();
         corbelAdminDriver.iam.user(userData.id)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelAdminDriver.iam.user(userData.id)
                     .get()
-                    .should.be.eventually.rejected;
+                    .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -61,13 +59,11 @@ describe('In IAM module', function() {
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.fulfilled
             .then(function(response){
                 expect(response).to.have.deep.property('data.accessToken');
                 expect(response).to.have.deep.property('data.scopes').to.contain('iam:user:me');
                 return corbelNewDriver.iam.user('me')
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(createdUser) {
                 expect(createdUser).to.have.deep.property('data.firstName', userData.firstName);

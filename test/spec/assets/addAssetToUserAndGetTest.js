@@ -10,7 +10,6 @@ describe('In ASSETS module,', function() {
             adminCorbelDriver = corbelTest.drivers['ADMIN_USER'].clone();
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             loginAsRandomUser(corbelDriver)
-                .should.be.eventually.fulfilled
                 .then(function(data) {
                     asset = {
                         userId: data.user.id,
@@ -20,8 +19,7 @@ describe('In ASSETS module,', function() {
                         active: true,
                         scopes: ['assets:asset']
                     };
-                    return adminCorbelDriver.assets.asset().create(asset)
-                        .should.be.eventually.fulfilled;
+                    return adminCorbelDriver.assets.asset().create(asset);
                 })
                 .then(function(id) {
                     assetId = id;
@@ -31,10 +29,8 @@ describe('In ASSETS module,', function() {
 
         after(function(done) {
             adminCorbelDriver.assets.asset(assetId).delete()
-                .should.be.eventually.fulfilled
                 .then(function() {
-                    return corbelDriver.iam.user('me').delete()
-                        .should.be.eventually.fulfilled;
+                    return corbelDriver.iam.user('me').delete();
                 })
                 .should.notify(done);
         });
@@ -42,7 +38,6 @@ describe('In ASSETS module,', function() {
 
         it('he can get it', function(done) {
             corbelDriver.assets.asset().get()
-                .should.be.eventually.fulfilled
                 .then(function(assets) {
                     expect(assets).to.have.deep.property('data.length', 1);
                     expect(assets).to.have.deep.property('data[0].name', asset.name);

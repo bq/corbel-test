@@ -14,7 +14,7 @@ describe('In IAM module', function() {
 
             corbelDefaultDriver.iam.scope()
                 .create(compositeScope)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -27,7 +27,7 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.scope()
                 .create(compositeScope)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'scope_id_not_allowed');
@@ -38,7 +38,7 @@ describe('In IAM module', function() {
         it('an error 422 is returned when trying to create a composite scope with malformed entity', function(done) {
             corbelRootDriver.iam.scope()
                 .create('asdf')
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                    expect(e).to.have.property('status', 422);
                    expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -51,11 +51,10 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.scope()
                 .create(compositeScope)
-                .should.be.eventually.fulfilled
                 .then(function (id){
                     return corbelDefaultDriver.iam.scope(id)
                             .get()
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                 }).then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -66,7 +65,7 @@ describe('In IAM module', function() {
         it('an error 404 is returned when trying to get a composite scope which does not exist', function(done) {
             corbelRootDriver.iam.scope('non-existent')
                 .get()
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);
                     expect(e).to.have.deep.property('data.error', 'not_found');
@@ -79,11 +78,10 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.scope()
                 .create(compositeScope)
-                .should.be.eventually.fulfilled
                 .then(function (id){
                     return corbelDefaultDriver.iam.scope(id)
                             .remove()
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                 }).then(function(e) {
                     expect(e).to.have.property('status', 401);
                     expect(e).to.have.deep.property('data.error', 'unauthorized_token');

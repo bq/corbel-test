@@ -14,7 +14,6 @@ describe('In ASSETS module', function() {
                         'name': 'asc'
                     }
                 })
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'name')).
                     to.be.equal(true);
@@ -28,7 +27,6 @@ describe('In ASSETS module', function() {
                         'name': 'desc'
                     }
                 })
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'name')).
                     to.be.equal(true);

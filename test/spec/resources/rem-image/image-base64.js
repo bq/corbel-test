@@ -35,8 +35,7 @@ describe('In RESOURCES module', function() {
                                 'image:operations': operationQuery
                             },
                         }
-                    )
-                    .should.be.eventually.fulfilled;
+                    );
                 };
 
                 beforeEach(function(done) {
@@ -57,10 +56,9 @@ describe('In RESOURCES module', function() {
 
                 afterEach(function(done) {
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).delete({ dataType: 'image/png' })
-                    .should.be.eventually.fulfilled
                     .then(function() {
                         return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'}).
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 404);
@@ -83,7 +81,6 @@ describe('In RESOURCES module', function() {
                             },
                         }
                     )
-                    .should.be.eventually.fulfilled
                     .then(function(img) {
                         compareImages(img.data, TEST_FORMAT);
                     })

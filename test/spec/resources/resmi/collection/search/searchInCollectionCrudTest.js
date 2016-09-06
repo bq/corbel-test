@@ -18,7 +18,6 @@ describe('In RESOURCES module', function() {
                 .add({
                     field1: 'Test' + random
                 })
-                .should.be.eventually.fulfilled
                 .then(function(id) {
                     createdResourceId = id;
                     var params = {
@@ -35,8 +34,7 @@ describe('In RESOURCES module', function() {
                                 return response;
                             }
                         });
-                    }, MAX_RETRY, RETRY_PERIOD)
-                    .should.eventually.be.fulfilled;
+                    }, MAX_RETRY, RETRY_PERIOD);
                 })
                 .then(function(response) {
                     expect(response.data[0]).to.have.property('field1').to.be.equal('Test' + random);
@@ -45,8 +43,7 @@ describe('In RESOURCES module', function() {
                     return corbelDriver.resources.resource(COLLECTION, createdResourceId)
                     .update({
                         field1: 'OtherTest' + random,
-                    })
-                    .should.be.eventually.fulfilled;
+                    });
                 })
                 .then(function() {
                     var params = {
@@ -63,16 +60,14 @@ describe('In RESOURCES module', function() {
                                     return response;
                                 }
                             });
-                    }, MAX_RETRY, RETRY_PERIOD)
-                    .should.eventually.be.fulfilled;
+                    }, MAX_RETRY, RETRY_PERIOD);
                 })
                 .then(function(response) {
                     expect(response.data[0]).to.have.property('field1').to.be.equal('OtherTest' + random);
                     expect(response.data[0]).to.have.property('id').to.be.equal(createdResourceId);
 
                     return corbelDriver.resources.resource(COLLECTION, createdResourceId)
-                    .delete()
-                    .should.be.eventually.fulfilled;
+                    .delete();
                 })
                 .then(function() {
                     var params = {
@@ -89,8 +84,7 @@ describe('In RESOURCES module', function() {
                                 return response;
                             }
                         });
-                    }, MAX_RETRY, RETRY_PERIOD)
-                    .should.eventually.be.fulfilled;
+                    }, MAX_RETRY, RETRY_PERIOD);
                 })
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(0);

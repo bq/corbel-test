@@ -29,12 +29,10 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams(), corbelDriver.config.config.iamToken.accessToken)
                 .create(userGoodTest)
-                .should.be.eventually.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), corbelDriver.config.config.iamToken.accessToken)
-                        .create(userFailTest)
-                        .should.be.eventually.fulfilled;
+                        .create(userFailTest);
                 })
                 .should.notify(done);
         });
@@ -46,12 +44,11 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .authorization(oauthCommon.getClientParamsCode())
                 .login(userGoodTest.username, userGoodTest.password, setCookie, noRedirect)
-                .should.be.eventually.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .authorization(oauthCommon.getClientParamsCode())
                         .login(userFailTest.username, userFailTest.password)
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function (response) {
                     expect(response).to.have.property('status', 401);

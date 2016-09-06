@@ -20,19 +20,16 @@ describe('In OAUTH module', function() {
 
             return corbelTest.common.mail
                 .mailInterface.getRandomMail()
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     userEmail = response;
                     oauthUserTest.email = response;
 
                     return corbelDriver.oauth
                         .user(clientParams)
-                        .create(oauthUserTest)
-                        .should.be.eventually.fulfilled;
+                        .create(oauthUserTest);
                 })
                 .then(function() {
-                    return popEmail(userEmail)
-                        .should.be.eventually.fulfilled;
+                    return popEmail(userEmail);
                 })
                 .then(function(mail) {
                    expect(mail).to.have.property('subject', 'Validate your account email');
@@ -46,7 +43,6 @@ describe('In OAUTH module', function() {
 
             oauthCommonUtils
                 .getToken(corbelDriver, username, password)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     var token = response.data['access_token'];
                     expect(token).to.match(oauthCommonUtils.getTokenValidation());
@@ -55,12 +51,10 @@ describe('In OAUTH module', function() {
                         .user(oauthCommonUtils.getClientParams(), token)
                         .update('me', {
                             password: password + password
-                        })
-                        .should.be.eventually.fulfilled;
+                        });
                 })
                 .then(function() {
-                    return popEmail(userEmail)
-                        .should.be.eventually.fulfilled;
+                    return popEmail(userEmail);
                 })
                 .then(function(mail) {
                    expect(mail).to.have.property('subject', 'New password');

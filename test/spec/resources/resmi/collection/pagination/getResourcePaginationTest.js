@@ -8,12 +8,12 @@ describe('In RESOURCES module', function() {
         before(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount)
-            .should.be.eventually.fulfilled.notify(done);
+            .should.notify(done);
         });
 
         after(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled.notify(done);
+            .should.notify(done);
         });
 
         describe('when testing collections pagination', function() {
@@ -21,7 +21,6 @@ describe('In RESOURCES module', function() {
             it('collection without pagination parameters returns default number of elements per page', function(done) {
                 corbelDriver.resources.collection(COLLECTION)
                 .get()
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
                 })
@@ -37,7 +36,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response){
                   expect(response).to.have.deep.property('data.length', 10);
                 })
@@ -53,7 +51,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response){
                   expect(response).to.have.deep.property('data.length', 3);
                 })
@@ -70,7 +67,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response){
                   expect(response).to.have.deep.property('data.length', 2);
                 })
@@ -86,7 +82,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.maxPageSize);
                 })
@@ -102,7 +97,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.minPageSize);
                 })
@@ -123,7 +117,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     var data = response.data;
                     expect(data).to.have.property('length', 3);
@@ -149,7 +142,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data).to.have.property('length', 3);
                     response.data.forEach(function(resource) {
@@ -168,7 +160,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     expect(response).to.have.deep.property('data.length', corbelTest.CONFIG.GLOBALS.defaultPageSize);
                 })

@@ -9,7 +9,7 @@ describe('In ASSETS module', function() {
 
         it('request is rejected due to only user can upgrade token', function(done) {
             corbelDriver.assets.asset().access()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

@@ -34,13 +34,13 @@ describe('In IAM module, when get a token with/out client side authentication', 
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 var error = e.data;
                 expect(e.status).to.be.equal(401);
                 expect(error.error).to.be.equal('unauthorized');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
     });
 
     it('without prn and with not allowed client, it successes returning an access token', function(done) {
@@ -60,6 +60,6 @@ describe('In IAM module, when get a token with/out client side authentication', 
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
     });
 });

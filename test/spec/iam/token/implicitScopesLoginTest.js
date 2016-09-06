@@ -10,13 +10,11 @@ describe('In IAM module, while using implicit scopes', function() {
 
         corbelNewDriver.iam.token()
             .create()
-            .should.be.eventually.fulfilled
             .then(function(response) {
 
                 expect(response).to.have.deep.property('data.accessToken');
                 return corbelNewDriver.iam.user('fooid')
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.id', 'fooid');
@@ -37,12 +35,10 @@ describe('In IAM module, while using implicit scopes', function() {
                     'scopes': ''
                 }
             })
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.accessToken');
                 return corbelDefaultDriver.iam.user('me')
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.username', claimsDefaultUserDriver.username);
@@ -77,7 +73,6 @@ describe('In IAM module, while using implicit scopes', function() {
                     jwtAlgorithm
                 )
             })
-            .should.be.eventually.fulfilled
             .then(function(token) {
                 expect(token).to.have.deep.property('data.accessToken').and.to.match(tokenValidation);
 

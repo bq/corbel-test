@@ -23,7 +23,7 @@ describe('In CORBELJS module', function() {
             var maxDelay = 0.001;
 
             corbel.utils.isInTime(corbelDriver, maxDelay)
-            .should.be.eventually.rejected.and.should.notify(done);
+            .should.be.rejected.and.should.notify(done);
         });
     });
 });

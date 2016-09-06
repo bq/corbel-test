@@ -10,7 +10,7 @@ describe('In IAM module', function() {
         it('an error [401] is returned while trying to signOut a non logged user using "me"', function(done) {
             corbelRootDriver.iam.user('me')
             .signOut()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -21,7 +21,7 @@ describe('In IAM module', function() {
         it('an error [401] is returned while trying to signOut a non logged user using signOutMe', function(done) {
             corbelRootDriver.iam.user()
             .signOutMe()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

@@ -32,7 +32,6 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.accessToken').and.to.match(tokenValidation);
                     expect(response).to.have.deep.property('data.expiresAt', claims.exp * 1000);
@@ -55,7 +54,6 @@ describe('In IAM module', function() {
             });
 
             corbelTest.common.iam.createUsers(corbelAdminDriver, 1)
-                .should.be.eventually.fulfilled
                 .then(function(user) {
                     userData = user[0];
                     claims.prn = userData.email;
@@ -66,23 +64,20 @@ describe('In IAM module', function() {
                                 claimAdmin.clientSecret,
                                 jwtAlgorithm
                             )
-                        })
-                        .should.be.eventually.fulfilled;
+                        });
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.accessToken');
                     expect(response).to.have.deep.property('data.expiresAt');
                     return corbelDriver.iam.user('me')
-                        .get()
-                        .should.be.eventually.fulfilled;
+                        .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.firstName', userData.firstName);
                     expect(response).to.have.deep.property('data.email', userData.email.toLowerCase());
                     expect(response).to.have.deep.property('data.username', userData.username);
                     return corbelAdminDriver.iam.user(userData.id)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 })
                 .should.notify(done);
         });
@@ -109,7 +104,6 @@ describe('In IAM module', function() {
                         jwtAlgorithm
                     )
                 })
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.accessToken').and.to.match(tokenValidation);
                     expect(response).to.have.deep.property('data.expiresAt', claims.exp * 1000);

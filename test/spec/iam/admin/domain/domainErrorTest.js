@@ -12,7 +12,7 @@ describe('In IAM module', function() {
         it('an error 422 is returned when try to create an empty domain', function(done) {
             corbelDriver.iam.domain()
             .create({})
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -29,18 +29,16 @@ describe('In IAM module', function() {
             };
             corbelDriver.iam.domain()
             .create(expectedDomain)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 expect(id).to.be.equal(corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id);
                 return corbelDriver.domain(id).iam.domain()
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(domain) {
                 expect(domain).to.have.deep.property('data.id', corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id);
                 return corbelDriver.iam.domain()
                 .create(expectedDomain)
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 409);
@@ -58,7 +56,7 @@ describe('In IAM module', function() {
             };
             corbelDriver.iam.domain()
             .create(expectedDomain)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_domain_id');
@@ -75,7 +73,7 @@ describe('In IAM module', function() {
             };
             corbelDefaultDriver.iam.domain()
             .create(expectedDomain)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -94,34 +92,31 @@ describe('In IAM module', function() {
             var domainId;
             corbelDriver.iam.domain()
             .create(expectedDomain)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 domainId = id;
                 expect(domainId).to.be.equals(corbelTest.CONFIG.DOMAIN  + ':' + expectedDomain.id);
                 return corbelDriver.domain(domainId).iam.domain()
-                .update({id:updateDomainId})
-                .should.be.eventually.fulfilled;
+                .update({id:updateDomainId});
             })
             .then(function() {
                 return corbelDriver.domain(updateDomainId).iam.domain()
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
                 return corbelDriver.domain(domainId).iam.domain()
-                .remove()
-                .should.be.eventually.fulfilled;
+                .remove();
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         it('an error 404 is returned while trying to get a domain which does not exist', function(done) {
             var id = corbelTest.CONFIG.DOMAIN  + ':' + Date.now();
             corbelDriver.domain(id).iam.domain()
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -132,7 +127,7 @@ describe('In IAM module', function() {
         it('an error 401 is returned while trying to get a domain without authorization', function(done) {
             corbelDefaultDriver.domain(Date.now()).iam.domain()
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -151,7 +146,7 @@ describe('In IAM module', function() {
             };
             corbelDriver.iam.domain()
             .getAll(params)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e).to.have.deep.property('data.error', 'invalid_query');
@@ -168,7 +163,7 @@ describe('In IAM module', function() {
             };
             corbelDefaultDriver.domain(Date.now()).iam.domain()
             .update(expectedDomain)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -179,7 +174,7 @@ describe('In IAM module', function() {
         it('an error 422 is returned while trying to update a domain with malformed entity', function(done) {
             corbelDriver.iam.domain()
             .update('asdf')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -190,7 +185,7 @@ describe('In IAM module', function() {
         it('an error 401 is returned while trying to delete a domain without authorization', function(done) {
             corbelDefaultDriver.domain(Date.now()).iam.domain()
             .remove()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

@@ -9,12 +9,12 @@ describe('In RESOURCES module', function() {
         beforeEach(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         afterEach(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-            .should.be.eventually.fulfilled.and.notify(done);
+            .should.notify(done);
         });
 
         describe('when getting a collection including the $size operation in a query', function() {
@@ -30,12 +30,11 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.eventually.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length',1);
                     expect(response).to.have.deep.property('data[0].ObjectNumber.length',3);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns no elements when size operation is applied to a non-array type field', function(done) {
@@ -49,11 +48,10 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.eventually.be.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length',0);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -70,12 +68,11 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(1);
                     expect(response.data[0].intField).to.be.equal(1000);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the numeric equality in multiple queries', function(done) {
@@ -100,13 +97,12 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(2);
                     expect(response.data[0].intField).to.be.equal(100);
                     expect(response.data[1].intField).to.be.equal(200);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the String equality', function(done) {
@@ -120,12 +116,11 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(1);
                     expect(response.data[0].stringField).to.be.equal('stringFieldContent10');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the String punctuation equality', function(done) {
@@ -139,14 +134,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
                     response.data.forEach(function(resource){
                         expect(resource).to.have.property('punctuationTest', punctQueryValue);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the String equality' +
@@ -161,12 +155,11 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(amount);
                     expect(response.data[0].codingTest).to.be.equal('ñÑçáéíóúàèìòùâêîôû\'');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the chain of characters equality', function(done) {
@@ -180,14 +173,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(amount);
                     response.data.forEach(function(element) {
                         expect(element.stringSortCut).to.be.equal('Test Short Cut');
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -204,14 +196,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(3);
                     response.data.forEach(function(element) {
                         expect(element.intField).to.be.above(700);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('successes returning elements satisfying the request intField' +
@@ -226,14 +217,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(4);
                     response.data.forEach(function(element) {
                         expect(element.intField).to.be.above(699);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -251,14 +241,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(2);
                     response.data.forEach(function(element) {
                         expect(element.intField).to.be.below(300);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the request intField' +
@@ -273,14 +262,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(3);
                     response.data.forEach(function(element) {
                         expect(element.intField).to.be.below(301);
                     });
                 }).
-                should.be.eventually.fulfilled.and.notify(done);
+                should.notify(done);
             });
         });
 
@@ -301,14 +289,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(3);
                     response.data.forEach(function(element) {
                         expect(element.intField).to.within(300, 500);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -329,14 +316,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(1);
                     var element = response.data[0];
                     expect(element.intField).to.be.equal(800);
                     expect(element.ObjectNumber).to.contain(8);
                 }).
-                should.be.eventually.fulfilled.and.notify(done);
+                should.notify(done);
             });
         });
 
@@ -353,14 +339,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(9);
                     response.data.forEach(function(element) {
                         expect(element.ObjectNumber).to.contain(2, 3);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -377,14 +362,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(2);
                     response.data.forEach(function(element) {
                         expect(element.ObjectNumber).not.to.contain(3);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -402,14 +386,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(9);
                     response.data.forEach(function(element) {
                         expect(element.intField).not.be.equal(500);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the String punctuation equality', function(done) {
@@ -423,11 +406,10 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 0);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
         });
@@ -445,14 +427,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data).to.have.length.above(0);
                     response.data.forEach(function(resource) {
                         resource.stringField.match('[A-Za-z]*1[0-9]*');
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('successes returning elements satisfying the request pattern of StringField' +
@@ -470,18 +451,15 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get()
-                .should.be.eventually.fulfilled
                 .then(function(response){
                     id = response.data[0].id;
 
                     return corbelDriver.resources.resource(COLLECTION, id)
-                    .update(updateParams)
-                    .should.be.eventually.fulfilled;
+                    .update(updateParams);
                 })
                 .then(function(){
                     return corbelDriver.resources.collection(COLLECTION)
-                    .get(params)
-                    .should.be.eventually.fulfilled;
+                    .get(params);
                 })
                 .then(function(response) {
                     expect(response.data).to.have.length(1);
@@ -501,13 +479,12 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     response.data.forEach(function(element) {
                         expect(element.stringSortCut.toLowerCase()).to.contain('test');
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the String punctuation request', function(done) {
@@ -521,14 +498,13 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
                     response.data.forEach(function(resource){
                         expect(resource).to.have.property('punctuationTest', punctQueryValue);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
 
             it('returns elements satisfying the request, which contains an array', function(done) {
@@ -546,7 +522,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     response.data.forEach(function(element) {
                         expect(element.ObjectMatch.some(function containBasic(element) {
@@ -555,7 +530,7 @@ describe('In RESOURCES module', function() {
                         .to.be.equal(true);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -579,7 +554,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response.data.length).to.be.equal(3);
                     expect(corbelTest.common.resources.checkSortingAsc(response.data, 'intField'))
@@ -588,7 +562,7 @@ describe('In RESOURCES module', function() {
                         expect(element.intField).to.be.below(500);
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .should.notify(done);
             });
         });
 
@@ -605,12 +579,12 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e.data).to.have.property('error', 'invalid_query');
                 }).
-                should.be.eventually.fulfilled.and.notify(done);
+                should.notify(done);
             });
 
             it('in one of the queries fails returning BAD request (400) invalid query ', function(done) {
@@ -630,12 +604,12 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e.data).to.have.property('error', 'invalid_query');
                 }).
-                should.be.eventually.fulfilled.and.notify(done);
+                should.notify(done);
             });
         });
     });
