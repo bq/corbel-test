@@ -27,18 +27,17 @@ describe('In CORBELJS module', function(){
             'obj1': 'obj1value',
             'obj2': 'obj2value'
         }).
-        should.eventually.be.fulfilled.and.notify(done);
+        notify(done);
     });
 
     after(function(done){
         return corbelDriver.resources.resource(COLLECTION, RESORUCE_NAME).delete()
-        .should.eventually.be.fulfilled.and.notify(done);
+        .notify(done);
     });
 
     describe('when large headers are sent in the request', function(){
         it('server supports 1024 bytes long request headers', function(done) {
             requestAndVerifyWithCustomHeaderLength(1024)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.property('status', 200);
                 expect(response).to.have.property('data').and.to.include.keys('obj1');
@@ -48,7 +47,6 @@ describe('In CORBELJS module', function(){
 
             it('server supports 2048 bytes long request headers', function(done) {
               requestAndVerifyWithCustomHeaderLength(2048)
-              .should.be.eventually.fulfilled
               .then(function(response) {
                   expect(response).to.have.property('status', 200);
                   expect(response).to.have.property('data').and.to.include.keys('obj1');
@@ -58,7 +56,6 @@ describe('In CORBELJS module', function(){
 
         it('server supports 4096 bytes long request headers', function(done) {
             requestAndVerifyWithCustomHeaderLength(4096)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.property('status', 200);
                 expect(response).to.have.property('data').and.to.include.keys('obj1');
@@ -76,7 +73,7 @@ describe('In CORBELJS module', function(){
         if (window.chrome) {
             it('server does not support 8192 bytes long request headers', function(done) {
                 requestAndVerifyWithCustomHeaderLength(8192)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     expect(response).to.have.property('status', 0);
                 })

@@ -19,35 +19,30 @@ describe('In NOTIFICATIONS module', function() {
         it('a notification template can be created, updated and deleted', function(done) {
             corbelDriver.notifications.template()
                 .create(notificationData)
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.notifications.template(nameData)
-                    .get()
-                .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(response) {
                 expect(response).to.have.property('data').and.to.contain(notificationData);
 
                 return corbelDriver.notifications.template(nameData)
-                    .update({type: 'sms'})
-                .should.be.eventually.fulfilled;
+                    .update({type: 'sms'});
             })
             .then(function() {
                 return corbelDriver.notifications.template(nameData)
-                    .get()
-                .should.be.eventually.fulfilled;
+                    .get();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.type', 'sms');
 
                 return corbelDriver.notifications.template(nameData)
-                    .delete()
-                .should.be.eventually.fulfilled;
+                    .delete();
             })
             .then(function() {
                 return corbelDriver.notifications.template(nameData)
                     .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);

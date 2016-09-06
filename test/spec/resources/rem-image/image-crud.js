@@ -11,7 +11,7 @@ describe('In RESOURCES module', function() {
 
         describe('when performing CRUD operations', function() {
             if (window.chrome) {
-                var TEST_IMAGE = 
+                var TEST_IMAGE =
                     'Qk2eAAAAAAAAAHoAAABsAAAAAwAAAAMAAAABABgAAAAAACQAAAATCwAAEwsAAAAAAAAAAAAAQkdScwAAAAAAAA'+
                     'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAD//wD/AP//'+
                     'AAAAAABmZmYA/wAAAH8AAAAAAP9/AAAA//8AAAA=';
@@ -22,16 +22,15 @@ describe('In RESOURCES module', function() {
                     FILENAME = 'TestImage_1_' + Date.now();
 
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'})
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .should.notify(done);
                 });
 
                 afterEach(function(done) {
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).delete({ dataType: 'image/png' }).
-                    should.be.eventually.fulfilled.
                     then(function() {
                         return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'}).
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     }).
                     then(function(e) {
                         expect(e).to.have.property('status', 404);
@@ -43,15 +42,13 @@ describe('In RESOURCES module', function() {
                 it('image is correctly uploaded', function(done) {
 
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).update(
-                        TEST_IMAGE, 
+                        TEST_IMAGE,
                         {
                             dataType: 'image/png',
                         }
                     ).
-                    should.be.eventually.fulfilled.
                     then(function(){
-                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'}).
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'});
                     }).
                     should.notify(done);
                 });
@@ -59,7 +56,7 @@ describe('In RESOURCES module', function() {
                 it('image cannot be uploaded without dataType param', function(done) {
 
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).update(TEST_IMAGE)
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function(e) {
                         expect(e).to.have.property('status', 422);
                         expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -70,15 +67,13 @@ describe('In RESOURCES module', function() {
                 it('image is correctly retrieved', function(done) {
 
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).update(
-                        TEST_IMAGE, 
+                        TEST_IMAGE,
                         {
                             dataType: 'image/png',
                         }
                     ).
-                    should.be.eventually.fulfilled.
                     then(function(){
-                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'}).
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'});
                     }).
                     then(function(resource){
                         expect(resource).to.have.property('data', TEST_IMAGE);
@@ -87,19 +82,19 @@ describe('In RESOURCES module', function() {
                 });
 
                 it('image cannot be retrieved without dataType param', function(done) {
-                    var TEST_IMAGE_2 = 
+                    var TEST_IMAGE_2 =
                         'R0lGODlhAwADAPMAAP8AAAAAf///AGZmZgD/AH8AAAD///8A/wAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAA'+
                         'CH5BAAAAAAAIf8LSW1hZ2VNYWdpY2sHZ2FtbWE9MAAsAAAAAAMAAwAABAcQBDFIMQdFADs=';
 
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).update(
-                        TEST_IMAGE, 
+                        TEST_IMAGE,
                         {
                             dataType: 'image/png',
                         }
                     ).
                     then(function() {
                         return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get().
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     }).
                     then(function(e) {
                         expect(e).to.have.property('status', 404);
@@ -109,33 +104,29 @@ describe('In RESOURCES module', function() {
                 });
 
                 it('image is correctly updated', function(done) {
-                    var TEST_IMAGE_2 = 
+                    var TEST_IMAGE_2 =
                         'R0lGODlhAwADAPMAAP8AAAAAf///AGZmZgD/AH8AAAD///8A/wAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAA'+
                         'CH5BAAAAAAAIf8LSW1hZ2VNYWdpY2sHZ2FtbWE9MAAsAAAAAAMAAwAABAcQBDFIMQdFADs=';
 
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).update(
-                        TEST_IMAGE, 
+                        TEST_IMAGE,
                         {
                             dataType: 'image/png',
                         }
                     ).
-                    should.be.eventually.fulfilled.
                     then(function(){
-                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'}).
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'});
                     }).
                     then(function(resource) {
                         return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).update(
-                            TEST_IMAGE_2, 
+                            TEST_IMAGE_2,
                             {
                                 dataType: 'image/png',
                             }
-                        ).
-                        should.be.eventually.fulfilled;
+                        );
                     }).
                     then(function(){
-                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'}).
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'});
                     }).
                     then(function(resource){
                         expect(resource).to.have.property('data').and.not.equal(TEST_IMAGE);
@@ -145,24 +136,22 @@ describe('In RESOURCES module', function() {
                 });
 
                 it('image is correctly delected', function(done) {
-                    var TEST_IMAGE_2 = 
+                    var TEST_IMAGE_2 =
                         'R0lGODlhAwADAPMAAP8AAAAAf///AGZmZgD/AH8AAAD///8A/wAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAA'+
                         'CH5BAAAAAAAIf8LSW1hZ2VNYWdpY2sHZ2FtbWE9MAAsAAAAAAMAAwAABAcQBDFIMQdFADs=';
 
                     corbelDriver.resources.resource(FOLDER_NAME, FILENAME).update(
-                        TEST_IMAGE, 
+                        TEST_IMAGE,
                         {
                             dataType: 'image/png',
                         }
                     ).
-                    should.be.eventually.fulfilled.
                     then(function(){
-                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).delete({dataType:'image/png'}).
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).delete({dataType:'image/png'});
                     }).
                     then(function() {
                         return corbelDriver.resources.resource(FOLDER_NAME, FILENAME).get({dataType:'image/png'}).
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     }).
                     then(function(e) {
                         expect(e).to.have.property('status', 404);

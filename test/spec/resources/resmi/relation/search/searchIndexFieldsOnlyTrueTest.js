@@ -57,11 +57,9 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.resource(COLLECTION_A, idResource)
                 .update({})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver,
-                    COLLECTION_A, idResource, COLLECTION_B, ids, dataArray)
-                    .should.be.eventually.fulfilled;       
+                    COLLECTION_A, idResource, COLLECTION_B, ids, dataArray);       
                 })
                 .then(function() {
                     delete object1['notIndexedField'];
@@ -77,11 +75,9 @@ describe('In RESOURCES module', function() {
 
             after(function(done) {
                 corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
-                    .delete()
-                    .should.be.eventually.fulfilled;
+                    .delete();
                 })
                 .should.notify(done);
             });
@@ -103,7 +99,6 @@ describe('In RESOURCES module', function() {
                         }
                     });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 3);
                     cleanUpResponseData(response.data);
@@ -133,7 +128,6 @@ describe('In RESOURCES module', function() {
                         }
                     });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     response.data.forEach(function(entry) {
                         expect(entry.description).to.contain(incompleteChain);
@@ -164,7 +158,6 @@ describe('In RESOURCES module', function() {
                         }
                     });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.eventually.be.fulfilled
                 .then(function(response) {
                     cleanUpResponseData(response.data);
 
@@ -191,7 +184,6 @@ describe('In RESOURCES module', function() {
                         }
                     });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.eventually.be.fulfilled
                 .then(function(response) {
                     cleanUpResponseData(response.data);
 

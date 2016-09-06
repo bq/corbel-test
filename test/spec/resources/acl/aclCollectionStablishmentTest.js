@@ -29,27 +29,23 @@ describe('In RESOURCES module', function() {
                 groupId = 'testGroup' + random;
 
                 corbelTest.common.iam.createUsers(corbelAdminDriver, 1)
-                    .should.be.eventually.fulfilled
                     .then(function(createdUser) {
                         adminUser = createdUser[0];
                         usersId.push(adminUser.id);
 
                         return corbelTest.common.iam.createUsers(corbelDriver, 1, {
                                 'groups': [groupId]
-                            })
-                            .should.be.eventually.fulfilled;
+                            });
                     })
                     .then(function(createdUser) {
                         user = createdUser[0];
                         usersId.push(user.id);
 
                         return corbelTest.common.clients
-                            .loginUser(corbelAdminDriver, adminUser.username, adminUser.password)
-                            .should.be.eventually.fulfilled;
+                            .loginUser(corbelAdminDriver, adminUser.username, adminUser.password);
                     })
                     .then(function() {
-                        return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                            .should.be.eventually.fulfilled;
+                        return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password);
                     })
                     .should.notify(done);
             });
@@ -63,7 +59,6 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.collection(COLLECTION_NAME)
                     .add(TEST_OBJECT)
-                    .should.be.eventually.fulfilled
                     .then(function(id) {
                         resourceId = id;
                     })
@@ -74,11 +69,9 @@ describe('In RESOURCES module', function() {
 
                 corbelAdminDriver.resources.resource(COLLECTION_NAME, resourceId)
                     .delete()
-                    .should.be.eventually.fulfilled
                     .then(function() {
                         return corbelRootDriver.resources.resource(ACL_ADMIN_COLLECTION, managedCollectionId)
-                            .delete()
-                            .should.be.eventually.fulfilled;
+                            .delete();
                     })
                     .should.notify(done);
             });
@@ -86,8 +79,7 @@ describe('In RESOURCES module', function() {
             after(function(done) {
                 var promises = usersId.map(function(userId) {
                     return corbelRootDriver.iam.user(userId)
-                        .delete()
-                        .should.be.eventually.fulfilled;
+                        .delete();
                 });
 
                 Promise.all(promises)
@@ -102,21 +94,19 @@ describe('In RESOURCES module', function() {
                         groups: [],
                         defaultPermission: 'NONE'
                     })
-                    .should.be.eventually.fulfilled
                     .then(function(id) {
                         managedCollectionId = id;
                         return corbelTest.common.utils.retryFail(function() {
                                 return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                                     .get();
-                            }, MAX_RETRY, RETRY_PERIOD)
-                            .should.be.eventually.fulfilled;
+                            }, MAX_RETRY, RETRY_PERIOD);
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
                         expect(e).to.have.deep.property('data.error', 'unauthorized');
 
                         return corbelDriver.resources.relation(COLLECTION_NAME, resourceId, RELATION)
-                            .get().should.be.eventually.rejected;
+                            .get().should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
@@ -125,15 +115,13 @@ describe('In RESOURCES module', function() {
                         return corbelRootDriver.resources.resource(ACL_ADMIN_COLLECTION, managedCollectionId)
                             .update({
                                 users: [adminUser.id, user.id]
-                            })
-                            .should.be.eventually.fulfilled;
+                            });
                     })
                     .then(function() {
                         return corbelTest.common.utils.retry(function() {
                                 return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                                     .get();
-                            }, MAX_RETRY, RETRY_PERIOD)
-                            .should.be.eventually.fulfilled;
+                            }, MAX_RETRY, RETRY_PERIOD);
                     })
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.id', resourceId);
@@ -141,7 +129,7 @@ describe('In RESOURCES module', function() {
                         expect(response).to.have.deep.property('data.test2', 'test2' + random);
 
                         return corbelDriver.resources.relation(COLLECTION_NAME, resourceId, RELATION)
-                            .get().should.be.eventually.fulfilled;
+                            .get();
                     })
                     .should.notify(done);
             });
@@ -154,55 +142,49 @@ describe('In RESOURCES module', function() {
                         groups: [],
                         defaultPermission: 'NONE'
                     })
-                    .should.be.eventually.fulfilled
                     .then(function(id) {
                         managedCollectionId = id;
                         return corbelTest.common.utils.retry(function() {
                                 return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                                     .get()
-                                    .should.be.eventually.rejected
+                                    .should.be.rejected
                                     .then(function(e) {
                                         expect(e).to.have.property('status', 401);
                                         expect(e).to.have.deep.property('data.error', 'unauthorized');
                                     });
-                            }, MAX_RETRY, RETRY_PERIOD)
-                            .should.be.eventually.fulfilled;
+                            }, MAX_RETRY, RETRY_PERIOD);
                     })
                     .then(function() {
                         return corbelTest.common.utils.retry(function() {
                                 return corbelDriver.resources.relation(COLLECTION_NAME, resourceId, RELATION)
                                     .get()
-                                    .should.be.eventually.rejected
+                                    .should.be.rejected
                                     .then(function(e) {
                                         expect(e).to.have.property('status', 401);
                                         expect(e).to.have.deep.property('data.error', 'unauthorized');
                                     });
-                            }, MAX_RETRY, RETRY_PERIOD)
-                            .should.be.eventually.fulfilled;
+                            }, MAX_RETRY, RETRY_PERIOD);
                     })
                     .then(function() {
                         return corbelRootDriver.resources.resource(ACL_ADMIN_COLLECTION, managedCollectionId)
                             .update({
                                 groups: [groupId]
-                            })
-                            .should.be.eventually.fulfilled;
+                            });
                     })
                     .then(function() {
                         return corbelTest.common.utils.retry(function() {
                                 return corbelDriver.resources.resource(COLLECTION_NAME, resourceId)
                                     .get()
-                                    .should.be.eventually.fulfilled
                                     .then(function(response) {
                                         expect(response).to.have.deep.property('data.id', resourceId);
                                         expect(response).to.have.deep.property('data.test', 'test' + random);
                                         expect(response).to.have.deep.property('data.test2', 'test2' + random);
                                     });
-                            }, MAX_RETRY, RETRY_PERIOD)
-                            .should.be.eventually.fulfilled;
+                            }, MAX_RETRY, RETRY_PERIOD);
                     })
                     .then(function() {
                         return corbelDriver.resources.relation(COLLECTION_NAME, resourceId, RELATION)
-                            .get().should.be.eventually.fulfilled;
+                            .get();
                     })
                     .should.notify(done);
             });

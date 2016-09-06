@@ -45,14 +45,13 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams())
                 .create(userTest)
-                .should.be.eventually.fulfilled
                 .then(function (id) {
                     userId = id;
 
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams())
                         .create(userTest)
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function (response) {
                     expect(response).to.have.property('status', 409);
@@ -61,7 +60,7 @@ describe('In OAUTH module', function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams())
                         .create(userTestSameName)
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function (response) {
                     expect(response).to.have.property('status', 409);
@@ -70,7 +69,7 @@ describe('In OAUTH module', function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams())
                         .create(userTestSameMail)
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function (response) {
                     userTest.id = userId;
@@ -80,21 +79,19 @@ describe('In OAUTH module', function () {
 
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams())
-                        .create(userTest).should.be.eventually.rejected;
+                        .create(userTest).should.be.rejected;
                 })
                 .then(function (response) {
                     expect(response).to.have.property('status', 409);
                     expect(response).to.have.deep.property('data.error', 'entity_exists');
 
                     return oauthCommon
-                        .getToken(corbelDriver, userTest.username, userTest.password)
-                        .should.be.eventually.fulfilled;
+                        .getToken(corbelDriver, userTest.username, userTest.password);
                 })
                 .then(function (response) {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), response.data['access_token'])
-                        .delete('me')
-                        .should.be.eventually.fulfilled;
+                        .delete('me');
                 })
                 .should.notify(done);
         });
@@ -104,26 +101,23 @@ describe('In OAUTH module', function () {
             corbelDriver.oauth
                 .user(oauthCommon.getClientParams())
                 .create(userTest)
-                .should.be.eventually.fulfilled
                 .then(function () {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams())
                         .create(userTestCaseUp)
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function (response) {
                     expect(response).to.have.property('status', 409);
                     expect(response).to.have.deep.property('data.error', 'entity_exists');
 
                     return oauthCommon
-                        .getToken(corbelDriver, userTest.username, userTest.password)
-                        .should.be.eventually.fulfilled;
+                        .getToken(corbelDriver, userTest.username, userTest.password);
                 })
                 .then(function (response) {
                     return corbelDriver.oauth
                         .user(oauthCommon.getClientParams(), response.data['access_token'])
-                        .delete('me')
-                        .should.be.eventually.fulfilled;
+                        .delete('me');
                 })
                 .should.notify(done);
         });
@@ -169,7 +163,7 @@ describe('In OAUTH module', function () {
                 corbelDriver.oauth
                     .user(oauthCommon.getClientParams())
                     .create(user.userTest)
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function (response) {
                         expect(response).to.have.property('status', 422);
                         expect(response).to.have.deep.property('data.error', 'invalid_entity');
@@ -186,7 +180,7 @@ describe('In OAUTH module', function () {
                     clientSecret: oauthCommon.getOauthUserTestParams().clientSecret
                 })
                 .create(userTest)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function (response) {
                     expect(response).to.have.property('status', 401);
                 })

@@ -35,11 +35,9 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.resource(COLLECTION_A, idResource)
                 .update({})
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelTest.common.resources.addResourcesUsingDataArray(corbelDriver,
-                    COLLECTION_A, idResource, COLLECTION_B, ids, dataArray)
-                    .should.be.eventually.fulfilled;       
+                    COLLECTION_A, idResource, COLLECTION_B, ids, dataArray);       
                 })
                 .should.notify(done);
             });
@@ -53,13 +51,11 @@ describe('In RESOURCES module', function() {
                 corbelTest.common.utils.retry(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 3);
                         expect(response).to.have.deep.property('data[0].field1', object1.field1);
                     });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
                 .then(function() {
                     var promises = [];
                     ids.forEach(function(resourceId){
@@ -69,17 +65,14 @@ describe('In RESOURCES module', function() {
                     });
                     return Promise.all(promises);
                 })
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                             .get(null, params)
-                        .should.be.eventually.fulfilled
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.length', 0);
                         });
-                    }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled;
+                    }, MAX_RETRY, RETRY_PERIOD);
                 })
                 .should.notify(done);
             });
@@ -94,13 +87,11 @@ describe('In RESOURCES module', function() {
                 corbelTest.common.utils.retry(function() {
                     return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                         .get(null, params)
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 3);
                         expect(response).to.have.deep.property('data[0].field1', object1.field1);
                     });
                 }, MAX_RETRY, RETRY_PERIOD)
-                .should.be.eventually.fulfilled
                 .then(function() {
                     var promises = [];
                     ids.forEach(function(resourceId){
@@ -110,17 +101,14 @@ describe('In RESOURCES module', function() {
                     });
                     return Promise.all(promises);
                 })
-                .should.be.eventually.fulfilled
                 .then(function() {
                     return corbelTest.common.utils.retry(function() {
                         return corbelDriver.resources.relation(COLLECTION_A, idResource, COLLECTION_B)
                             .get(null, params)
-                        .should.be.eventually.fulfilled
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.length', 0);
                         });
-                    }, MAX_RETRY, RETRY_PERIOD)
-                    .should.be.eventually.fulfilled;
+                    }, MAX_RETRY, RETRY_PERIOD);
                 })
                 .should.notify(done);
             });

@@ -17,7 +17,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with an attachment can be added', function(done) {
@@ -41,7 +41,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with a text in base64 attachment can be added', function(done) {
@@ -59,7 +59,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with a video attachment can be added', function(done) {
@@ -78,7 +78,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with components can be added', function(done) {
@@ -91,7 +91,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with labels can be added', function(done) {
@@ -104,7 +104,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with description can be added', function(done) {
@@ -117,7 +117,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with description with strange characters can be added', function(done) {
@@ -130,7 +130,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('an issue with components, description and labels can be added', function(done) {
@@ -145,7 +145,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(FEEDBACK_COLLECTION)
                 .add(FEEDBACK_METADATA)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
     });

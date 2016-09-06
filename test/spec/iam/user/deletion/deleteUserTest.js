@@ -13,7 +13,6 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['ADMIN_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
             })
@@ -24,11 +23,10 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e){
                 expect(e).to.have.property('status', 404);
@@ -41,16 +39,14 @@ describe('In IAM module', function() {
 
             corbelTest.common.clients.loginUser
                 (corbelDriver, user.username, user.password)
-            .should.be.eventually.fulfilled
             .then(function(){
                 return corbelDriver.iam.user('me')
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e){
                 expect(e).to.have.property('status', 404);
@@ -71,17 +67,15 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user(user.id)
             .registerDevice(deviceId, device)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 expect(id).to.be.equals(deviceId);
                 return corbelDriver.iam.user(user.id)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelDriver.iam.user(user.id)
                 .getDevice(deviceId)
-                .should.eventually.be.rejected;
+                .should.be.rejected;
             }).
             then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -103,23 +97,20 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user(user.id)
             .registerDevice(deviceId, device)
-            .should.be.eventually.fulfilled
             .then(function(id) {
                 deviceId = id;
 
                 return corbelTest.common.clients.loginUser
-                    (corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled;
+                    (corbelDriver, user.username, user.password);
             })
             .then(function(){
                 return corbelDriver.iam.user('me')
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .getDevice(deviceId)
-                .should.eventually.be.rejected;
+                .should.be.rejected;
             }).
             then(function(e) {
                 expect(e).to.have.property('status', 404);

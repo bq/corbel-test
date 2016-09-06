@@ -13,7 +13,6 @@ describe('In ASSETS module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             loginAsRandomUser(corbelDriver)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     user = response.user;
                 })
@@ -22,7 +21,7 @@ describe('In ASSETS module', function() {
 
         afterEach(function(done) {
             corbelDriver.iam.user('me').delete()
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         describe('fails access when', function() {
@@ -39,14 +38,12 @@ describe('In ASSETS module', function() {
                 asset.filters = ['test-asset-filter'];
 
                 adminCorbelDriver.assets.asset().create(asset)
-                    .should.be.eventually.fulfilled
                     .then(function() {
-                        return corbelDriver.assets.asset().access()
-                            .should.be.eventually.fulfilled;
+                        return corbelDriver.assets.asset().access();
                     })
                     .then(function() {
                         return corbelDriver.resources.collection('assets:test').get().
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
@@ -60,14 +57,12 @@ describe('In ASSETS module', function() {
                 asset.filters = ['test-asset-filter'];
 
                 adminCorbelDriver.assets.asset().create(asset)
-                    .should.be.eventually.fulfilled
                     .then(function() {
-                        return corbelDriver.assets.asset().access()
-                            .should.be.eventually.fulfilled;
+                        return corbelDriver.assets.asset().access();
                     })
                     .then(function() {
                         return corbelDriver.resources.collection('assets:test').get().
-                        should.be.eventually.rejected;
+                        should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 401);
@@ -92,14 +87,11 @@ describe('In ASSETS module', function() {
                 asset.filters = ['test-asset-filter'];
 
                 adminCorbelDriver.assets.asset().create(asset)
-                    .should.be.eventually.fulfilled
                     .then(function() {
-                        return corbelDriver.assets.asset().access()
-                            .should.be.eventually.fulfilled;
+                        return corbelDriver.assets.asset().access();
                     })
                     .then(function() {
-                        return corbelDriver.resources.collection('assets:test').get().
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.resources.collection('assets:test').get();
                     })
                     .should.notify(done);
             });
@@ -111,25 +103,20 @@ describe('In ASSETS module', function() {
                 asset.filters = ['test-asset-filter'];
 
                 adminCorbelDriver.assets.asset().create(asset)
-                    .should.be.eventually.fulfilled
                     .then(function() {
                         var assetFail = getAsset();
                         assetFail.filters = ['not-existing-filter'];
                         assetFail.userId = user.id;
-                        return adminCorbelDriver.assets.asset().create(assetFail)
-                            .should.be.eventually.fulfilled;
+                        return adminCorbelDriver.assets.asset().create(assetFail);
                     })
                     .then(function() {
-                        return corbelDriver.assets.asset().access()
-                            .should.be.eventually.fulfilled;
+                        return corbelDriver.assets.asset().access();
                     })
                     .then(function() {
-                        return corbelDriver.resources.collection('assets:test').get().
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.resources.collection('assets:test').get();
                     })
                     .then(function() {
-                        return corbelDriver.assets.asset().get().
-                        should.be.eventually.fulfilled;
+                        return corbelDriver.assets.asset().get();
                     })
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 2);

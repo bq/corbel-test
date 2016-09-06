@@ -13,7 +13,6 @@ describe('In IAM module', function() {
             corbelDriver.config.set('scopes', '');
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     user = response[0];
                     groupName = 'LoginGroup' + Date.now();
@@ -21,8 +20,7 @@ describe('In IAM module', function() {
                         .create({
                             name: groupName,
                             scopes: ['iam:user:read']
-                        })
-                        .should.be.eventually.fulfilled;
+                        });
                 })
                 .then(function(responseGroupId) {
                     groupId = responseGroupId;
@@ -32,35 +30,29 @@ describe('In IAM module', function() {
 
         after(function(done) {
             return corbelDriver.iam.user('me').delete()
-                .should.be.eventually.fulfilled
                 .then(function(response) {
-                    return corbelRootDriver.iam.group(groupId).delete()
-                        .should.be.eventually.fulfilled;
+                    return corbelRootDriver.iam.group(groupId).delete();
                 })
                 .should.notify(done);
         });
 
         it('user obtains group scopes', function(done) {
             corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     return corbelDriver.iam.user(user.id).get()
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function(response) {
                     return corbelRootDriver.iam.user(user.id)
                         .update({
                             'groups': [groupName]
-                        })
-                        .should.be.eventually.fulfilled;
+                        });
                 })
                 .then(function(response) {
-                    return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                        .should.be.eventually.fulfilled;
+                    return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password);
                 })
                 .then(function(response) {
-                    return corbelDriver.iam.user(user.id).get()
-                        .should.be.eventually.fulfilled;
+                    return corbelDriver.iam.user(user.id).get();
                 })
                 .should.notify(done);
         });

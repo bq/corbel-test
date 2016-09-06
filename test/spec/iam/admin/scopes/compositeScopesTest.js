@@ -12,7 +12,7 @@ describe('In IAM module', function() {
 
             after(function(done) {
                 corbelDriver.iam.scope(compositeScope.id).remove()
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .notify(done);
             });
 
             it('a composite scope can be created', function(done){
@@ -23,7 +23,6 @@ describe('In IAM module', function() {
                 };
 
                 corbelDriver.iam.scope().create(compositeScope)
-                    .should.be.eventually.fulfilled
                     .then(function (id){
                         expect(id).to.equal(compositeScope.id);
                     })
@@ -36,17 +35,16 @@ describe('In IAM module', function() {
             before(function(done){
                 compositeScope = corbelTest.common.iam.getCompositeScope();
                 corbelDriver.iam.scope().create(compositeScope)
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .notify(done);
             });
 
             after(function(done){
                 corbelDriver.iam.scope(compositeScope.id).remove()
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .notify(done);
             });
 
             it('a composite scope can be read', function(done){
                 corbelDriver.iam.scope(compositeScope.id).get()
-                    .should.be.eventually.fulfilled
                     .then(function (response){
                         expect(response).to.have.deep.property('data.id', compositeScope.id);
                         expect(response).to.have.deep.property('data.type', compositeScope.type);
@@ -61,12 +59,12 @@ describe('In IAM module', function() {
             before(function(done){
                 compositeScope = corbelTest.common.iam.getCompositeScope();
                 corbelDriver.iam.scope().create(compositeScope)
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .notify(done);
             });
 
             after(function(done){
                 corbelDriver.iam.scope(compositeScope.id).remove()
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .notify(done);
             });
 
             it('a composite scope can be updated', function (done) {
@@ -74,12 +72,10 @@ describe('In IAM module', function() {
 
 
                 corbelDriver.iam.scope().create(compositeScope)
-                    .should.be.eventually.fulfilled
                     .then(function (id){
                         expect(id).to.equal(compositeScope.id);
 
-                        return corbelDriver.iam.scope(id).get()
-                                .should.be.eventually.fulfilled;
+                        return corbelDriver.iam.scope(id).get();
                     }).then(function(response){
                         expect(response).to.have.deep.property('data.id', compositeScope.id);
                         expect(response.data.scopes).to.include.members(compositeScope.scopes);
@@ -93,15 +89,14 @@ describe('In IAM module', function() {
             before(function(done){
                 compositeScope = corbelTest.common.iam.getCompositeScope();
                 corbelDriver.iam.scope().create(compositeScope)
-                    .should.be.eventually.fulfilled.and.notify(done);
+                    .notify(done);
             });
 
             it('a composite scope can be removed', function(done) {
                 corbelDriver.iam.scope(compositeScope.id).remove()
-                    .should.be.eventually.fulfilled
                     .then(function(){
                         return corbelDriver.iam.scope(compositeScope.id).get()
-                            .should.be.eventually.reject;
+                            .should.be.reject;
                     }).then(function(err){
                         expect(err).to.be.equal();
                     })

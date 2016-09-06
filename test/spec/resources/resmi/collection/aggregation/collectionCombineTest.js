@@ -16,12 +16,12 @@ describe('In RESOURCES module', function() {
 
         beforeEach(function(done) {
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount, extraField)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         afterEach(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
 
@@ -36,7 +36,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
 
                     expect(response).to.have.deep.property('data.length', amount);
@@ -63,7 +62,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
 
                     expect(response).to.have.deep.property('data.length', amount);
@@ -90,7 +88,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', amount);
 
@@ -119,7 +116,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', amount);
                     expect(corbelTest.common.resources
@@ -142,7 +138,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', amount);
                     expect(corbelTest.common.resources.checkSortingDesc(response.data, 'calculatedField'))
@@ -162,7 +157,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
 
                     response.data.forEach(function(element) {
@@ -200,7 +194,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 3);
                     expect(corbelTest.common.resources
@@ -222,7 +215,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection('test:COLLECTION_NULL')
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 0);
                     expect(response).to.have.property('status', 200);
@@ -241,7 +233,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(response) {
                     expect(response).to.have.property('status', 400);
                     expect(response).to.have.deep.property('data.error', 'bad_request');
@@ -263,7 +255,6 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.property('status', 200);
                     response.data.forEach(function (element){

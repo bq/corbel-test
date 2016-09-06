@@ -26,7 +26,7 @@ describe('In IAM module', function() {
             if(userId) {
                 return corbelDriver.iam.user(userId)
                 .delete()
-                .should.eventually.be.fulfilled.and.notify(done);  
+                .notify(done);  
             } else {
                 done();
             }
@@ -36,14 +36,13 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.users()
             .create(user)
-            .should.be.eventually.fulfilled
             .then(function(id){
                 userId = id;
                 user.username = user.username + emailDomain;
 
                 return corbelDriver.iam.users()
                 .create(user)
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 409);
@@ -57,14 +56,13 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.users()
             .create(user)
-            .should.be.eventually.fulfilled
             .then(function(id){
                 userId = id;
 
                 return corbelDriver.iam.users()
                 .create(user);
             })
-            .should.eventually.be.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 409);
                 expect(e).to.have.deep.property('data.error', 'entity_exists');
@@ -81,7 +79,7 @@ describe('In IAM module', function() {
                 'firstName': 'firstname',
                 'username': 'username'
             })
-            .should.eventually.be.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -97,7 +95,7 @@ describe('In IAM module', function() {
                 'firstName': 'firstname',
                 'email': 'email@funkifake.com'
             })
-            .should.eventually.be.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -113,7 +111,6 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.users()
             .create(user)
-            .should.eventually.be.fulfilled
             .then(function(id) {
                 userId = id;
                 random= Date.now();
@@ -122,7 +119,7 @@ describe('In IAM module', function() {
 
                 return corbelDriver.iam.users()
                 .create(user)
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 409);
@@ -139,7 +136,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.users()
             .create(user)
-            .should.eventually.be.rejected.
+            .should.be.rejected.
             then(function(e) {
                   expect(e).to.have.property('status', 400);
                   expect(e).to.have.deep.property('data.error', 'invalid_oauth_service');

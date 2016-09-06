@@ -13,7 +13,7 @@ describe('In IAM module', function() {
     after(function(done) {
         corbelDriverAdmin.iam.user(userId)
             .delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
     });
 
     it('when request to create a new user and login with basic ' +
@@ -42,12 +42,10 @@ describe('In IAM module', function() {
             corbelDriverAdmin.iam
                 .users()
                 .create(user)
-                .should.be.eventually.fulfilled
                 .then(function(id) {
                     userId = id;
                     return corbelTest.common.clients.loginUser(corbelDriver, user.email, user.password,
-                            deviceId)
-                        .should.be.eventually.fulfilled;
+                            deviceId);
                 })
                 .then(function(response) {
                     var accessToken = response.data.accessToken;
@@ -56,7 +54,7 @@ describe('In IAM module', function() {
                     expect(tokenContent.deviceId).to.be.equal(deviceId);
                     return corbelDriver.iam.user('me')
                         .getDevice(deviceId)
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                 })
                 .then(function(e) {
                     expect(e).to.have.property('status', 404);

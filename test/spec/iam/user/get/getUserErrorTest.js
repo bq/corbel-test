@@ -14,7 +14,7 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.user('me')
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -26,7 +26,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.user(userId)
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -38,7 +38,7 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.user('nonexistent')
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -50,7 +50,7 @@ describe('In IAM module', function() {
 
             corbelDriver.iam.users()
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

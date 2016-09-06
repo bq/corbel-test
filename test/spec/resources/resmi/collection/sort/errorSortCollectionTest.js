@@ -17,7 +17,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_sort');
@@ -38,7 +38,7 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get(params)
-                    .should.be.eventually.rejected
+                    .should.be.rejected
                     .then(function(e) {
                         expect(e).to.have.property('status', 400);
                         expect(e).to.have.deep.property('data.error', 'invalid_sort');
@@ -55,7 +55,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_sort');
@@ -70,7 +70,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_sort');
@@ -88,7 +88,7 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION)
                 .get(params)
-                .should.be.eventually.rejected
+                .should.be.rejected
                 .then(function(e) {
                     expect(e).to.have.property('status', 400);
                     expect(e).to.have.deep.property('data.error', 'invalid_sort');

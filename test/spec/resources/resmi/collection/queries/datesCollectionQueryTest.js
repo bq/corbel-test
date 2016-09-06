@@ -18,7 +18,6 @@ describe('In RESOURCES module', function() {
         before(function(done) {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
             corbelTest.common.resources.createdObjectsToQuery(corbelDriver, COLLECTION, amount)
-                .should.be.eventually.fulfilled
                 .then(function() {
                     var params = {
                         aggregation: {
@@ -26,8 +25,7 @@ describe('In RESOURCES module', function() {
                         }
                     };
                     return corbelDriver.resources.collection(COLLECTION)
-                        .get(params)
-                        .should.be.eventually.fulfilled;
+                        .get(params);
                 })
                 .then(function(response) {
                     maxCreateAt = serverDateToLocal(response.data.max, 1000);
@@ -37,7 +35,7 @@ describe('In RESOURCES module', function() {
 
         after(function(done) {
             corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         describe('when getting a collection using "greater than" query language', function() {
@@ -51,7 +49,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get()
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         date = response.data[0]._updatedAt;
                         queryParams = {
@@ -64,19 +61,16 @@ describe('In RESOURCES module', function() {
                         firstElementId = response.data[0].id;
 
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         count = response.data.length;
                         return corbelDriver.resources.resource(COLLECTION, firstElementId)
-                            .update(updateParams)
-                            .should.be.eventually.fulfilled;
+                            .update(updateParams);
                     })
                     .then(function() {
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', count + 1);
@@ -94,7 +88,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get()
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         date = 'ISODate(' + new Date(response.data[0]._updatedAt).toISOString() + ')';
                         queryParams = {
@@ -107,19 +100,16 @@ describe('In RESOURCES module', function() {
                         firstElementId = response.data[0].id;
 
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         count = response.data.length;
                         return corbelDriver.resources.resource(COLLECTION, firstElementId)
-                            .update(updateParams)
-                            .should.be.eventually.fulfilled;
+                            .update(updateParams);
                     })
                     .then(function() {
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', count + 1);
@@ -138,7 +128,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get(queryParams)
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 0);
                     })
@@ -156,7 +145,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get(queryParams)
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', 0);
                     })
@@ -175,7 +163,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get()
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         date = response.data[0]._updatedAt;
                         queryParams = {
@@ -188,19 +175,16 @@ describe('In RESOURCES module', function() {
                         firstElementId = response.data[0].id;
 
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         count = response.data.length;
                         return corbelDriver.resources.resource(COLLECTION, firstElementId)
-                            .update(updateParams)
-                            .should.be.eventually.fulfilled;
+                            .update(updateParams);
                     })
                     .then(function() {
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', count);
@@ -219,7 +203,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get()
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         date = 'ISODate(' + new Date(response.data[0]._updatedAt).toISOString() + ')';
                         queryParams = {
@@ -232,19 +215,16 @@ describe('In RESOURCES module', function() {
                         firstElementId = response.data[0].id;
 
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         count = response.data.length;
                         return corbelDriver.resources.resource(COLLECTION, firstElementId)
-                            .update(updateParams)
-                            .should.be.eventually.fulfilled;
+                            .update(updateParams);
                     })
                     .then(function() {
                         return corbelDriver.resources.collection(COLLECTION)
-                            .get(queryParams)
-                            .should.be.eventually.fulfilled;
+                            .get(queryParams);
                     })
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', count);
@@ -263,7 +243,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get(queryParams)
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', amount);
                     })
@@ -281,7 +260,6 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(COLLECTION)
                     .get(queryParams)
-                    .should.be.eventually.fulfilled
                     .then(function(response) {
                         expect(response).to.have.deep.property('data.length', amount);
                     })

@@ -4,6 +4,6 @@ describe('In EVCI module', function() {
     	var currentUrl = corbelTest.getCurrentEndpoint('evci');
 
         corbelTest.common.utils.consultPlugins(currentUrl)
-        .should.be.eventually.fulfilled.and.should.notify(done);
+        .notify(done);
     });           
 });

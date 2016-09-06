@@ -13,23 +13,20 @@ describe('In RESOURCES module', function() {
 
             return corbelDriver.resources.resource(folder, fileId)
             .update(data, {dataType: type})
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(folder, fileId)
-                .get({dataType: type})
-                .should.be.eventually.fulfilled;
+                .get({dataType: type});
             })
             .then(function(resource) {
                 expect(resource).to.have.property('data', data.toString());
 
                 return corbelDriver.resources.resource(folder, fileId)
-                .delete({dataType: type})
-                .should.be.eventually.fulfilled;
+                .delete({dataType: type});
             })
             .then(function() {
                 return corbelDriver.resources.resource(folder, fileId)
                 .get({dataType: type})
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -46,7 +43,7 @@ describe('In RESOURCES module', function() {
             }
 
             createGetAndDeleteRestorFlow(fileName, byteContent, 'application/octet-stream')
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         it('should make an entire flow for a file in RESTOR in octet-stream sending a string', function(done) {
@@ -54,7 +51,7 @@ describe('In RESOURCES module', function() {
             var fileContent = 'this Is My string fileee!!! ññáaäéó' + Date.now();
 
             createGetAndDeleteRestorFlow(fileName, fileContent, 'application/octet-stream')
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         it('should make an entire flow for a file in RESTOR in blob sending a binary array', function(done) {
@@ -66,7 +63,7 @@ describe('In RESOURCES module', function() {
             }
 
             createGetAndDeleteRestorFlow(fileName, byteContent, 'application/blob')
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         it('should make an entire flow for a file in RESTOR in blob sending a string', function(done) {
@@ -74,7 +71,7 @@ describe('In RESOURCES module', function() {
             var fileContent = 'this Is My string fileee!!! ññáaäéó' + Date.now();
 
             createGetAndDeleteRestorFlow(fileName, fileContent, 'application/blob')
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         it('should make an entire flow for a file in RESTOR in XML', function(done) {
@@ -82,7 +79,7 @@ describe('In RESOURCES module', function() {
             var XML_CONTENT = '<test><date>' + Date.now() + '</date></test>';
 
             createGetAndDeleteRestorFlow(fileName, XML_CONTENT, 'application/xml')
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
     });
 });

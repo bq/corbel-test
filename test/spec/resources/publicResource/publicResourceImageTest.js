@@ -49,19 +49,15 @@ describe('In RESOURCES module, while using public resources', function() {
             domain = corbelTest.common.iam.getDomain(undefined, undefined, undefined, scopes, publicScopes);
 
             corbelRootDriver.iam.scope().create(publicScope)
-            .should.be.eventually.fulfilled
             .then(function() {
-                return corbelRootDriver.iam.domain().create(domain)
-                .should.be.eventually.fulfilled;
+                return corbelRootDriver.iam.domain().create(domain);
             })
             .then(function(id) {
                 domainId = id;
-                return corbelRootDriver.domain(domainId).iam.client().create(client)
-                .should.be.eventually.fulfilled;
+                return corbelRootDriver.domain(domainId).iam.client().create(client);
             })
             .then(function(clientId) {
-                return corbelRootDriver.domain(domainId).iam.client(clientId).get()
-                .should.be.eventually.fulfilled;
+                return corbelRootDriver.domain(domainId).iam.client(clientId).get();
             })
             .then(function(response) {
                 var createdClient = response.data;
@@ -71,8 +67,7 @@ describe('In RESOURCES module, while using public resources', function() {
                 confCreatedClient.scopes = createdClient.scopes.join(' ');
                 corbelDriver = corbelTest.getCustomDriver(confCreatedClient);
 
-                return corbelDriver.iam.token().create()
-                .should.be.eventually.fulfilled;
+                return corbelDriver.iam.token().create();
             })
             .then(function(){
                 return corbel.request.send({
@@ -83,15 +78,14 @@ describe('In RESOURCES module, while using public resources', function() {
                         'Accept': 'image/png'
                     },
                     data: TEST_IMAGE,
-                })
-                .should.be.eventually.fulfilled;
+                });
             })
             .should.notify(done);
         });
 
         after(function(done) {
             corbelDriver.resources.resource(FOLDER_NAME, FILENAME).delete()
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         it('the image can be retrieved successfully', function(done) {
@@ -105,7 +99,6 @@ describe('In RESOURCES module, while using public resources', function() {
                 },
                 contentType: 'image/png'
             })
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data', TEST_IMAGE);
             })

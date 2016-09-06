@@ -71,13 +71,11 @@ describe('In RESOURCES module', function() {
                             };
 
                             return driver.resources.collection('bquiz:Survey')
-                                .add(survey)
-                                .should.be.eventually.fulfilled;
+                                .add(survey);
                         })
                         .then(function() {
                             return driver.resources.resource('bquiz:Contact', test.email)
-                                .get()
-                                .should.be.eventually.fulfilled;
+                                .get();
                         })
                         .then(function(response) {
                             expect(response).to.have.deep.property('data.contact', true);
@@ -108,13 +106,11 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection('bquiz:Question')
                     .add(question)
-                    .should.be.eventually.fulfilled
                     .then(function(id) {
                         questionTemplateId = id;
                     })
                     .then(function() {
-                        return sendSurveys()
-                            .should.be.eventually.fulfilled;
+                        return sendSurveys();
                     })
                     .should.notify(done);
             });
@@ -122,18 +118,16 @@ describe('In RESOURCES module', function() {
             tests.forEach(function(test) {
                 it(test.name, function(done) {
                     popEmail(test.email)
-                        .should.be.eventually.fulfilled
                         .then(function(mail) {
                             expect(mail).to.have.deep.property('subject').and.to.contain(test.expectedSubject);
                             expect(mail).to.have.deep.property('content').and.to.contain(clientUrl);
                             return corbelDriver.resources.resource('bquiz:Contact', test.email)
-                                .delete()
-                                .should.be.eventually.fulfilled;
+                                .delete();
                         })
                         .then(function() {
                             return corbelDriver.resources.resource('bquiz:Contact', test.email)
                                 .get()
-                                .should.be.eventually.rejected;
+                                .should.be.rejected;
                         })
                         .then(function(e) {
                             expect(e).to.have.property('status', 404);

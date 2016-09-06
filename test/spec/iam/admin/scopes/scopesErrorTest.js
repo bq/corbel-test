@@ -19,7 +19,7 @@ describe('In IAM module', function() {
 
             corbelDefaultDriver.iam.scope()
             .create(scope)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -33,7 +33,7 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.scope()
             .create(scope)
-            .should.be.eventually.rejected.
+            .should.be.rejected.
             then(function(e) {
                 expect(e).to.have.property('status', 400);
                 expect(e).to.have.deep.property('data.error', 'scope_id_not_allowed');
@@ -46,7 +46,7 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.scope()
             .create('asdf')
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
@@ -58,7 +58,7 @@ describe('In IAM module', function() {
 
             corbelDefaultDriver.iam.scope(scopeId)
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');
@@ -70,7 +70,7 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.scope('non-existent')
             .get()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
                 expect(e).to.have.deep.property('data.error', 'not_found');
@@ -82,7 +82,7 @@ describe('In IAM module', function() {
 
             corbelDefaultDriver.iam.scope(scopeId)
             .remove()
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 401);
                 expect(e).to.have.deep.property('data.error', 'unauthorized_token');

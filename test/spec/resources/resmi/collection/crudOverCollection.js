@@ -29,13 +29,11 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION_NAME_CRUD)
                 .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled
                 .then(function(id) {
                   resourceId = id;
 
                   return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
-                  .get()
-                  .should.be.eventually.fulfilled;
+                  .get();
                 })
                 .then(function(resultObject){
                   var testObject = _.cloneDeep(resultObject.data);
@@ -44,13 +42,11 @@ describe('In RESOURCES module', function() {
                   testObject.test2 = null;
 
                   return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
-                  .update(testObject)
-                  .should.be.eventually.fulfilled;
+                  .update(testObject);
                 })
                 .then(function() {
                   return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
-                  .get()
-                  .should.be.eventually.fulfilled;
+                  .get();
                 })
                 .then(function(response){
                   var resultObject = response.data;
@@ -63,24 +59,22 @@ describe('In RESOURCES module', function() {
                   expect(resultObject).to.be.deep.equal(testObject);
 
                   return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
-                  .delete()
-                 .should.be.eventually.fulfilled;
+                  .delete();
                 })
                 .then(function(){
                   return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
-                  .delete()
-                  .should.be.eventually.fulfilled;
+                  .delete();
                 })
                 .then(function() {
                   return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
                   .get()
-                  .should.be.eventually.rejected;
+                  .should.be.rejected;
                 })
                 .then(function(e) {
                   expect(e).to.have.property('status', 404);
                   expect(e.data).to.have.property('error', 'not_found');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('ID never changes in an update request', function(done) {
@@ -92,17 +86,15 @@ describe('In RESOURCES module', function() {
 
           corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
               .update(TEST_OBJECT)
-              .should.be.eventually.fulfilled
               .then(function() {
                   return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-                  .get()
-                  .should.be.eventually.fulfilled;
+                  .get();
               })
               .then(function(response) {
                   expect(response.data.test).to.be.equal('test');
                   expect(response.data.test2).to.be.equal('test2');
               })
-              .should.be.eventually.fulfilled.and.notify(done);
+              .notify(done);
         });
 
         it('it is possible to create an empty object with put method', function(done) {
@@ -111,16 +103,14 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
                 .update(TEST_OBJECT)
-                .should.be.eventually.fulfilled
                 .then(function(data) {
                     return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
                 })
                 .then(function(response) {
                     expect(response.data.id).to.be.equal(idRandom);
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
         });
 
         it('it is possible to update an existing resource', function(done) {
@@ -135,31 +125,27 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
             .update(TEST_OBJECT)
-            .should.be.eventually.fulfilled
             .then(function() {
 
               return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-              .get()
-              .should.be.eventually.fulfilled;
+              .get();
             })
             .then(function(response) {
                 expect(response.data.test).to.be.equal('test');
                 expect(response.data.test2).to.be.equal('test2');
 
                 return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-                .update(TEST_OBJECT_UPDATED)
-                .should.be.eventually.fulfilled;
+                .update(TEST_OBJECT_UPDATED);
             })
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response.data.test).to.be.equal('testUpdated');
                 expect(response.data.test2).to.be.equal('test2');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         it('if you update an existing resource but do not update the id field,' +
@@ -176,30 +162,26 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
             .update(TEST_OBJECT)
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response.data.test).to.be.equal('test');
                 expect(response.data.test2).to.be.equal('test2');
 
                 return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-                .update(TEST_OBJECT_UPDATED)
-                .should.be.eventually.fulfilled;
+                .update(TEST_OBJECT_UPDATED);
             })
             .then(function() {
                 return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, idRandom)
-                .get()
-                .should.be.eventually.fulfilled;
+                .get();
             })
             .then(function(response) {
                 expect(response.data.test).to.be.equal('testUpdated');
                 expect(response.data.test2).to.be.equal('test2');
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         describe('when a whole collection is updated through collection.update', function() {
@@ -210,12 +192,12 @@ describe('In RESOURCES module', function() {
                 collectionName = 'test:CorbelJSObjectCrudUpdate' + Date.now();
 
                 corbelTest.common.resources.createdObjectsToQuery(corbelDriver, collectionName, amount)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
             });
 
             afterEach(function(done) {
                 corbelTest.common.resources.cleanResourcesQuery(corbelDriver)
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
             });
 
             it('all elements are updated while using the method without params', function(done){
@@ -225,19 +207,16 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(collectionName)
                 .get()
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
                 })
                 .then(function(){
                     return corbelDriver.resources.collection(collectionName)
-                    .update(updateObject)
-                    .should.be.eventually.be.fulfilled;
+                    .update(updateObject);
                 })
                 .then(function() {
                     return corbelDriver.resources.collection(collectionName)
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
@@ -245,7 +224,7 @@ describe('In RESOURCES module', function() {
                         expect(element).to.have.property('globalUpdate', 'OK');
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
             });
 
             it('only matching elements are updated while using the method with correct params', function(done){
@@ -271,25 +250,22 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(collectionName)
                 .get()
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
                 })
                 .then(function(){
                     return corbelDriver.resources.collection(collectionName)
-                    .update(updateObject, condition)
-                    .should.be.eventually.be.fulfilled;
+                    .update(updateObject, condition);
                 })
                 .then(function() {
                     return corbelDriver.resources.collection(collectionName)
-                    .get(query)
-                    .should.be.eventually.fulfilled;
+                    .get(query);
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 1);
                     expect(response).to.have.deep.property('data[0].globalUpdate', 'OK');
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
             });
 
             it('all elements are updated while using the method with malformed condition params', function(done){
@@ -307,19 +283,16 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(collectionName)
                 .get()
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
                 })
                 .then(function(){
                     return corbelDriver.resources.collection(collectionName)
-                    .update(updateObject, condition)
-                    .should.be.eventually.be.fulfilled;
+                    .update(updateObject, condition);
                 })
                 .then(function() {
                     return corbelDriver.resources.collection(collectionName)
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
@@ -327,7 +300,7 @@ describe('In RESOURCES module', function() {
                         expect(element).to.have.property('globalUpdate', 'OK');
                     });
                 })
-                .should.be.eventually.fulfilled.and.notify(done);
+                .notify(done);
             });
 
             it('no element is updated while using the method with a non-existent field condition', function(done){
@@ -345,19 +318,16 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(collectionName)
                 .get()
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
                 })
                 .then(function(){
                     return corbelDriver.resources.collection(collectionName)
-                    .update(updateObject, condition)
-                    .should.be.eventually.be.fulfilled;
+                    .update(updateObject, condition);
                 })
                 .then(function() {
                     return corbelDriver.resources.collection(collectionName)
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
                 })
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
@@ -375,19 +345,16 @@ describe('In RESOURCES module', function() {
 
                 corbelDriver.resources.collection(collectionName)
                 .get()
-                .should.be.eventually.fulfilled
                 .then(function(response) {
                     expect(response).to.have.deep.property('data.length', 10);
                 })
                 .then(function(){
                     return corbelDriver.resources.collection(collectionName)
-                    .update(updateObject)
-                    .should.be.eventually.be.fulfilled;
+                    .update(updateObject);
                 })
                 .then(function() {
                     return corbelDriver.resources.collection(collectionName)
-                    .get()
-                    .should.be.eventually.fulfilled;
+                    .get();
                 })
                 .then(function(response) {
                     response.data.forEach(function(element){
@@ -407,31 +374,29 @@ describe('In RESOURCES module', function() {
 
             corbelDriver.resources.collection(COLLECTION_NAME_CRUD)
             .add(underscoreObject)
-            .should.be.eventually.rejected
+            .should.be.rejected
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
 
                 return corbelDriver.resources.collection(COLLECTION_NAME_CRUD)
-                .add(TEST_OBJECT)
-                .should.be.eventually.fulfilled;
+                .add(TEST_OBJECT);
             })
             .then(function(id) {
                 resourceId = id;
 
                 return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
                 .update(underscoreObject)
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 422);
                 expect(e).to.have.deep.property('data.error', 'invalid_entity');
 
                 return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
 
         describe('if you create a bad object', function() {
@@ -450,30 +415,28 @@ describe('In RESOURCES module', function() {
                         var resourceId;
                         corbelDriver.resources.collection(COLLECTION_NAME_CRUD)
                         .add(malformedObject)
-                        .should.be.eventually.rejected
+                        .should.be.rejected
                         .then(function(e) {
                             expect(e).to.have.property('status', 422);
                             expect(e).to.have.deep.property('data.error', 'invalid_entity');
 
                             return corbelDriver.resources.collection(COLLECTION_NAME_CRUD)
-                            .add(TEST_OBJECT)
-                            .should.be.eventually.fulfilled;
+                            .add(TEST_OBJECT);
                         })
                         .then(function(id) {
                             resourceId = id;
                             return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
                             .update(malformedObject)
-                            .should.be.eventually.rejected;
+                            .should.be.rejected;
                         })
                         .then(function(e) {
                             expect(e).to.have.property('status', 422);
                             expect(e).to.have.deep.property('data.error', 'invalid_entity');
 
                             return corbelDriver.resources.resource(COLLECTION_NAME_CRUD, resourceId)
-                            .delete()
-                            .should.be.eventually.fulfilled;
+                            .delete();
                         })
-                        .should.be.eventually.fulfilled.and.notify(done);
+                        .notify(done);
                     });
                 }
             }

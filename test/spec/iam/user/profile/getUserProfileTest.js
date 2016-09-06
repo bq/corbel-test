@@ -13,12 +13,10 @@ describe('In IAM module', function() {
             corbelDriver = corbelTest.drivers['DEFAULT_CLIENT'].clone();
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 user = createdUsers[0];
 
-                return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password)
-                .should.be.eventually.fulfilled;
+                return corbelTest.common.clients.loginUser(corbelDriver, user.username, user.password);
             })
             .should.notify(done);
         });
@@ -26,11 +24,10 @@ describe('In IAM module', function() {
         afterEach(function(done) {
             corbelRootDriver.iam.user(user.id)
             .delete()
-            .should.be.eventually.fulfilled
             .then(function() {
                 return corbelRootDriver.iam.user(user.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -69,26 +66,23 @@ describe('In IAM module', function() {
             var user2;
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 user2 = createdUsers[0];
 
                 return corbelDriver.iam.users()
-                .getProfiles()
-                .should.be.eventually.fulfilled;
+                .getProfiles();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length').and.be.above(1);
             })
             .then(function() {
                 return corbelRootDriver.iam.user(user2.id)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelRootDriver.iam.user(user2.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -101,26 +95,23 @@ describe('In IAM module', function() {
             var user2;
 
             corbelTest.common.iam.createUsers(corbelDriver, 1)
-            .should.be.eventually.fulfilled
             .then(function(createdUsers) {
                 user2 = createdUsers[0];
 
                 return corbelRootDriver.iam.users()
-                .getProfiles()
-                .should.be.eventually.fulfilled;
+                .getProfiles();
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length').and.be.above(1);
             })
             .then(function() {
                 return corbelRootDriver.iam.user(user2.id)
-                .delete()
-                .should.be.eventually.fulfilled;
+                .delete();
             })
             .then(function() {
                 return corbelRootDriver.iam.user(user2.id)
                 .get()
-                .should.be.eventually.rejected;
+                .should.be.rejected;
             })
             .then(function(e) {
                 expect(e).to.have.property('status', 404);
@@ -140,7 +131,6 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.users()
             .getProfiles(params)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 1);
             })
@@ -158,7 +148,6 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.users()
             .getProfiles(params)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 0);
             })
@@ -176,7 +165,6 @@ describe('In IAM module', function() {
 
             corbelRootDriver.iam.users()
             .getProfiles(params)
-            .should.be.eventually.fulfilled
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length').and.to.be.above(0);
             })
@@ -193,12 +181,10 @@ describe('In IAM module', function() {
             };
 
             corbelTest.common.iam.createUsers(corbelDriver, 10)
-            .should.be.eventually.fulfilled
             .then(function(response){
                 users = response;
                 return corbelRootDriver.iam.users()
-                .getProfiles(params)
-                .should.be.eventually.fulfilled;
+                .getProfiles(params);
             })
             .then(function(response) {
                 expect(response).to.have.deep.property('data.length', 5);
@@ -208,11 +194,10 @@ describe('In IAM module', function() {
                 users.forEach(function(currentUser){
                      promises.push(corbelRootDriver.iam.user(currentUser.id)
                     .delete()
-                    .should.be.eventually.fulfilled
                     .then(function() {
                         return corbelRootDriver.iam.user(currentUser.id)
                         .get()
-                        .should.be.eventually.rejected;
+                        .should.be.rejected;
                     })
                     .then(function(e) {
                         expect(e).to.have.property('status', 404);
@@ -221,7 +206,7 @@ describe('In IAM module', function() {
                 });
                 return Promise.all(promises);
             })
-            .should.be.eventually.fulfilled.and.notify(done);
+            .notify(done);
         });
     });
 });
